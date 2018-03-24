@@ -120,6 +120,9 @@
     <ClCompile Include="..\libavutil\downmix_info.c">
       <Filter>Source Files\libavutil</Filter>
     </ClCompile>
+    <ClCompile Include="..\libavutil\encryption_info.c">
+      <Filter>Source Files\libavutil</Filter>
+    </ClCompile>
     <ClCompile Include="..\libavutil\error.c">
       <Filter>Source Files\libavutil</Filter>
     </ClCompile>
@@ -375,6 +378,9 @@
       <Filter>Header Files\libavutil</Filter>
     </ClInclude>
     <ClInclude Include="..\libavutil\downmix_info.h">
+      <Filter>Header Files\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\libavutil\encryption_info.h">
       <Filter>Header Files\libavutil</Filter>
     </ClInclude>
     <ClInclude Include="..\libavutil\error.h">

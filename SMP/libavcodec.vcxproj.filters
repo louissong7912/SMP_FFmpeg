@@ -2415,6 +2415,9 @@
     <ClCompile Include="..\libavcodec\nvdec_vp9.c">
       <Filter>Source Files\libavcodec</Filter>
     </ClCompile>
+    <ClCompile Include="..\libavcodec\codec2utils.c">
+      <Filter>Source Files\libavcodec</Filter>
+    </ClCompile>
     <ClCompile Include="..\libavcodec\libilbc.c">
       <Filter>Source Files\libavcodec</Filter>
     </ClCompile>
@@ -2598,6 +2601,9 @@
     <ClCompile Include="..\libavcodec\extract_extradata_bsf.c">
       <Filter>Source Files\libavcodec</Filter>
     </ClCompile>
+    <ClCompile Include="..\libavcodec\filter_units_bsf.c">
+      <Filter>Source Files\libavcodec</Filter>
+    </ClCompile>
     <ClCompile Include="..\libavcodec\h264_metadata_bsf.c">
       <Filter>Source Files\libavcodec</Filter>
     </ClCompile>
@@ -2605,6 +2611,9 @@
       <Filter>Source Files\libavcodec</Filter>
     </ClCompile>
     <ClCompile Include="..\libavcodec\h264_redundant_pps_bsf.c">
+      <Filter>Source Files\libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libavcodec\hapqa_extract_bsf.c">
       <Filter>Source Files\libavcodec</Filter>
     </ClCompile>
     <ClCompile Include="..\libavcodec\h265_metadata_bsf.c">

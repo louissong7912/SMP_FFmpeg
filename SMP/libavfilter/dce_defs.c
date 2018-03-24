@@ -181,6 +181,7 @@ const AVFilter ff_af_resample = {0};
 const AVFilter ff_af_rubberband = {0};
 const AVFilter ff_af_sofalizer = {0};
 const AVFilter ff_asrc_flite = {0};
+const AVFilter ff_vf_avgblur_opencl = {0};
 const AVFilter ff_vf_coreimage = {0};
 const AVFilter ff_vf_deinterlace_vaapi = {0};
 const AVFilter ff_vf_denoise_vaapi = {0};

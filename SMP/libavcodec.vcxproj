@@ -864,6 +864,7 @@
     <ClCompile Include="..\libavcodec\nvdec_vc1.c" />
     <ClCompile Include="..\libavcodec\nvdec_vp8.c" />
     <ClCompile Include="..\libavcodec\nvdec_vp9.c" />
+    <ClCompile Include="..\libavcodec\codec2utils.c" />
     <ClCompile Include="..\libavcodec\libilbc.c" />
     <ClCompile Include="..\libavcodec\libmp3lame.c" />
     <ClCompile Include="..\libavcodec\libopusdec.c" />
@@ -925,9 +926,11 @@
     <ClCompile Include="..\libavcodec\dump_extradata_bsf.c" />
     <ClCompile Include="..\libavcodec\dca_core_bsf.c" />
     <ClCompile Include="..\libavcodec\extract_extradata_bsf.c" />
+    <ClCompile Include="..\libavcodec\filter_units_bsf.c" />
     <ClCompile Include="..\libavcodec\h264_metadata_bsf.c" />
     <ClCompile Include="..\libavcodec\h264_mp4toannexb_bsf.c" />
     <ClCompile Include="..\libavcodec\h264_redundant_pps_bsf.c" />
+    <ClCompile Include="..\libavcodec\hapqa_extract_bsf.c" />
     <ClCompile Include="..\libavcodec\h265_metadata_bsf.c" />
     <ClCompile Include="..\libavcodec\hevc_mp4toannexb_bsf.c" />
     <ClCompile Include="..\libavcodec\imx_dump_header_bsf.c" />

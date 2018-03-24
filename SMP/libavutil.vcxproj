@@ -97,6 +97,7 @@
     <ClCompile Include="..\libavutil\dict.c" />
     <ClCompile Include="..\libavutil\display.c" />
     <ClCompile Include="..\libavutil\downmix_info.c" />
+    <ClCompile Include="..\libavutil\encryption_info.c" />
     <ClCompile Include="..\libavutil\error.c" />
     <ClCompile Include="..\libavutil\eval.c" />
     <ClCompile Include="..\libavutil\fifo.c" />
@@ -196,6 +197,7 @@
     <ClInclude Include="..\libavutil\dict.h" />
     <ClInclude Include="..\libavutil\display.h" />
     <ClInclude Include="..\libavutil\downmix_info.h" />
+    <ClInclude Include="..\libavutil\encryption_info.h" />
     <ClInclude Include="..\libavutil\error.h" />
     <ClInclude Include="..\libavutil\eval.h" />
     <ClInclude Include="..\libavutil\fifo.h" />
@@ -542,6 +544,7 @@ copy ..\libavutil\des.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\dict.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\display.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\downmix_info.h "$(OutDir)"\include\libavutil
+copy ..\libavutil\encryption_info.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\error.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\eval.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\fifo.h "$(OutDir)"\include\libavutil
@@ -685,6 +688,7 @@ copy ..\libavutil\des.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\dict.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\display.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\downmix_info.h "$(OutDir)"\include\libavutil
+copy ..\libavutil\encryption_info.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\error.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\eval.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\fifo.h "$(OutDir)"\include\libavutil
@@ -835,6 +839,7 @@ copy ..\libavutil\des.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\dict.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\display.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\downmix_info.h "$(OutDir)"\include\libavutil
+copy ..\libavutil\encryption_info.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\error.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\eval.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\fifo.h "$(OutDir)"\include\libavutil
@@ -983,6 +988,7 @@ copy ..\libavutil\des.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\dict.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\display.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\downmix_info.h "$(OutDir)"\include\libavutil
+copy ..\libavutil\encryption_info.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\error.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\eval.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\fifo.h "$(OutDir)"\include\libavutil
@@ -1133,6 +1139,7 @@ copy ..\libavutil\des.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\dict.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\display.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\downmix_info.h "$(OutDir)"\include\libavutil
+copy ..\libavutil\encryption_info.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\error.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\eval.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\fifo.h "$(OutDir)"\include\libavutil
@@ -1281,6 +1288,7 @@ copy ..\libavutil\des.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\dict.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\display.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\downmix_info.h "$(OutDir)"\include\libavutil
+copy ..\libavutil\encryption_info.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\error.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\eval.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\fifo.h "$(OutDir)"\include\libavutil
@@ -1430,6 +1438,7 @@ copy ..\libavutil\des.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\dict.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\display.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\downmix_info.h "$(OutDir)"\include\libavutil
+copy ..\libavutil\encryption_info.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\error.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\eval.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\fifo.h "$(OutDir)"\include\libavutil
@@ -1577,6 +1586,7 @@ copy ..\libavutil\des.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\dict.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\display.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\downmix_info.h "$(OutDir)"\include\libavutil
+copy ..\libavutil\encryption_info.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\error.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\eval.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\fifo.h "$(OutDir)"\include\libavutil
@@ -1732,6 +1742,7 @@ copy ..\libavutil\des.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\dict.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\display.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\downmix_info.h "$(OutDir)"\include\libavutil
+copy ..\libavutil\encryption_info.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\error.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\eval.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\fifo.h "$(OutDir)"\include\libavutil
@@ -1886,6 +1897,7 @@ copy ..\libavutil\des.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\dict.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\display.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\downmix_info.h "$(OutDir)"\include\libavutil
+copy ..\libavutil\encryption_info.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\error.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\eval.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\fifo.h "$(OutDir)"\include\libavutil
@@ -2041,6 +2053,7 @@ copy ..\libavutil\des.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\dict.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\display.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\downmix_info.h "$(OutDir)"\include\libavutil
+copy ..\libavutil\encryption_info.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\error.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\eval.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\fifo.h "$(OutDir)"\include\libavutil
@@ -2195,6 +2208,7 @@ copy ..\libavutil\des.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\dict.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\display.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\downmix_info.h "$(OutDir)"\include\libavutil
+copy ..\libavutil\encryption_info.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\error.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\eval.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\fifo.h "$(OutDir)"\include\libavutil
@@ -2342,6 +2356,7 @@ copy ..\libavutil\des.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\dict.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\display.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\downmix_info.h "$(OutDir)"\include\libavutil
+copy ..\libavutil\encryption_info.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\error.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\eval.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\fifo.h "$(OutDir)"\include\libavutil
@@ -2489,6 +2504,7 @@ copy ..\libavutil\des.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\dict.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\display.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\downmix_info.h "$(OutDir)"\include\libavutil
+copy ..\libavutil\encryption_info.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\error.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\eval.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\fifo.h "$(OutDir)"\include\libavutil

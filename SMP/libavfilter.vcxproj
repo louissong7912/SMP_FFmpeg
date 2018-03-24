@@ -167,6 +167,7 @@
     <ClCompile Include="..\libavfilter\af_crossfeed.c" />
     <ClCompile Include="..\libavfilter\af_crystalizer.c" />
     <ClCompile Include="..\libavfilter\af_dcshift.c" />
+    <ClCompile Include="..\libavfilter\af_drmeter.c" />
     <ClCompile Include="..\libavfilter\af_dynaudnorm.c" />
     <ClCompile Include="..\libavfilter\af_earwax.c" />
     <ClCompile Include="..\libavfilter\f_ebur128.c" />

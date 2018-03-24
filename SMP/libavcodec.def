@@ -88,6 +88,7 @@ EXPORTS
     av_packet_free_side_data
     av_packet_from_data
     av_packet_get_side_data
+    av_packet_make_writable
     av_packet_merge_side_data
     av_packet_move_ref
     av_packet_new_side_data
@@ -192,6 +193,9 @@ EXPORTS
     avpriv_ac3_parse_header
     avpriv_align_put_bits
     avpriv_bprint_to_extradata
+    avpriv_codec2_mode_bit_rate
+    avpriv_codec2_mode_block_align
+    avpriv_codec2_mode_frame_size
     avpriv_codec_get_cap_skip_frame_fill_param
     avpriv_copy_bits
     avpriv_dca_convert_bitstream
