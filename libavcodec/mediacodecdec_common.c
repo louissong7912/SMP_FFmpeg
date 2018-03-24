@@ -179,6 +179,10 @@ static void mediacodec_buffer_release(void *opaque, uint8_t *data)
     int released = atomic_load(&buffer->released);
 
     if (!released && (ctx->delay_flush || buffer->serial == atomic_load(&ctx->serial))) {
+        atomic_fetch_sub(&ctx->hw_buffer_count, 1);
+        av_log(ctx->avctx, AV_LOG_DEBUG,
+               "Releasing output buffer %zd (%p) ts=%"PRId64" on free() [%d pending]\n",
+               buffer->index, buffer, buffer->pts, atomic_load(&ctx->hw_buffer_count));
         ff_AMediaCodec_releaseOutputBuffer(ctx->codec, buffer->index, 0);
     }
 
@@ -201,6 +205,7 @@ static int mediacodec_wrap_hw_buffer(AVCodecContext *avctx,
     frame->width = avctx->width;
     frame->height = avctx->height;
     frame->format = avctx->pix_fmt;
+    frame->sample_aspect_ratio = avctx->sample_aspect_ratio;
 
     if (avctx->pkt_timebase.num && avctx->pkt_timebase.den) {
         frame->pts = av_rescale_q(info->presentationTimeUs,
@@ -245,6 +250,11 @@ FF_ENABLE_DEPRECATION_WARNINGS
     buffer->pts = info->presentationTimeUs;
 
     frame->data[3] = (uint8_t *)buffer;
+
+    atomic_fetch_add(&s->hw_buffer_count, 1);
+    av_log(avctx, AV_LOG_DEBUG,
+            "Wrapping output buffer %zd (%p) ts=%"PRId64" [%d pending]\n",
+            buffer->index, buffer, buffer->pts, atomic_load(&s->hw_buffer_count));
 
     return 0;
 fail:
@@ -405,6 +415,16 @@ static int mediacodec_dec_parse_format(AVCodecContext *avctx, MediaCodecDecConte
     width = s->crop_right + 1 - s->crop_left;
     height = s->crop_bottom + 1 - s->crop_top;
 
+    AMEDIAFORMAT_GET_INT32(s->display_width,  "display-width",  0);
+    AMEDIAFORMAT_GET_INT32(s->display_height, "display-height", 0);
+
+    if (s->display_width && s->display_height) {
+        AVRational sar = av_div_q(
+            (AVRational){ s->display_width, s->display_height },
+            (AVRational){ width, height });
+        ff_set_sar(avctx, sar);
+    }
+
     av_log(avctx, AV_LOG_INFO,
         "Output crop parameters top=%d bottom=%d left=%d right=%d, "
         "resulting dimensions width=%d height=%d\n",
@@ -429,6 +449,7 @@ static int mediacodec_dec_flush_codec(AVCodecContext *avctx, MediaCodecDecContex
     s->flushing = 0;
     s->eos = 0;
     atomic_fetch_add(&s->serial, 1);
+    atomic_init(&s->hw_buffer_count, 0);
 
     status = ff_AMediaCodec_flush(codec);
     if (status < 0) {
@@ -454,6 +475,7 @@ int ff_mediacodec_dec_init(AVCodecContext *avctx, MediaCodecDecContext *s,
 
     s->avctx = avctx;
     atomic_init(&s->refcount, 1);
+    atomic_init(&s->hw_buffer_count, 0);
     atomic_init(&s->serial, 1);
 
     pix_fmt = ff_get_format(avctx, pix_fmts);
@@ -568,7 +590,7 @@ int ff_mediacodec_dec_send(AVCodecContext *avctx, MediaCodecDecContext *s,
 
         index = ff_AMediaCodec_dequeueInputBuffer(codec, input_dequeue_timeout_us);
         if (ff_AMediaCodec_infoTryAgainLater(codec, index)) {
-            av_log(avctx, AV_LOG_TRACE, "Failed to dequeue input buffer, try again later..\n");
+            av_log(avctx, AV_LOG_TRACE, "No input buffer available, try again later\n");
             break;
         }
 
@@ -732,7 +754,7 @@ int ff_mediacodec_dec_receive(AVCodecContext *avctx, MediaCodecDecContext *s,
                                         "while draining remaining frames, output will probably lack frames\n",
                                         output_dequeue_timeout_us / 1000);
         } else {
-            av_log(avctx, AV_LOG_DEBUG, "No output buffer available, try again later\n");
+            av_log(avctx, AV_LOG_TRACE, "No output buffer available, try again later\n");
         }
     } else {
         av_log(avctx, AV_LOG_ERROR, "Failed to dequeue output buffer (status=%zd)\n", index);

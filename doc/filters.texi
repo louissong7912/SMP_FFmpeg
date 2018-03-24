@@ -2188,6 +2188,10 @@ The channel layout of the output stream.
 If no mapping is present, the filter will implicitly map input channels to
 output channels, preserving indices.
 
+@subsection Examples
+
+@itemize
+@item
 For example, assuming a 5.1+downmix input MOV file,
 @example
 ffmpeg -i in.mov -filter 'channelmap=map=DL-FL|DR-FR' out.wav
@@ -2195,10 +2199,12 @@ ffmpeg -i in.mov -filter 'channelmap=map=DL-FL|DR-FR' out.wav
 will create an output WAV file tagged as stereo from the downmix channels of
 the input.
 
+@item
 To fix a 5.1 WAV improperly encoded in AAC's native channel order
 @example
 ffmpeg -i in.wav -filter 'channelmap=1|2|0|5|3|4:5.1' out.wav
 @end example
+@end itemize
 
 @section channelsplit
 
@@ -2208,8 +2214,17 @@ It accepts the following parameters:
 @table @option
 @item channel_layout
 The channel layout of the input stream. The default is "stereo".
+@item channels
+A channel layout describing the channels to be extracted as separate output streams
+or "all" to extract each input channel as a separate stream. The default is "all".
+
+Choosing channels not present in channel layout in the input will result in an error.
 @end table
 
+@subsection Examples
+
+@itemize
+@item
 For example, assuming a stereo input MP3 file,
 @example
 ffmpeg -i in.mp3 -filter_complex channelsplit out.mkv
@@ -2217,6 +2232,7 @@ ffmpeg -i in.mp3 -filter_complex channelsplit out.mkv
 will create an output Matroska file with two audio streams, one containing only
 the left channel and the other the right channel.
 
+@item
 Split a 5.1 WAV file into per-channel files:
 @example
 ffmpeg -i in.wav -filter_complex
@@ -2225,6 +2241,14 @@ ffmpeg -i in.wav -filter_complex
 front_center.wav -map '[LFE]' lfe.wav -map '[SL]' side_left.wav -map '[SR]'
 side_right.wav
 @end example
+
+@item
+Extract only LFE from a 5.1 WAV file:
+@example
+ffmpeg -i in.wav -filter_complex 'channelsplit=channel_layout=5.1:channels=LFE[LFE]'
+-map '[LFE]' lfe.wav
+@end example
+@end itemize
 
 @section chorus
 Add a chorus effect to the audio.
@@ -2536,6 +2560,21 @@ the audio.
 @item limitergain
 Optional. It should have a value much less than 1 (e.g. 0.05 or 0.02) and is
 used to prevent clipping.
+@end table
+
+@section drmeter
+Measure audio dynamic range.
+
+DR values of 14 and higher is found in very dynamic material. DR of 8 to 13
+is found in transition material. And anything less that 8 have very poor dynamics
+and is very compressed.
+
+The filter accepts the following options:
+
+@table @option
+@item length
+Set window length in seconds used to split audio into segments of equal length.
+Default is 3 seconds.
 @end table
 
 @section dynaudnorm
@@ -16476,6 +16515,9 @@ Luma and chroma combined together.
 @item aflat
 Similar as above, but shows difference between blue and red chroma.
 
+@item xflat
+Similar as above, but use different colors.
+
 @item chroma
 Displays only chroma.
 
@@ -16495,6 +16537,9 @@ Do not display graticule.
 
 @item green
 Display green graticule showing legal broadcast ranges.
+
+@item orange
+Display orange graticule showing legal broadcast ranges.
 @end table
 
 @item opacity, o
@@ -19920,8 +19965,15 @@ Set orientation, can be @code{horizontal} or @code{vertical},
 default is @code{horizontal}.
 
 @item s
-Set step size, allowed range s [0, 5]. Default is 0, which means
+Set step size, allowed range is [0, 5]. Default is 0, which means
 step is disabled.
+
+@item p
+Set background opacity, allowed range is [0, 1]. Default is 0.
+
+@item m
+Set metering mode, can be peak: @code{p} or rms: @code{r},
+default is @code{p}.
 @end table
 
 @section showwaves
@@ -19991,6 +20043,20 @@ Cubic root.
 @end table
 
 Default is linear.
+
+@item draw
+Set the draw mode. This is mostly useful to set for high @var{n}.
+
+Available values are:
+@table @samp
+@item scale
+Scale pixel values for each drawn sample.
+
+@item full
+Draw every sample directly.
+@end table
+
+Default vlaue is @code{scale}.
 @end table
 
 @subsection Examples

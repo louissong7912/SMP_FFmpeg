@@ -117,6 +117,7 @@ typedef struct DASHContext {
     AVIOContext *mpd_out;
     AVIOContext *m3u8_out;
     int streaming;
+    int64_t timeout;
 } DASHContext;
 
 static struct codec_string {
@@ -269,6 +270,8 @@ static void set_http_options(AVDictionary **options, DASHContext *c)
         av_dict_set(options, "user_agent", c->user_agent, 0);
     if (c->http_persistent)
         av_dict_set_int(options, "multiple_requests", 1, 0);
+    if (c->timeout >= 0)
+        av_dict_set_int(options, "timeout", c->timeout, 0);
 }
 
 static void get_hls_playlist_name(char *playlist_name, int string_size,
@@ -1030,10 +1033,8 @@ static int dash_write_header(AVFormatContext *s)
     int i, ret;
     for (i = 0; i < s->nb_streams; i++) {
         OutputStream *os = &c->streams[i];
-        if ((ret = avformat_write_header(os->ctx, NULL)) < 0) {
-            dash_free(s);
+        if ((ret = avformat_write_header(os->ctx, NULL)) < 0)
             return ret;
-        }
     }
     ret = write_manifest(s, 0);
     if (!ret)
@@ -1440,6 +1441,7 @@ static const AVOption options[] = {
     { "http_persistent", "Use persistent HTTP connections", OFFSET(http_persistent), AV_OPT_TYPE_BOOL, {.i64 = 0 }, 0, 1, E },
     { "hls_playlist", "Generate HLS playlist files(master.m3u8, media_%d.m3u8)", OFFSET(hls_playlist), AV_OPT_TYPE_BOOL, { .i64 = 0 }, 0, 1, E },
     { "streaming", "Enable/Disable streaming mode of output. Each frame will be moof fragment", OFFSET(streaming), AV_OPT_TYPE_BOOL, { .i64 = 0 }, 0, 1, E },
+    { "timeout", "set timeout for socket I/O operations", OFFSET(timeout), AV_OPT_TYPE_DURATION, { .i64 = -1 }, -1, INT_MAX, .flags = E },
     { NULL },
 };
 

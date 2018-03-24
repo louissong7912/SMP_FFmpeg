@@ -38,6 +38,7 @@ typedef struct MediaCodecDecContext {
 
     AVCodecContext *avctx;
     atomic_int refcount;
+    atomic_int hw_buffer_count;
 
     char *codec_name;
 
@@ -60,6 +61,8 @@ typedef struct MediaCodecDecContext {
     int crop_bottom;
     int crop_left;
     int crop_right;
+    int display_width;
+    int display_height;
 
     uint64_t output_buffer_count;
 

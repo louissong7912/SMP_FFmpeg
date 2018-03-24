@@ -15,6 +15,19 @@ libavutil:     2017-10-21
 
 API changes, most recent first:
 
+2018-xx-xx - xxxxxxx - lavu 56.8.100 - encryption_info.h
+  Add AVEncryptionInitInfo and AVEncryptionInfo structures to hold new side-data
+  for encryption info.
+
+2018-03-21 - xxxxxxx - lavc 58.15.100 - avcodec.h
+  Add av_packet_make_writable().
+
+2018-03-18 - xxxxxxx - lavu 56.11.100 - frame.h
+  Add AV_FRAME_DATA_QP_TABLE_PROPERTIES and AV_FRAME_DATA_QP_TABLE_DATA.
+
+2018-03-15 - e0e72539cf - lavu 56.10.100 - opt.h
+  Add AV_OPT_FLAG_BSF_PARAM
+
 2018-03-07 - xxxxxxx - lavu 56.9.100 - crc.h
   Add AV_CRC_8_EBU crc variant.
 
