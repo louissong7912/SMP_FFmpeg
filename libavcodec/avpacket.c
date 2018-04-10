@@ -652,6 +652,24 @@ void av_packet_move_ref(AVPacket *dst, AVPacket *src)
     src->size = 0;
 }
 
+int av_packet_make_refcounted(AVPacket *pkt)
+{
+    int ret;
+
+    if (pkt->buf)
+        return 0;
+
+    ret = packet_alloc(&pkt->buf, pkt->size);
+    if (ret < 0)
+        return ret;
+    if (pkt->size)
+        memcpy(pkt->buf->data, pkt->data, pkt->size);
+
+    pkt->data = pkt->buf->data;
+
+    return 0;
+}
+
 int av_packet_make_writable(AVPacket *pkt)
 {
     AVBufferRef *buf = NULL;
@@ -659,9 +677,6 @@ int av_packet_make_writable(AVPacket *pkt)
 
     if (pkt->buf && av_buffer_is_writable(pkt->buf))
         return 0;
-
-    if (!pkt->data)
-        return AVERROR(EINVAL);
 
     ret = packet_alloc(&buf, pkt->size);
     if (ret < 0)

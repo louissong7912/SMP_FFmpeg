@@ -412,7 +412,11 @@ retry:
                 int ret = mov_read_covr(c, pb, data_type, str_size);
                 if (ret < 0) {
                     av_log(c->fc, AV_LOG_ERROR, "Error parsing cover art.\n");
+                    return ret;
                 }
+                atom.size -= str_size;
+                if (atom.size > 8)
+                    goto retry;
                 return ret;
             } else if (!key && c->found_hdlr_mdta && c->meta_keys) {
                 uint32_t index = AV_RB32(&atom.type);
@@ -3256,7 +3260,7 @@ static int64_t add_ctts_entry(MOVStts** ctts_data, unsigned int* ctts_count, uns
         FFMAX(min_size_needed, 2 * (*allocated_size)) :
         min_size_needed;
 
-    if((unsigned)(*ctts_count) + 1 >= UINT_MAX / sizeof(MOVStts))
+    if((unsigned)(*ctts_count) >= UINT_MAX / sizeof(MOVStts) - 1)
         return -1;
 
     ctts_buf_new = av_fast_realloc(*ctts_data, allocated_size, requested_size);
@@ -4597,7 +4601,7 @@ static int mov_read_tfdt(MOVContext *c, AVIOContext *pb, MOVAtom atom)
         return AVERROR_INVALIDDATA;
     }
     sc = st->priv_data;
-    if (sc->pseudo_stream_id + 1 != frag->stsd_id)
+    if (sc->pseudo_stream_id + 1 != frag->stsd_id && sc->pseudo_stream_id != -1)
         return 0;
     version = avio_r8(pb);
     avio_rb24(pb); /* flags */

@@ -155,23 +155,28 @@ static int avgblur_opencl_filter_frame(AVFilterLink *inlink, AVFrame *input)
         if (cle != CL_SUCCESS) {
             av_log(avctx, AV_LOG_ERROR, "Failed to set kernel "
                    "destination image argument: %d.\n", cle);
+            err = AVERROR_UNKNOWN;
             goto fail;
         }
         cle = clSetKernelArg(ctx->kernel_horiz, 1, sizeof(cl_mem), &src);
         if (cle != CL_SUCCESS) {
             av_log(avctx, AV_LOG_ERROR, "Failed to set kernel "
                    "source image argument: %d.\n", cle);
+            err = AVERROR_UNKNOWN;
             goto fail;
         }
         cle = clSetKernelArg(ctx->kernel_horiz, 2, sizeof(cl_int), &radius_x);
         if (cle != CL_SUCCESS) {
             av_log(avctx, AV_LOG_ERROR, "Failed to set kernel "
                    "sizeX argument: %d.\n", cle);
+            err = AVERROR_UNKNOWN;
             goto fail;
         }
 
-        global_work[0] = output->width;
-        global_work[1] = output->height;
+        err = ff_opencl_filter_work_size_from_image(avctx, global_work,
+                                                    intermediate, p, 0);
+        if (err < 0)
+            goto fail;
 
         av_log(avctx, AV_LOG_DEBUG, "Run kernel on plane %d "
                "(%"SIZE_SPECIFIER"x%"SIZE_SPECIFIER").\n",
@@ -191,23 +196,28 @@ static int avgblur_opencl_filter_frame(AVFilterLink *inlink, AVFrame *input)
         if (cle != CL_SUCCESS) {
             av_log(avctx, AV_LOG_ERROR, "Failed to set kernel "
                    "destination image argument: %d.\n", cle);
+            err = AVERROR_UNKNOWN;
             goto fail;
         }
         cle = clSetKernelArg(ctx->kernel_vert, 1, sizeof(cl_mem), &inter);
         if (cle != CL_SUCCESS) {
             av_log(avctx, AV_LOG_ERROR, "Failed to set kernel "
                    "source image argument: %d.\n", cle);
+            err = AVERROR_UNKNOWN;
             goto fail;
         }
         cle = clSetKernelArg(ctx->kernel_vert, 2, sizeof(cl_int), &radius_y);
         if (cle != CL_SUCCESS) {
             av_log(avctx, AV_LOG_ERROR, "Failed to set kernel "
                    "sizeY argument: %d.\n", cle);
+            err = AVERROR_UNKNOWN;
             goto fail;
         }
 
-        global_work[0] = output->width;
-        global_work[1] = output->height;
+        err = ff_opencl_filter_work_size_from_image(avctx, global_work,
+                                                    output, p, 0);
+        if (err < 0)
+            goto fail;
 
         av_log(avctx, AV_LOG_DEBUG, "Run kernel on plane %d "
                "(%"SIZE_SPECIFIER"x%"SIZE_SPECIFIER").\n",
