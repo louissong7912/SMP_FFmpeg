@@ -20,6 +20,7 @@
  */
 
 #include "config.h"
+#include "stdint.h"
 
 #include "libavcodec/xvmc_internal.h"
 #include "libavcodec/xvididct.h"

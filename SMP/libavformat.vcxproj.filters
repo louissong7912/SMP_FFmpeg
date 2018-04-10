@@ -1084,6 +1084,9 @@
     <ClCompile Include="..\libavformat\segafilm.c">
       <Filter>Source Files\libavformat</Filter>
     </ClCompile>
+    <ClCompile Include="..\libavformat\segafilmenc.c">
+      <Filter>Source Files\libavformat</Filter>
+    </ClCompile>
     <ClCompile Include="..\libavformat\segment.c">
       <Filter>Source Files\libavformat</Filter>
     </ClCompile>

@@ -925,6 +925,7 @@
     <ClCompile Include="..\libavcodec\chomp_bsf.c" />
     <ClCompile Include="..\libavcodec\dump_extradata_bsf.c" />
     <ClCompile Include="..\libavcodec\dca_core_bsf.c" />
+    <ClCompile Include="..\libavcodec\eac3_core_bsf.c" />
     <ClCompile Include="..\libavcodec\extract_extradata_bsf.c" />
     <ClCompile Include="..\libavcodec\filter_units_bsf.c" />
     <ClCompile Include="..\libavcodec\h264_metadata_bsf.c" />

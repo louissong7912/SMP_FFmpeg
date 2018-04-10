@@ -2598,6 +2598,9 @@
     <ClCompile Include="..\libavcodec\dca_core_bsf.c">
       <Filter>Source Files\libavcodec</Filter>
     </ClCompile>
+    <ClCompile Include="..\libavcodec\eac3_core_bsf.c">
+      <Filter>Source Files\libavcodec</Filter>
+    </ClCompile>
     <ClCompile Include="..\libavcodec\extract_extradata_bsf.c">
       <Filter>Source Files\libavcodec</Filter>
     </ClCompile>

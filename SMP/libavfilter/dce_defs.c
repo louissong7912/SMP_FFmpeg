@@ -20,8 +20,8 @@
  */
 
 #include "config.h"
+#include "stdint.h"
 
-#include "libavfilter/avfilter.h"
 
 #if !(ARCH_X86_64)
 void ff_multiply3x3_sse2(int16_t *data[3], ptrdiff_t stride, int w, int h,
@@ -173,35 +173,3 @@ void ff_yuv2yuv_444p8to12_sse2(uint8_t *yuv_out[3], const ptrdiff_t yuv_out_stri
 #if !(ARCH_X86_64)
 void ff_yuv2yuv_444p8to8_sse2(uint8_t *yuv_out[3], const ptrdiff_t yuv_out_stride[3], uint8_t *yuv_in[3], const ptrdiff_t yuv_in_stride[3], int w, int h, const int16_t yuv2yuv_coeffs[3][3][8], const int16_t yuv_offset[2][8]) {return;}
 #endif
-const AVFilter ff_af_azmq = {0};
-const AVFilter ff_af_bs2b = {0};
-const AVFilter ff_af_ladspa = {0};
-const AVFilter ff_af_lv2 = {0};
-const AVFilter ff_af_resample = {0};
-const AVFilter ff_af_rubberband = {0};
-const AVFilter ff_af_sofalizer = {0};
-const AVFilter ff_asrc_flite = {0};
-const AVFilter ff_vf_avgblur_opencl = {0};
-const AVFilter ff_vf_coreimage = {0};
-const AVFilter ff_vf_deinterlace_vaapi = {0};
-const AVFilter ff_vf_denoise_vaapi = {0};
-const AVFilter ff_vf_frei0r = {0};
-const AVFilter ff_vf_libvmaf = {0};
-const AVFilter ff_vf_ocr = {0};
-const AVFilter ff_vf_ocv = {0};
-const AVFilter ff_vf_overlay_opencl = {0};
-const AVFilter ff_vf_procamp_vaapi = {0};
-const AVFilter ff_vf_program_opencl = {0};
-const AVFilter ff_vf_scale_cuda = {0};
-const AVFilter ff_vf_scale_npp = {0};
-const AVFilter ff_vf_scale_vaapi = {0};
-const AVFilter ff_vf_sharpness_vaapi = {0};
-const AVFilter ff_vf_thumbnail_cuda = {0};
-const AVFilter ff_vf_unsharp_opencl = {0};
-const AVFilter ff_vf_vidstabdetect = {0};
-const AVFilter ff_vf_vidstabtransform = {0};
-const AVFilter ff_vf_zmq = {0};
-const AVFilter ff_vf_zscale = {0};
-const AVFilter ff_vsrc_coreimagesrc = {0};
-const AVFilter ff_vsrc_frei0r_src = {0};
-const AVFilter ff_vsrc_openclsrc = {0};

@@ -20,6 +20,7 @@
  */
 
 #include "config.h"
+#include "stdint.h"
 
 #include "libavutil/float_dsp.h"
 #include "libavutil/cpu_internal.h"

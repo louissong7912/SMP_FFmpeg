@@ -88,6 +88,7 @@ EXPORTS
     av_packet_free_side_data
     av_packet_from_data
     av_packet_get_side_data
+    av_packet_make_refcounted
     av_packet_make_writable
     av_packet_merge_side_data
     av_packet_move_ref

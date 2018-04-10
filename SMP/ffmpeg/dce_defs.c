@@ -20,6 +20,7 @@
  */
 
 #include "config.h"
+#include "stdint.h"
 
 
 char *avresample_configuration(void) {return *(char*)(0);}

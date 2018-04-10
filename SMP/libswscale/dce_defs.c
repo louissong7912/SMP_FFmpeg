@@ -20,6 +20,7 @@
  */
 
 #include "config.h"
+#include "stdint.h"
 
 #include "libswscale/swscale_internal.h"
 

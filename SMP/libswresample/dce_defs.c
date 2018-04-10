@@ -20,6 +20,7 @@
  */
 
 #include "config.h"
+#include "stdint.h"
 
 #include "libswresample/resample.h"
 #include "libswresample/swresample_internal.h"

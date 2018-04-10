@@ -23,6 +23,7 @@ EXPORTS
     av_buffersrc_parameters_alloc
     av_buffersrc_parameters_set
     av_buffersrc_write_frame
+    av_filter_iterate
     avfilter_add_matrix
     avfilter_config_links
     avfilter_configuration

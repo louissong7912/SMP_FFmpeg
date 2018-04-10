@@ -420,6 +420,7 @@
     <ClCompile Include="..\libavformat\sdsdec.c" />
     <ClCompile Include="..\libavformat\sdxdec.c" />
     <ClCompile Include="..\libavformat\segafilm.c" />
+    <ClCompile Include="..\libavformat\segafilmenc.c" />
     <ClCompile Include="..\libavformat\segment.c" />
     <ClCompile Include="..\libavformat\shortendec.c" />
     <ClCompile Include="..\libavformat\siff.c" />
