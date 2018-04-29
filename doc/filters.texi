@@ -5247,7 +5247,7 @@ Threshold A is designed to react on abrupt changes in the input signal and
 threshold B is designed to react on continuous changes in the input signal.
 
 @item s
-Set number of frames filter will use for averaging. Default is 33. Must be odd
+Set number of frames filter will use for averaging. Default is 9. Must be odd
 number in range [5, 129].
 
 @item p
@@ -6401,6 +6401,7 @@ Matrix is sequence of 9, 25 or 49 signed integers.
 @item 2rdiv
 @item 3rdiv
 Set multiplier for calculated value for each plane.
+If unset or 0, it will be sum of all matrix elements.
 
 @item 0bias
 @item 1bias
@@ -11154,6 +11155,11 @@ The number of inputs. If unspecified, it defaults to 2.
 Specify weight of each input video stream as sequence.
 Each weight is separated by space.
 
+@item scale
+Specify scale, if it is set it will be multiplied with sum
+of each weight multiplied with pixel values to give final destination
+pixel value. By default @var{scale} is auto scaled to sum of weights.
+
 @item duration
 Specify how end of stream is determined.
 @table @samp
@@ -15559,6 +15565,26 @@ patterning but better retain detail and subjective sharpness impression.
 Vertical low-pass filtering can only be enabled for @option{mode}
 @var{interleave_top} and @var{interleave_bottom}.
 
+@end table
+
+@section tmix
+
+Mix successive video frames.
+
+A description of the accepted options follows.
+
+@table @option
+@item frames
+The number of successive frames to mix. If unspecified, it defaults to 3.
+
+@item weights
+Specify weight of each input video frame.
+Each weight is separated by space.
+
+@item scale
+Specify scale, if it is set it will be multiplied with sum
+of each weight multiplied with pixel values to give final destination
+pixel value. By default @var{scale} is auto scaled to sum of weights.
 @end table
 
 @section tonemap
