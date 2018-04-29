@@ -645,6 +645,9 @@
     <ClCompile Include="..\libavfilter\vf_il.c">
       <Filter>Source Files\libavfilter</Filter>
     </ClCompile>
+    <ClCompile Include="..\libavfilter\vf_tinterlace.c">
+      <Filter>Source Files\libavfilter</Filter>
+    </ClCompile>
     <ClCompile Include="..\libavfilter\vf_kerndeint.c">
       <Filter>Source Files\libavfilter</Filter>
     </ClCompile>
@@ -834,9 +837,6 @@
     <ClCompile Include="..\libavfilter\vf_tile.c">
       <Filter>Source Files\libavfilter</Filter>
     </ClCompile>
-    <ClCompile Include="..\libavfilter\vf_tinterlace.c">
-      <Filter>Source Files\libavfilter</Filter>
-    </ClCompile>
     <ClCompile Include="..\libavfilter\vf_tonemap.c">
       <Filter>Source Files\libavfilter</Filter>
     </ClCompile>
@@ -960,7 +960,7 @@
     <ClCompile Include="..\libavfilter\x86\vf_idet_init.c">
       <Filter>Source Files\libavfilter\x86</Filter>
     </ClCompile>
-    <ClCompile Include="..\libavfilter\x86\vf_interlace_init.c">
+    <ClCompile Include="..\libavfilter\x86\vf_tinterlace_init.c">
       <Filter>Source Files\libavfilter\x86</Filter>
     </ClCompile>
     <ClCompile Include="..\libavfilter\x86\vf_limiter_init.c">
@@ -991,9 +991,6 @@
       <Filter>Source Files\libavfilter\x86</Filter>
     </ClCompile>
     <ClCompile Include="..\libavfilter\x86\vf_threshold_init.c">
-      <Filter>Source Files\libavfilter\x86</Filter>
-    </ClCompile>
-    <ClCompile Include="..\libavfilter\x86\vf_tinterlace_init.c">
       <Filter>Source Files\libavfilter\x86</Filter>
     </ClCompile>
     <ClCompile Include="..\libavfilter\x86\af_volume_init.c">
@@ -1042,9 +1039,6 @@
       <Filter>Source Files\libavfilter</Filter>
     </ClCompile>
     <ClCompile Include="..\libavfilter\vf_idet.c">
-      <Filter>Source Files\libavfilter</Filter>
-    </ClCompile>
-    <ClCompile Include="..\libavfilter\vf_interlace.c">
       <Filter>Source Files\libavfilter</Filter>
     </ClCompile>
     <ClCompile Include="..\libavfilter\vf_limiter.c">

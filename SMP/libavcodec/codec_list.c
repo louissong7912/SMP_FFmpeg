@@ -332,7 +332,6 @@ static const AVCodec *codec_list[] = {
     &ff_png_decoder,
     &ff_ppm_decoder,
     &ff_prores_decoder,
-    &ff_prores_lgpl_decoder,
     &ff_psd_decoder,
     &ff_ptx_decoder,
     &ff_qdraw_decoder,

@@ -1782,9 +1782,6 @@
     <ClCompile Include="..\libavcodec\proresdata.c">
       <Filter>Source Files\libavcodec</Filter>
     </ClCompile>
-    <ClCompile Include="..\libavcodec\proresdec_lgpl.c">
-      <Filter>Source Files\libavcodec</Filter>
-    </ClCompile>
     <ClCompile Include="..\libavcodec\proresenc_anatoliy.c">
       <Filter>Source Files\libavcodec</Filter>
     </ClCompile>

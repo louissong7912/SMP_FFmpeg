@@ -304,6 +304,7 @@ static const AVFilter *filter_list[] = {
     &ff_vf_tile,
     &ff_vf_tinterlace,
     &ff_vf_tlut2,
+    &ff_vf_tmix,
     &ff_vf_tonemap,
     &ff_vf_transpose,
     &ff_vf_trim,

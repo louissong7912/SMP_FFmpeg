@@ -274,6 +274,7 @@
     <ClCompile Include="..\libavfilter\vf_hwupload.c" />
     <ClCompile Include="..\libavfilter\vf_hysteresis.c" />
     <ClCompile Include="..\libavfilter\vf_il.c" />
+    <ClCompile Include="..\libavfilter\vf_tinterlace.c" />
     <ClCompile Include="..\libavfilter\vf_kerndeint.c" />
     <ClCompile Include="..\libavfilter\vf_lenscorrection.c" />
     <ClCompile Include="..\libavfilter\vf_lumakey.c" />
@@ -337,7 +338,6 @@
     <ClCompile Include="..\libavfilter\vf_telecine.c" />
     <ClCompile Include="..\libavfilter\vf_thumbnail.c" />
     <ClCompile Include="..\libavfilter\vf_tile.c" />
-    <ClCompile Include="..\libavfilter\vf_tinterlace.c" />
     <ClCompile Include="..\libavfilter\vf_tonemap.c" />
     <ClCompile Include="..\libavfilter\vf_transpose.c" />
     <ClCompile Include="..\libavfilter\vf_unsharp.c" />
@@ -379,7 +379,7 @@
     <ClCompile Include="..\libavfilter\x86\vf_hflip_init.c" />
     <ClCompile Include="..\libavfilter\x86\vf_hqdn3d_init.c" />
     <ClCompile Include="..\libavfilter\x86\vf_idet_init.c" />
-    <ClCompile Include="..\libavfilter\x86\vf_interlace_init.c" />
+    <ClCompile Include="..\libavfilter\x86\vf_tinterlace_init.c" />
     <ClCompile Include="..\libavfilter\x86\vf_limiter_init.c" />
     <ClCompile Include="..\libavfilter\x86\vf_maskedmerge_init.c" />
     <ClCompile Include="..\libavfilter\x86\vf_pp7_init.c" />
@@ -390,7 +390,6 @@
     <ClCompile Include="..\libavfilter\x86\vf_ssim_init.c" />
     <ClCompile Include="..\libavfilter\x86\vf_stereo3d_init.c" />
     <ClCompile Include="..\libavfilter\x86\vf_threshold_init.c" />
-    <ClCompile Include="..\libavfilter\x86\vf_tinterlace_init.c" />
     <ClCompile Include="..\libavfilter\x86\af_volume_init.c" />
     <ClCompile Include="..\libavfilter\x86\vf_w3fdif_init.c" />
     <ClCompile Include="..\libavfilter\x86\vf_yadif_init.c" />
@@ -428,9 +427,6 @@
     </ClCompile>
     <ClCompile Include="..\libavfilter\vf_idet.c">
       <ObjectFileName>$(IntDir)\libavfilter_vf_idet.obj</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\libavfilter\vf_interlace.c">
-      <ObjectFileName>$(IntDir)\libavfilter_vf_interlace.obj</ObjectFileName>
     </ClCompile>
     <ClCompile Include="..\libavfilter\vf_limiter.c">
       <ObjectFileName>$(IntDir)\libavfilter_vf_limiter.obj</ObjectFileName>
