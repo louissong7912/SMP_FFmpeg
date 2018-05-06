@@ -44,6 +44,7 @@ static const AVBitStreamFilter *bitstream_filters[] = {
     &ff_remove_extradata_bsf,
     &ff_text2movsub_bsf,
     &ff_trace_headers_bsf,
+    &ff_vp9_metadata_bsf,
     &ff_vp9_raw_reorder_bsf,
     &ff_vp9_superframe_bsf,
     &ff_vp9_superframe_split_bsf,

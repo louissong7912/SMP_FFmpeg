@@ -435,6 +435,9 @@
     <ClCompile Include="..\libavcodec\cbs_mpeg2.c">
       <Filter>Source Files\libavcodec</Filter>
     </ClCompile>
+    <ClCompile Include="..\libavcodec\cbs_vp9.c">
+      <Filter>Source Files\libavcodec</Filter>
+    </ClCompile>
     <ClCompile Include="..\libavcodec\dct.c">
       <Filter>Source Files\libavcodec</Filter>
     </ClCompile>
@@ -2463,9 +2466,6 @@
     <ClCompile Include="..\libavcodec\libxvid.c">
       <Filter>Source Files\libavcodec</Filter>
     </ClCompile>
-    <ClCompile Include="..\libavcodec\libxvid_rc.c">
-      <Filter>Source Files\libavcodec</Filter>
-    </ClCompile>
     <ClCompile Include="..\libavcodec\latm_parser.c">
       <Filter>Source Files\libavcodec</Filter>
     </ClCompile>
@@ -2653,6 +2653,9 @@
       <Filter>Source Files\libavcodec</Filter>
     </ClCompile>
     <ClCompile Include="..\libavcodec\trace_headers_bsf.c">
+      <Filter>Source Files\libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libavcodec\vp9_metadata_bsf.c">
       <Filter>Source Files\libavcodec</Filter>
     </ClCompile>
     <ClCompile Include="..\libavcodec\vp9_raw_reorder_bsf.c">

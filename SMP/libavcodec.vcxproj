@@ -204,6 +204,7 @@
     <ClCompile Include="..\libavcodec\cbs_h2645.c" />
     <ClCompile Include="..\libavcodec\h2645_parse.c" />
     <ClCompile Include="..\libavcodec\cbs_mpeg2.c" />
+    <ClCompile Include="..\libavcodec\cbs_vp9.c" />
     <ClCompile Include="..\libavcodec\dct.c" />
     <ClCompile Include="..\libavcodec\dct32_fixed.c" />
     <ClCompile Include="..\libavcodec\dct32_float.c" />
@@ -880,7 +881,6 @@
     <ClCompile Include="..\libavcodec\libx264.c" />
     <ClCompile Include="..\libavcodec\libx265.c" />
     <ClCompile Include="..\libavcodec\libxvid.c" />
-    <ClCompile Include="..\libavcodec\libxvid_rc.c" />
     <ClCompile Include="..\libavcodec\latm_parser.c" />
     <ClCompile Include="..\libavcodec\aac_parser.c" />
     <ClCompile Include="..\libavcodec\aac_ac3_parser.c" />
@@ -944,6 +944,7 @@
     <ClCompile Include="..\libavcodec\null_bsf.c" />
     <ClCompile Include="..\libavcodec\remove_extradata_bsf.c" />
     <ClCompile Include="..\libavcodec\trace_headers_bsf.c" />
+    <ClCompile Include="..\libavcodec\vp9_metadata_bsf.c" />
     <ClCompile Include="..\libavcodec\vp9_raw_reorder_bsf.c" />
     <ClCompile Include="..\libavcodec\vp9_superframe_bsf.c" />
     <ClCompile Include="..\libavcodec\vp9_superframe_split_bsf.c" />

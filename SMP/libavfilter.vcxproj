@@ -82,6 +82,7 @@
     <NASM Include="..\libavfilter\x86\vf_interlace.asm" />
     <NASM Include="..\libavfilter\x86\vf_limiter.asm" />
     <NASM Include="..\libavfilter\x86\vf_maskedmerge.asm" />
+    <NASM Include="..\libavfilter\x86\vf_overlay.asm" />
     <NASM Include="..\libavfilter\x86\vf_pp7.asm" />
     <NASM Include="..\libavfilter\x86\vf_psnr.asm" />
     <NASM Include="..\libavfilter\x86\vf_pullup.asm" />
@@ -199,6 +200,7 @@
     <ClCompile Include="..\libavfilter\asink_anullsink.c" />
     <ClCompile Include="..\libavfilter\vf_extractplanes.c" />
     <ClCompile Include="..\libavfilter\vf_alphamerge.c" />
+    <ClCompile Include="..\libavfilter\vf_amplify.c" />
     <ClCompile Include="..\libavfilter\vf_subtitles.c" />
     <ClCompile Include="..\libavfilter\vf_atadenoise.c" />
     <ClCompile Include="..\libavfilter\vf_avgblur.c" />
@@ -294,7 +296,6 @@
     <ClCompile Include="..\libavfilter\vf_noise.c" />
     <ClCompile Include="..\libavfilter\vf_normalize.c" />
     <ClCompile Include="..\libavfilter\vf_null.c" />
-    <ClCompile Include="..\libavfilter\vf_overlay.c" />
     <ClCompile Include="..\libavfilter\vf_overlay_qsv.c" />
     <ClCompile Include="..\libavfilter\vf_owdenoise.c" />
     <ClCompile Include="..\libavfilter\vf_pad.c" />
@@ -332,6 +333,7 @@
     <ClCompile Include="..\libavfilter\vf_signature.c" />
     <ClCompile Include="..\libavfilter\vf_smartblur.c" />
     <ClCompile Include="..\libavfilter\vf_spp.c" />
+    <ClCompile Include="..\libavfilter\vf_srcnn.c" />
     <ClCompile Include="..\libavfilter\vf_super2xsai.c" />
     <ClCompile Include="..\libavfilter\vf_swaprect.c" />
     <ClCompile Include="..\libavfilter\vf_swapuv.c" />
@@ -382,6 +384,7 @@
     <ClCompile Include="..\libavfilter\x86\vf_tinterlace_init.c" />
     <ClCompile Include="..\libavfilter\x86\vf_limiter_init.c" />
     <ClCompile Include="..\libavfilter\x86\vf_maskedmerge_init.c" />
+    <ClCompile Include="..\libavfilter\x86\vf_overlay_init.c" />
     <ClCompile Include="..\libavfilter\x86\vf_pp7_init.c" />
     <ClCompile Include="..\libavfilter\x86\vf_psnr_init.c" />
     <ClCompile Include="..\libavfilter\x86\vf_pullup_init.c" />
@@ -433,6 +436,9 @@
     </ClCompile>
     <ClCompile Include="..\libavfilter\vf_maskedmerge.c">
       <ObjectFileName>$(IntDir)\libavfilter_vf_maskedmerge.obj</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\libavfilter\vf_overlay.c">
+      <ObjectFileName>$(IntDir)\libavfilter_vf_overlay.obj</ObjectFileName>
     </ClCompile>
     <ClCompile Include="..\libavfilter\vf_pp7.c">
       <ObjectFileName>$(IntDir)\libavfilter_vf_pp7.obj</ObjectFileName>
