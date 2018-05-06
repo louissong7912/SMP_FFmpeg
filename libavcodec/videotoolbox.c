@@ -36,6 +36,9 @@
 #ifndef kVTVideoDecoderSpecification_RequireHardwareAcceleratedVideoDecoder
 #  define kVTVideoDecoderSpecification_RequireHardwareAcceleratedVideoDecoder CFSTR("RequireHardwareAcceleratedVideoDecoder")
 #endif
+#ifndef kVTVideoDecoderSpecification_EnableHardwareAcceleratedVideoDecoder
+#  define kVTVideoDecoderSpecification_EnableHardwareAcceleratedVideoDecoder CFSTR("EnableHardwareAcceleratedVideoDecoder")
+#endif
 
 #if !HAVE_KCMVIDEOCODECTYPE_HEVC
 enum { kCMVideoCodecType_HEVC = 'hvc1' };
@@ -709,7 +712,9 @@ static CFDictionaryRef videotoolbox_decoder_config_create(CMVideoCodecType codec
                                                                    &kCFTypeDictionaryValueCallBacks);
 
     CFDictionarySetValue(config_info,
-                         kVTVideoDecoderSpecification_RequireHardwareAcceleratedVideoDecoder,
+                         codec_type == kCMVideoCodecType_HEVC ?
+                            kVTVideoDecoderSpecification_EnableHardwareAcceleratedVideoDecoder :
+                            kVTVideoDecoderSpecification_RequireHardwareAcceleratedVideoDecoder,
                          kCFBooleanTrue);
 
     CFMutableDictionaryRef avc_info;
@@ -833,6 +838,9 @@ static int videotoolbox_start(AVCodecContext *avctx)
     case kVTVideoDecoderUnsupportedDataFormatErr:
         av_log(avctx, AV_LOG_VERBOSE, "VideoToolbox does not support this format.\n");
         return AVERROR(ENOSYS);
+    case kVTCouldNotFindVideoDecoderErr:
+        av_log(avctx, AV_LOG_VERBOSE, "VideoToolbox decoder for this format not found.\n");
+        return AVERROR(ENOSYS);
     case kVTVideoDecoderMalfunctionErr:
         av_log(avctx, AV_LOG_VERBOSE, "VideoToolbox malfunction.\n");
         return AVERROR(EINVAL);
@@ -842,7 +850,7 @@ static int videotoolbox_start(AVCodecContext *avctx)
     case 0:
         return 0;
     default:
-        av_log(avctx, AV_LOG_VERBOSE, "Unknown VideoToolbox session creation error %u\n", (unsigned)status);
+        av_log(avctx, AV_LOG_VERBOSE, "Unknown VideoToolbox session creation error %d\n", (int)status);
         return AVERROR_UNKNOWN;
     }
 }

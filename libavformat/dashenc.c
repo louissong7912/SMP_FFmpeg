@@ -966,6 +966,16 @@ static int dash_init(AVFormatContext *s)
             s->streams[i]->codecpar->codec_id == AV_CODEC_ID_OPUS ||
             s->streams[i]->codecpar->codec_id == AV_CODEC_ID_VORBIS) {
             snprintf(os->format_name, sizeof(os->format_name), "webm");
+
+            if (s->strict_std_compliance > FF_COMPLIANCE_EXPERIMENTAL) {
+                av_log(s, AV_LOG_ERROR,
+                       "WebM support in dashenc is experimental and has not "
+                       "been validated. For testing purposes, make sure "
+                       "to add -strict experimental and override "
+                       "-init_seg_name and -media_seg_name to end with "
+                       "the extension 'webm'.\n");
+                return AVERROR(EINVAL);
+            }
         } else {
             snprintf(os->format_name, sizeof(os->format_name), "mp4");
         }
@@ -973,10 +983,11 @@ static int dash_init(AVFormatContext *s)
         if (!ctx->oformat)
             return AVERROR_MUXER_NOT_FOUND;
         os->ctx = ctx;
-        ctx->interrupt_callback = s->interrupt_callback;
-        ctx->opaque             = s->opaque;
-        ctx->io_close           = s->io_close;
-        ctx->io_open            = s->io_open;
+        ctx->interrupt_callback    = s->interrupt_callback;
+        ctx->opaque                = s->opaque;
+        ctx->io_close              = s->io_close;
+        ctx->io_open               = s->io_open;
+        ctx->strict_std_compliance = s->strict_std_compliance;
 
         if (!(st = avformat_new_stream(ctx, NULL)))
             return AVERROR(ENOMEM);
@@ -1026,13 +1037,6 @@ static int dash_init(AVFormatContext *s)
 
         av_log(s, AV_LOG_VERBOSE, "Representation %d init segment will be written to: %s\n", i, filename);
 
-        // Flush init segment
-        // except for mp4, since delay_moov is set and the init segment
-        // is then flushed after the first packets
-        if (strcmp(os->format_name, "mp4")) {
-            flush_init_segment(s, os);
-        }
-
         s->streams[i]->time_base = st->time_base;
         // If the muxer wants to shift timestamps, request to have them shifted
         // already before being handed to this muxer, so we don't have mismatches
@@ -1073,6 +1077,13 @@ static int dash_write_header(AVFormatContext *s)
     for (i = 0; i < s->nb_streams; i++) {
         OutputStream *os = &c->streams[i];
         if ((ret = avformat_write_header(os->ctx, NULL)) < 0)
+            return ret;
+
+        // Flush init segment
+        // Only for WebM segment, since for mp4 delay_moov is set and
+        // the init segment is thus flushed after the first packets.
+        if (strcmp(os->format_name, "mp4") &&
+            (ret = flush_init_segment(s, os)) < 0)
             return ret;
     }
     return ret;
