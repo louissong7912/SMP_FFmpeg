@@ -16,37 +16,20 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
+#ifndef AVFILTER_NLMEANS_H
+#define AVFILTER_NLMEANS_H
 
-#ifndef AVUTIL_HWCONTEXT_CUDA_H
-#define AVUTIL_HWCONTEXT_CUDA_H
+#include <stddef.h>
+#include <stdint.h>
 
-#ifndef CUDA_VERSION
-#include <cuda.h>
-#endif
+typedef struct NLMeansDSPContext {
+    void (*compute_safe_ssd_integral_image)(uint32_t *dst, ptrdiff_t dst_linesize_32,
+                                            const uint8_t *s1, ptrdiff_t linesize1,
+                                            const uint8_t *s2, ptrdiff_t linesize2,
+                                            int w, int h);
+} NLMeansDSPContext;
 
-#include "pixfmt.h"
+void ff_nlmeans_init(NLMeansDSPContext *dsp);
+void ff_nlmeans_init_aarch64(NLMeansDSPContext *dsp);
 
-/**
- * @file
- * An API-specific header for AV_HWDEVICE_TYPE_CUDA.
- *
- * This API supports dynamic frame pools. AVHWFramesContext.pool must return
- * AVBufferRefs whose data pointer is a CUdeviceptr.
- */
-
-typedef struct AVCUDADeviceContextInternal AVCUDADeviceContextInternal;
-
-/**
- * This struct is allocated as AVHWDeviceContext.hwctx
- */
-typedef struct AVCUDADeviceContext {
-    CUcontext cuda_ctx;
-    CUstream stream;
-    AVCUDADeviceContextInternal *internal;
-} AVCUDADeviceContext;
-
-/**
- * AVHWFramesContext.hwctx is currently not used
- */
-
-#endif /* AVUTIL_HWCONTEXT_CUDA_H */
+#endif /* AVFILTER_NLMEANS_H */
