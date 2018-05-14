@@ -250,6 +250,7 @@
     <ClCompile Include="..\libavfilter\vf_entropy.c" />
     <ClCompile Include="..\libavfilter\vf_eq.c" />
     <ClCompile Include="..\libavfilter\vf_fade.c" />
+    <ClCompile Include="..\libavfilter\vf_fftdnoiz.c" />
     <ClCompile Include="..\libavfilter\vf_fftfilt.c" />
     <ClCompile Include="..\libavfilter\vf_field.c" />
     <ClCompile Include="..\libavfilter\vf_fieldhint.c" />

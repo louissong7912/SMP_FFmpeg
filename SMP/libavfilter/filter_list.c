@@ -173,6 +173,7 @@ static const AVFilter *filter_list[] = {
     &ff_vf_erosion,
     &ff_vf_extractplanes,
     &ff_vf_fade,
+    &ff_vf_fftdnoiz,
     &ff_vf_fftfilt,
     &ff_vf_field,
     &ff_vf_fieldhint,
