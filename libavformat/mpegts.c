@@ -490,7 +490,7 @@ static MpegTSFilter *mpegts_open_section_filter(MpegTSContext *ts,
     sec = &filter->u.section_filter;
     sec->section_cb  = section_cb;
     sec->opaque      = opaque;
-    sec->section_buf = av_malloc(MAX_SECTION_SIZE);
+    sec->section_buf = av_mallocz(MAX_SECTION_SIZE);
     sec->check_crc   = check_crc;
     sec->last_ver    = -1;
 
@@ -1683,6 +1683,11 @@ int ff_parse_mpeg2_descriptor(AVFormatContext *fc, AVStream *st, int stream_type
         mpegts_find_stream_type(st, desc_tag, DESC_types);
 
     switch (desc_tag) {
+    case 0x02: /* video stream descriptor */
+        if (get8(pp, desc_end) & 0x1) {
+            st->disposition |= AV_DISPOSITION_STILL_IMAGE;
+        }
+        break;
     case 0x1E: /* SL descriptor */
         desc_es_id = get16(pp, desc_end);
         if (desc_es_id < 0)
@@ -1745,10 +1750,10 @@ int ff_parse_mpeg2_descriptor(AVFormatContext *fc, AVStream *st, int stream_type
                     }
                 }
 
-               if (st->codecpar->extradata_size < language_count * 2)
-                   return AVERROR_INVALIDDATA;
+                if (st->codecpar->extradata_size < language_count * 2)
+                    return AVERROR_INVALIDDATA;
 
-               extradata = st->codecpar->extradata;
+                extradata = st->codecpar->extradata;
 
                 for (i = 0; i < language_count; i++) {
                     language[i * 4 + 0] = get8(pp, desc_end);
