@@ -25,6 +25,8 @@ static const AVFilter *filter_list[] = {
     &ff_af_acopy,
     &ff_af_acrossfade,
     &ff_af_acrusher,
+    &ff_af_adeclick,
+    &ff_af_adeclip,
     &ff_af_adelay,
     &ff_af_aderivative,
     &ff_af_aecho,
