@@ -372,6 +372,8 @@ static int64_t klv_decode_ber_length(AVIOContext *pb)
         while (bytes_num--)
             size = size << 8 | avio_r8(pb);
     }
+    if (size > INT64_MAX)
+        return AVERROR_INVALIDDATA;
     return size;
 }
 
@@ -390,13 +392,17 @@ static int mxf_read_sync(AVIOContext *pb, const uint8_t *key, unsigned size)
 
 static int klv_read_packet(KLVPacket *klv, AVIOContext *pb)
 {
+    int64_t length;
     if (!mxf_read_sync(pb, mxf_klv_key, 4))
         return AVERROR_INVALIDDATA;
     klv->offset = avio_tell(pb) - 4;
     memcpy(klv->key, mxf_klv_key, 4);
     avio_read(pb, klv->key + 4, 12);
-    klv->length = klv_decode_ber_length(pb);
-    return klv->length == -1 ? -1 : 0;
+    length = klv_decode_ber_length(pb);
+    if (length < 0)
+        return length;
+    klv->length = length;
+    return 0;
 }
 
 static int mxf_get_stream_index(AVFormatContext *s, KLVPacket *klv, int body_sid)
@@ -486,7 +492,10 @@ static int mxf_decrypt_triplet(AVFormatContext *s, AVPacket *pkt, KLVPacket *klv
         av_aes_init(mxf->aesc, s->key, 128, 1);
     }
     // crypto context
-    avio_skip(pb, klv_decode_ber_length(pb));
+    size = klv_decode_ber_length(pb);
+    if (size < 0)
+        return size;
+    avio_skip(pb, size);
     // plaintext offset
     klv_decode_ber_length(pb);
     plaintext_size = avio_rb64(pb);
@@ -1222,7 +1231,10 @@ static const MXFCodecUL mxf_picture_essence_container_uls[] = {
     // video essence container uls
     { { 0x06,0x0e,0x2b,0x34,0x04,0x01,0x01,0x07,0x0d,0x01,0x03,0x01,0x02,0x0c,0x01,0x00 }, 14,   AV_CODEC_ID_JPEG2000 },
     { { 0x06,0x0e,0x2b,0x34,0x04,0x01,0x01,0x02,0x0d,0x01,0x03,0x01,0x02,0x10,0x60,0x01 }, 14,       AV_CODEC_ID_H264 }, /* H.264 frame wrapped */
+    { { 0x06,0x0e,0x2b,0x34,0x04,0x01,0x01,0x02,0x0d,0x01,0x03,0x01,0x02,0x11,0x01,0x00 }, 14,      AV_CODEC_ID_DNXHD }, /* VC-3 */
     { { 0x06,0x0e,0x2b,0x34,0x04,0x01,0x01,0x02,0x0d,0x01,0x03,0x01,0x02,0x12,0x01,0x00 }, 14,        AV_CODEC_ID_VC1 }, /* VC-1 frame wrapped */
+    { { 0x06,0x0e,0x2b,0x34,0x04,0x01,0x01,0x02,0x0d,0x01,0x03,0x01,0x02,0x14,0x01,0x00 }, 14,       AV_CODEC_ID_TIFF }, /* TIFF */
+    { { 0x06,0x0e,0x2b,0x34,0x04,0x01,0x01,0x02,0x0d,0x01,0x03,0x01,0x02,0x15,0x01,0x00 }, 14,      AV_CODEC_ID_DIRAC }, /* VC-2 */
     { { 0x06,0x0e,0x2b,0x34,0x04,0x01,0x01,0x02,0x0d,0x01,0x03,0x01,0x02,0x04,0x60,0x01 }, 14, AV_CODEC_ID_MPEG2VIDEO }, /* MPEG-ES frame wrapped */
     { { 0x06,0x0e,0x2b,0x34,0x04,0x01,0x01,0x01,0x0d,0x01,0x03,0x01,0x02,0x01,0x04,0x01 }, 14, AV_CODEC_ID_MPEG2VIDEO }, /* Type D-10 mapping of 40Mbps 525/60-I */
     { { 0x06,0x0e,0x2b,0x34,0x04,0x01,0x01,0x01,0x0d,0x01,0x03,0x01,0x02,0x02,0x41,0x01 }, 14,    AV_CODEC_ID_DVVIDEO }, /* DV 625 25mbps */
@@ -3158,8 +3170,7 @@ static int mxf_compute_sample_count(MXFContext *mxf, int stream_index,
     if (!spf) {
         int remainder = (sample_rate.num * time_base.num) %
                         (time_base.den * sample_rate.den);
-        *sample_count = av_q2d(av_mul_q((AVRational){mxf->current_edit_unit, 1},
-                                        av_mul_q(sample_rate, time_base)));
+        *sample_count = av_rescale_q(mxf->current_edit_unit, sample_rate, track->edit_rate);
         if (remainder)
             av_log(mxf->fc, AV_LOG_WARNING,
                    "seeking detected on stream #%d with time base (%d/%d) and "
