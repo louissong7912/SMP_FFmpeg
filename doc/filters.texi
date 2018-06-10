@@ -3893,6 +3893,9 @@ not meant to be used directly.
 @section rubberband
 Apply time-stretching and pitch-shifting with librubberband.
 
+To enable compilation of this filter, you need to configure FFmpeg with
+@code{--enable-librubberband}.
+
 The filter accepts the following options:
 
 @table @option
@@ -8257,6 +8260,10 @@ local time zone time.
 
 The second argument is an offset added to the timestamp.
 
+If the format is set to @code{hms}, a third argument @code{24HH} may be
+supplied to present the hour part of the formatted timestamp in 24h format
+(00-23).
+
 If the format is set to @code{localtime} or @code{gmtime},
 a third argument may be supplied: a strftime() format string.
 By default, @var{YYYY-MM-DD HH:MM:SS} format will be used.
@@ -11735,7 +11742,9 @@ Pass the video source unchanged to the output.
 @section ocr
 Optical Character Recognition
 
-This filter uses Tesseract for optical character recognition.
+This filter uses Tesseract for optical character recognition. To enable
+compilation of this filter, you need to configure FFmpeg with
+@code{--enable-libtesseract}.
 
 It accepts the following options:
 
@@ -15276,10 +15285,10 @@ To render the second subtitles stream from that file, use:
 subtitles=video.mkv:si=1
 @end example
 
-To make the subtitles stream from @file{sub.srt} appear in transparent green
+To make the subtitles stream from @file{sub.srt} appear in 80% transparent blue
 @code{DejaVu Serif}, use:
 @example
-subtitles=sub.srt:force_style='FontName=DejaVu Serif,PrimaryColour=&HAA00FF00'
+subtitles=sub.srt:force_style='FontName=DejaVu Serif,PrimaryColour=&HCCFF0000'
 @end example
 
 @section super2xsai
@@ -17139,7 +17148,8 @@ zoompan=z='min(max(zoom,pzoom)+0.0015,1.5)':d=1:x='iw/2-(iw/zoom/2)':y='ih/2-(ih
 @anchor{zscale}
 @section zscale
 Scale (resize) the input video, using the z.lib library:
-https://github.com/sekrit-twc/zimg.
+@url{https://github.com/sekrit-twc/zimg}. To enable compilation of this
+filter, you need to configure FFmpeg with @code{--enable-libzimg}.
 
 The zscale filter forces the output display aspect ratio to be the same
 as the input, by changing the output sample aspect ratio.
