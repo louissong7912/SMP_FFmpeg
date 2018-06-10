@@ -115,6 +115,8 @@
     <ClCompile Include="..\libavfilter\video.c" />
     <ClCompile Include="..\libavfilter\pthread.c" />
     <ClCompile Include="..\libavfilter\qsvvpp.c" />
+    <ClCompile Include="..\libavfilter\dnn_interface.c" />
+    <ClCompile Include="..\libavfilter\dnn_backend_native.c" />
     <ClCompile Include="..\libavfilter\f_bench.c" />
     <ClCompile Include="..\libavfilter\af_sidechaincompress.c" />
     <ClCompile Include="..\libavfilter\af_acontrast.c" />
@@ -337,8 +339,6 @@
     <ClCompile Include="..\libavfilter\vf_smartblur.c" />
     <ClCompile Include="..\libavfilter\vf_spp.c" />
     <ClCompile Include="..\libavfilter\vf_srcnn.c" />
-    <ClCompile Include="..\libavfilter\dnn_interface.c" />
-    <ClCompile Include="..\libavfilter\dnn_backend_native.c" />
     <ClCompile Include="..\libavfilter\vf_super2xsai.c" />
     <ClCompile Include="..\libavfilter\vf_swaprect.c" />
     <ClCompile Include="..\libavfilter\vf_swapuv.c" />
