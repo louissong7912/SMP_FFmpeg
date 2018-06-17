@@ -1689,7 +1689,7 @@ static void print_report(int is_last_report, int64_t timer_start, int64_t cur_ti
 
     vid = 0;
     av_bprint_init(&buf, 0, AV_BPRINT_SIZE_AUTOMATIC);
-    av_bprint_init(&buf_script, 0, 1);
+    av_bprint_init(&buf_script, 0, AV_BPRINT_SIZE_AUTOMATIC);
     for (i = 0; i < nb_output_streams; i++) {
         float q = -1;
         ost = output_streams[i];
@@ -2710,8 +2710,13 @@ static int process_input_packet(InputStream *ist, const AVPacket *pkt, int no_eo
         ist->dts = ist->next_dts;
         switch (ist->dec_ctx->codec_type) {
         case AVMEDIA_TYPE_AUDIO:
-            ist->next_dts += ((int64_t)AV_TIME_BASE * ist->dec_ctx->frame_size) /
-                             ist->dec_ctx->sample_rate;
+            av_assert1(pkt->duration >= 0);
+            if (ist->dec_ctx->sample_rate) {
+                ist->next_dts += ((int64_t)AV_TIME_BASE * ist->dec_ctx->frame_size) /
+                                  ist->dec_ctx->sample_rate;
+            } else {
+                ist->next_dts += av_rescale_q(pkt->duration, ist->st->time_base, AV_TIME_BASE_Q);
+            }
             break;
         case AVMEDIA_TYPE_VIDEO:
             if (ist->framerate.num) {

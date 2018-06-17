@@ -232,19 +232,6 @@ static int decode_frame(AVCodecContext *avctx,
         stride = (avctx->width * elements + 2) / 3 * 4;
         break;
     case 12:
-        if (!packing) {
-            int tested = 0;
-            if (descriptor == 50 && endian && (avctx->width%8) == 0) { // Little endian and widths not a multiple of 8 need tests
-                tested = 1;
-            }
-            if (descriptor == 51 && endian && (avctx->width%2) == 0) { // Little endian and widths not a multiple of 2 need tests
-                tested = 1;
-            }
-            if (!tested) {
-                av_log(avctx, AV_LOG_ERROR, "Packing to 16bit required\n");
-                return -1;
-            }
-        }
         stride = avctx->width * elements;
         if (packing) {
             stride *= 2;
@@ -422,6 +409,7 @@ static int decode_frame(AVCodecContext *avctx,
                                                &n_datum, endian);
                 }
             }
+            n_datum = 0;
             for (i = 0; i < elements; i++)
                 ptr[i] += p->linesize[i];
             // Jump to next aligned position
