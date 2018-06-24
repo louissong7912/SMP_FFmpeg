@@ -214,6 +214,7 @@
     <ClCompile Include="..\libavfilter\vf_blackdetect.c" />
     <ClCompile Include="..\libavfilter\vf_blackframe.c" />
     <ClCompile Include="..\libavfilter\vf_boxblur.c" />
+    <ClCompile Include="..\libavfilter\boxblur.c" />
     <ClCompile Include="..\libavfilter\vf_chromakey.c" />
     <ClCompile Include="..\libavfilter\vf_ciescope.c" />
     <ClCompile Include="..\libavfilter\vf_codecview.c" />
@@ -223,6 +224,7 @@
     <ClCompile Include="..\libavfilter\vf_colorlevels.c" />
     <ClCompile Include="..\libavfilter\vf_colormatrix.c" />
     <ClCompile Include="..\libavfilter\vf_colorspace.c" />
+    <ClCompile Include="..\libavfilter\colorspace.c" />
     <ClCompile Include="..\libavfilter\vf_convolution.c" />
     <ClCompile Include="..\libavfilter\vf_convolve.c" />
     <ClCompile Include="..\libavfilter\vf_copy.c" />
