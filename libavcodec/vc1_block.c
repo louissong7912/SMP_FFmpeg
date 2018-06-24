@@ -96,7 +96,7 @@ static void vc1_put_blocks_clamped(VC1Context *v, int put_signed)
                 }
             }
         }
-        if (s->mb_x == s->mb_width - 1) {
+        if (s->mb_x == v->end_mb_x - 1) {
             for (i = 0; i < block_count; i++) {
                 if (i > 3 ? v->mb_type[0][s->block_index[i] - s->block_wrap[i]] :
                             v->mb_type[0][s->block_index[i] - 2 * s->block_wrap[i]]) {
@@ -135,7 +135,7 @@ static void vc1_put_blocks_clamped(VC1Context *v, int put_signed)
                 }
             }
         }
-        if (s->mb_x == s->mb_width - 1) {
+        if (s->mb_x == v->end_mb_x - 1) {
             if (v->fcm == ILACE_FRAME)
                 fieldtx = v->fieldtx_plane[s->mb_y * s->mb_stride + s->mb_x];
             for (i = 0; i < block_count; i++) {

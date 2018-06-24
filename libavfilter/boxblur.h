@@ -1,4 +1,8 @@
 /*
+ * Copyright (c) 2002 Michael Niedermayer <michaelni@gmx.at>
+ * Copyright (c) 2011 Stefano Sabatini
+ * Copyright (c) 2018 Danil Iashchenko
+ *
  * This file is part of FFmpeg.
  *
  * FFmpeg is free software; you can redistribute it and/or
@@ -16,14 +20,29 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#ifndef AVFILTER_OPENCL_SOURCE_H
-#define AVFILTER_OPENCL_SOURCE_H
+#ifndef AVFILTER_BOXBLUR_H
+#define AVFILTER_BOXBLUR_H
 
-extern const char *ff_opencl_source_avgblur;
-extern const char *ff_opencl_source_colorspace_common;
-extern const char *ff_opencl_source_convolution;
-extern const char *ff_opencl_source_overlay;
-extern const char *ff_opencl_source_tonemap;
-extern const char *ff_opencl_source_unsharp;
+#include "libavutil/eval.h"
+#include "libavutil/pixdesc.h"
+#include "libavutil/mem.h"
 
-#endif /* AVFILTER_OPENCL_SOURCE_H */
+#include "avfilter.h"
+
+typedef struct FilterParam {
+    int radius;
+    int power;
+    char *radius_expr;
+} FilterParam;
+
+#define Y 0
+#define U 1
+#define V 2
+#define A 3
+
+int ff_boxblur_eval_filter_params(AVFilterLink *inlink,
+                                  FilterParam *luma_param,
+                                  FilterParam *chroma_param,
+                                  FilterParam *alpha_param);
+
+#endif // AVFILTER_BOXBLUR_H
