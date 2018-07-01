@@ -75,22 +75,22 @@ typedef struct TonemapOpenCLContext {
     cl_mem                util_mem;
 } TonemapOpenCLContext;
 
-const char *yuv_coff[AVCOL_SPC_NB] = {
+static const char *yuv_coff[AVCOL_SPC_NB] = {
     [AVCOL_SPC_BT709] = "rgb2yuv_bt709",
     [AVCOL_SPC_BT2020_NCL] = "rgb2yuv_bt2020",
 };
 
-const char *rgb_coff[AVCOL_SPC_NB] = {
+static const char *rgb_coff[AVCOL_SPC_NB] = {
     [AVCOL_SPC_BT709] = "yuv2rgb_bt709",
     [AVCOL_SPC_BT2020_NCL] = "yuv2rgb_bt2020",
 };
 
-const char *linearize_funcs[AVCOL_TRC_NB] = {
+static const char *linearize_funcs[AVCOL_TRC_NB] = {
     [AVCOL_TRC_SMPTE2084] = "eotf_st2084",
     [AVCOL_TRC_ARIB_STD_B67] = "inverse_oetf_hlg",
 };
 
-const char *delinearize_funcs[AVCOL_TRC_NB] = {
+static const char *delinearize_funcs[AVCOL_TRC_NB] = {
     [AVCOL_TRC_BT709]     = "inverse_eotf_bt1886",
     [AVCOL_TRC_BT2020_10] = "inverse_eotf_bt1886",
 };
@@ -100,17 +100,17 @@ static const struct LumaCoefficients luma_coefficients[AVCOL_SPC_NB] = {
     [AVCOL_SPC_BT2020_NCL] = { 0.2627, 0.6780, 0.0593 },
 };
 
-struct PrimaryCoefficients primaries_table[AVCOL_PRI_NB] = {
+static struct PrimaryCoefficients primaries_table[AVCOL_PRI_NB] = {
     [AVCOL_PRI_BT709]  = { 0.640, 0.330, 0.300, 0.600, 0.150, 0.060 },
     [AVCOL_PRI_BT2020] = { 0.708, 0.292, 0.170, 0.797, 0.131, 0.046 },
 };
 
-struct WhitepointCoefficients whitepoint_table[AVCOL_PRI_NB] = {
+static struct WhitepointCoefficients whitepoint_table[AVCOL_PRI_NB] = {
     [AVCOL_PRI_BT709]  = { 0.3127, 0.3290 },
     [AVCOL_PRI_BT2020] = { 0.3127, 0.3290 },
 };
 
-const char *tonemap_func[TONEMAP_MAX] = {
+static const char *tonemap_func[TONEMAP_MAX] = {
     [TONEMAP_NONE]     = "direct",
     [TONEMAP_LINEAR]   = "linear",
     [TONEMAP_GAMMA]    = "gamma",
@@ -124,10 +124,10 @@ static void get_rgb2rgb_matrix(enum AVColorPrimaries in, enum AVColorPrimaries o
                                double rgb2rgb[3][3]) {
     double rgb2xyz[3][3], xyz2rgb[3][3];
 
-    fill_rgb2xyz_table(&primaries_table[out], &whitepoint_table[out], rgb2xyz);
-    invert_matrix3x3(rgb2xyz, xyz2rgb);
-    fill_rgb2xyz_table(&primaries_table[in], &whitepoint_table[in], rgb2xyz);
-    mul3x3(rgb2rgb, rgb2xyz, xyz2rgb);
+    ff_fill_rgb2xyz_table(&primaries_table[out], &whitepoint_table[out], rgb2xyz);
+    ff_matrix_invert_3x3(rgb2xyz, xyz2rgb);
+    ff_fill_rgb2xyz_table(&primaries_table[in], &whitepoint_table[in], rgb2xyz);
+    ff_matrix_mul_3x3(rgb2rgb, rgb2xyz, xyz2rgb);
 }
 
 #define OPENCL_SOURCE_NB 3
