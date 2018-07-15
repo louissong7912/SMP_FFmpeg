@@ -356,6 +356,7 @@
     <ClCompile Include="..\libavcodec\atrac3plusdec.c" />
     <ClCompile Include="..\libavcodec\atrac3plus.c" />
     <ClCompile Include="..\libavcodec\atrac3plusdsp.c" />
+    <ClCompile Include="..\libavcodec\atrac9dec.c" />
     <ClCompile Include="..\libavcodec\cyuv.c" />
     <ClCompile Include="..\libavcodec\aura.c" />
     <ClCompile Include="..\libavcodec\avrndec.c" />

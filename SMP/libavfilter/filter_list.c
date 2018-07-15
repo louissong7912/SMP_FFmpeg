@@ -296,7 +296,7 @@ static const AVFilter *filter_list[] = {
     &ff_vf_sobel,
     &ff_vf_split,
     &ff_vf_spp,
-    &ff_vf_srcnn,
+    &ff_vf_sr,
     &ff_vf_ssim,
     &ff_vf_stereo3d,
     &ff_vf_streamselect,

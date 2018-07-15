@@ -340,7 +340,7 @@
     <ClCompile Include="..\libavfilter\vf_signature.c" />
     <ClCompile Include="..\libavfilter\vf_smartblur.c" />
     <ClCompile Include="..\libavfilter\vf_spp.c" />
-    <ClCompile Include="..\libavfilter\vf_srcnn.c" />
+    <ClCompile Include="..\libavfilter\vf_sr.c" />
     <ClCompile Include="..\libavfilter\vf_super2xsai.c" />
     <ClCompile Include="..\libavfilter\vf_swaprect.c" />
     <ClCompile Include="..\libavfilter\vf_swapuv.c" />

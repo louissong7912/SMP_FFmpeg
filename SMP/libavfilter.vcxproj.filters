@@ -843,7 +843,7 @@
     <ClCompile Include="..\libavfilter\vf_spp.c">
       <Filter>Source Files\libavfilter</Filter>
     </ClCompile>
-    <ClCompile Include="..\libavfilter\vf_srcnn.c">
+    <ClCompile Include="..\libavfilter\vf_sr.c">
       <Filter>Source Files\libavfilter</Filter>
     </ClCompile>
     <ClCompile Include="..\libavfilter\vf_super2xsai.c">

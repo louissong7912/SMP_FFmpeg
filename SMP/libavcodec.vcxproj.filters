@@ -891,6 +891,9 @@
     <ClCompile Include="..\libavcodec\atrac3plusdsp.c">
       <Filter>Source Files\libavcodec</Filter>
     </ClCompile>
+    <ClCompile Include="..\libavcodec\atrac9dec.c">
+      <Filter>Source Files\libavcodec</Filter>
+    </ClCompile>
     <ClCompile Include="..\libavcodec\cyuv.c">
       <Filter>Source Files\libavcodec</Filter>
     </ClCompile>

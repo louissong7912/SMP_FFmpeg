@@ -444,6 +444,7 @@ static const AVCodec *codec_list[] = {
     &ff_atrac3al_decoder,
     &ff_atrac3p_decoder,
     &ff_atrac3pal_decoder,
+    &ff_atrac9_decoder,
     &ff_binkaudio_dct_decoder,
     &ff_binkaudio_rdft_decoder,
     &ff_bmv_audio_decoder,
