@@ -2867,11 +2867,13 @@ static int decode_vop_header(Mpeg4DecContext *ctx, GetBitContext *gb)
     return 0;
 }
 
-static void read_quant_matrix_ext(MpegEncContext *s, GetBitContext *gb)
+static int read_quant_matrix_ext(MpegEncContext *s, GetBitContext *gb)
 {
     int i, j, v;
 
     if (get_bits1(gb)) {
+        if (get_bits_left(gb) < 64*8)
+            return AVERROR_INVALIDDATA;
         /* intra_quantiser_matrix */
         for (i = 0; i < 64; i++) {
             v = get_bits(gb, 8);
@@ -2882,6 +2884,8 @@ static void read_quant_matrix_ext(MpegEncContext *s, GetBitContext *gb)
     }
 
     if (get_bits1(gb)) {
+        if (get_bits_left(gb) < 64*8)
+            return AVERROR_INVALIDDATA;
         /* non_intra_quantiser_matrix */
         for (i = 0; i < 64; i++) {
             get_bits(gb, 8);
@@ -2889,6 +2893,8 @@ static void read_quant_matrix_ext(MpegEncContext *s, GetBitContext *gb)
     }
 
     if (get_bits1(gb)) {
+        if (get_bits_left(gb) < 64*8)
+            return AVERROR_INVALIDDATA;
         /* chroma_intra_quantiser_matrix */
         for (i = 0; i < 64; i++) {
             v = get_bits(gb, 8);
@@ -2898,6 +2904,8 @@ static void read_quant_matrix_ext(MpegEncContext *s, GetBitContext *gb)
     }
 
     if (get_bits1(gb)) {
+        if (get_bits_left(gb) < 64*8)
+            return AVERROR_INVALIDDATA;
         /* chroma_non_intra_quantiser_matrix */
         for (i = 0; i < 64; i++) {
             get_bits(gb, 8);
@@ -2905,6 +2913,7 @@ static void read_quant_matrix_ext(MpegEncContext *s, GetBitContext *gb)
     }
 
     next_start_code_studio(gb);
+    return 0;
 }
 
 static void extension_and_user_data(MpegEncContext *s, GetBitContext *gb, int id)
@@ -3244,7 +3253,6 @@ end:
     s->avctx->has_b_frames = !s->low_delay;
 
     if (s->studio_profile) {
-        av_assert0(s->avctx->profile == FF_PROFILE_MPEG4_SIMPLE_STUDIO);
         if (!s->avctx->bits_per_raw_sample) {
             av_log(s->avctx, AV_LOG_ERROR, "Missing VOL header\n");
             return AVERROR_INVALIDDATA;
