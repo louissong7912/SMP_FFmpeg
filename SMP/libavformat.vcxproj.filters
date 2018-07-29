@@ -772,6 +772,9 @@
     <ClCompile Include="..\libavformat\movenc.c">
       <Filter>Source Files\libavformat</Filter>
     </ClCompile>
+    <ClCompile Include="..\libavformat\av1.c">
+      <Filter>Source Files\libavformat</Filter>
+    </ClCompile>
     <ClCompile Include="..\libavformat\vpcc.c">
       <Filter>Source Files\libavformat</Filter>
     </ClCompile>

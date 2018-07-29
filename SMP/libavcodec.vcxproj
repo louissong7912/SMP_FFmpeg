@@ -186,6 +186,7 @@
     <ClCompile Include="..\libavcodec\options.c" />
     <ClCompile Include="..\libavcodec\mjpegenc_huffman.c" />
     <ClCompile Include="..\libavcodec\parser.c" />
+    <ClCompile Include="..\libavcodec\parsers.c" />
     <ClCompile Include="..\libavcodec\profiles.c" />
     <ClCompile Include="..\libavcodec\qsv_api.c" />
     <ClCompile Include="..\libavcodec\raw.c" />
@@ -886,6 +887,7 @@
     <ClCompile Include="..\libavcodec\aac_parser.c" />
     <ClCompile Include="..\libavcodec\aac_ac3_parser.c" />
     <ClCompile Include="..\libavcodec\adx_parser.c" />
+    <ClCompile Include="..\libavcodec\avs2_parser.c" />
     <ClCompile Include="..\libavcodec\bmp_parser.c" />
     <ClCompile Include="..\libavcodec\cavs_parser.c" />
     <ClCompile Include="..\libavcodec\cook_parser.c" />
@@ -927,6 +929,7 @@
     <ClCompile Include="..\libavcodec\dca_core_bsf.c" />
     <ClCompile Include="..\libavcodec\eac3_core_bsf.c" />
     <ClCompile Include="..\libavcodec\extract_extradata_bsf.c" />
+    <ClCompile Include="..\libavcodec\av1_parse.c" />
     <ClCompile Include="..\libavcodec\filter_units_bsf.c" />
     <ClCompile Include="..\libavcodec\h264_metadata_bsf.c" />
     <ClCompile Include="..\libavcodec\h264_mp4toannexb_bsf.c" />

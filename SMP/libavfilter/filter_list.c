@@ -195,6 +195,7 @@ static const AVFilter *filter_list[] = {
     &ff_vf_gblur,
     &ff_vf_geq,
     &ff_vf_gradfun,
+    &ff_vf_greyedge,
     &ff_vf_haldclut,
     &ff_vf_hflip,
     &ff_vf_histeq,

@@ -23,6 +23,7 @@ static const AVCodecParser *parser_list[] = {
     &ff_aac_latm_parser,
     &ff_ac3_parser,
     &ff_adx_parser,
+    &ff_avs2_parser,
     &ff_bmp_parser,
     &ff_cavsvideo_parser,
     &ff_cook_parser,

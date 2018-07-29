@@ -271,6 +271,7 @@
     <ClCompile Include="..\libavfilter\vf_framestep.c" />
     <ClCompile Include="..\libavfilter\vf_gblur.c" />
     <ClCompile Include="..\libavfilter\vf_geq.c" />
+    <ClCompile Include="..\libavfilter\vf_colorconstancy.c" />
     <ClCompile Include="..\libavfilter\vf_lut3d.c" />
     <ClCompile Include="..\libavfilter\vf_histeq.c" />
     <ClCompile Include="..\libavfilter\vf_histogram.c" />
