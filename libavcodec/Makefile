@@ -44,6 +44,7 @@ OBJS = ac3_parser.o                                                     \
        options.o                                                        \
        mjpegenc_huffman.o                                               \
        parser.o                                                         \
+       parsers.o                                                        \
        profiles.o                                                       \
        qsv_api.o                                                        \
        raw.o                                                            \
@@ -945,6 +946,7 @@ OBJS-$(CONFIG_LIBAOM_AV1_ENCODER)         += libaomenc.o
 OBJS-$(CONFIG_LIBCELT_DECODER)            += libcelt_dec.o
 OBJS-$(CONFIG_LIBCODEC2_DECODER)          += libcodec2.o codec2utils.o
 OBJS-$(CONFIG_LIBCODEC2_ENCODER)          += libcodec2.o codec2utils.o
+OBJS-$(CONFIG_LIBDAVS2_DECODER)           += libdavs2.o
 OBJS-$(CONFIG_LIBFDK_AAC_DECODER)         += libfdk-aacdec.o
 OBJS-$(CONFIG_LIBFDK_AAC_ENCODER)         += libfdk-aacenc.o
 OBJS-$(CONFIG_LIBGSM_DECODER)             += libgsmdec.o
@@ -995,6 +997,7 @@ OBJS-$(CONFIG_AAC_PARSER)              += aac_parser.o aac_ac3_parser.o \
                                           mpeg4audio.o
 OBJS-$(CONFIG_AC3_PARSER)              += ac3tab.o aac_ac3_parser.o
 OBJS-$(CONFIG_ADX_PARSER)              += adx_parser.o adx.o
+OBJS-$(CONFIG_AVS2_PARSER)             += avs2_parser.o
 OBJS-$(CONFIG_BMP_PARSER)              += bmp_parser.o
 OBJS-$(CONFIG_CAVSVIDEO_PARSER)        += cavs_parser.o
 OBJS-$(CONFIG_COOK_PARSER)             += cook_parser.o
@@ -1046,7 +1049,7 @@ OBJS-$(CONFIG_DUMP_EXTRADATA_BSF)         += dump_extradata_bsf.o
 OBJS-$(CONFIG_DCA_CORE_BSF)               += dca_core_bsf.o
 OBJS-$(CONFIG_EAC3_CORE_BSF)              += eac3_core_bsf.o
 OBJS-$(CONFIG_EXTRACT_EXTRADATA_BSF)      += extract_extradata_bsf.o    \
-                                             h2645_parse.o
+                                             av1_parse.o h2645_parse.o
 OBJS-$(CONFIG_FILTER_UNITS_BSF)           += filter_units_bsf.o
 OBJS-$(CONFIG_H264_METADATA_BSF)          += h264_metadata_bsf.o
 OBJS-$(CONFIG_H264_MP4TOANNEXB_BSF)       += h264_mp4toannexb_bsf.o

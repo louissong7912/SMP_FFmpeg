@@ -226,6 +226,7 @@ External library support:
   --enable-libcelt         enable CELT decoding via libcelt [no]
   --enable-libcdio         enable audio CD grabbing with libcdio [no]
   --enable-libcodec2       enable codec2 en/decoding using libcodec2 [no]
+  --enable-libdavs2        enable AVS2 decoding via libdavs2 [no]
   --enable-libdc1394       enable IIDC-1394 grabbing using libdc1394
                            and libraw1394 [no]
   --enable-libfdk-aac      enable AAC de/encoding via libfdk-aac [no]
@@ -239,6 +240,7 @@ External library support:
   --enable-libilbc         enable iLBC de/encoding via libilbc [no]
   --enable-libjack         enable JACK audio sound server [no]
   --enable-libkvazaar      enable HEVC encoding via libkvazaar [no]
+  --enable-liblensfun      enable lensfun lens correction [no]
   --enable-libmodplug      enable ModPlug via libmodplug [no]
   --enable-libmp3lame      enable MP3 encoding via libmp3lame [no]
   --enable-libopencore-amrnb enable AMR-NB de/encoding via libopencore-amrnb [no]
@@ -1638,6 +1640,7 @@ EXTERNAL_LIBRARY_GPL_LIST="
     avisynth
     frei0r
     libcdio
+    libdavs2
     librubberband
     libvidstab
     libx264
@@ -1656,6 +1659,7 @@ EXTERNAL_LIBRARY_NONFREE_LIST="
 
 EXTERNAL_LIBRARY_VERSION3_LIST="
     gmp
+    liblensfun
     libopencore_amrnb
     libopencore_amrwb
     libvmaf
@@ -3046,9 +3050,11 @@ hevc_videotoolbox_encoder_deps="pthreads"
 hevc_videotoolbox_encoder_select="videotoolbox_encoder"
 libaom_av1_decoder_deps="libaom"
 libaom_av1_encoder_deps="libaom"
+libaom_av1_encoder_select="extract_extradata_bsf"
 libcelt_decoder_deps="libcelt"
 libcodec2_decoder_deps="libcodec2"
 libcodec2_encoder_deps="libcodec2"
+libdavs2_decoder_deps="libdavs2"
 libfdk_aac_decoder_deps="libfdk_aac"
 libfdk_aac_encoder_deps="libfdk_aac"
 libfdk_aac_encoder_select="audio_frame_queue"
@@ -3353,6 +3359,7 @@ hqdn3d_filter_deps="gpl"
 interlace_filter_deps="gpl"
 kerndeint_filter_deps="gpl"
 ladspa_filter_deps="ladspa libdl"
+lensfun_filter_deps="liblensfun version3"
 lv2_filter_deps="lv2"
 mcdeint_filter_deps="avcodec gpl"
 movie_filter_deps="avcodec avformat"
@@ -3675,7 +3682,7 @@ CODEC_LIST="
     $ENCODER_LIST
     $DECODER_LIST
 "
-PARSER_LIST=$(find_things_extern parser AVCodecParser libavcodec/parser.c)
+PARSER_LIST=$(find_things_extern parser AVCodecParser libavcodec/parsers.c)
 BSF_LIST=$(find_things_extern bsf AVBitStreamFilter libavcodec/bitstream_filters.c)
 HWACCEL_LIST=$(find_things_extern hwaccel AVHWAccel libavcodec/hwaccels.h)
 PROTOCOL_LIST=$(find_things_extern protocol URLProtocol libavformat/protocols.c)
@@ -5045,6 +5052,8 @@ case $target_os in
     android)
         disable symver
         enable section_data_rel_ro
+        add_cflags -fPIE
+        add_ldexeflags -fPIE -pie
         SLIB_INSTALL_NAME='$(SLIBNAME)'
         SLIB_INSTALL_LINKS=
         SHFLAGS='-shared -Wl,-soname,$(SLIBNAME)'
@@ -6005,6 +6014,7 @@ enabled libcelt           && require libcelt celt/celt.h celt_decode -lcelt0 &&
                                die "ERROR: libcelt must be installed and version must be >= 0.11.0."; }
 enabled libcaca           && require_pkg_config libcaca caca caca.h caca_create_canvas
 enabled libcodec2         && require libcodec2 codec2/codec2.h codec2_create -lcodec2
+enabled libdavs2          && require_pkg_config libdavs2 "davs2 >= 1.5.115" davs2.h davs2_decoder_open
 enabled libdc1394         && require_pkg_config libdc1394 libdc1394-2 dc1394/dc1394.h dc1394_new
 enabled libdrm            && require_pkg_config libdrm libdrm xf86drm.h drmGetVersion
 enabled libfdk_aac        && { check_pkg_config libfdk_aac fdk-aac "fdk-aac/aacenc_lib.h" aacEncOpen ||
@@ -6023,6 +6033,7 @@ enabled libgsm            && { for gsm_hdr in "gsm.h" "gsm/gsm.h"; do
                                done || die "ERROR: libgsm not found"; }
 enabled libilbc           && require libilbc ilbc.h WebRtcIlbcfix_InitDecode -lilbc $pthreads_extralibs
 enabled libkvazaar        && require_pkg_config libkvazaar "kvazaar >= 0.8.1" kvazaar.h kvz_api_get
+enabled liblensfun        && require_pkg_config liblensfun lensfun lensfun.h lf_db_new
 # While it may appear that require is being used as a pkg-config
 # fallback for libmfx, it is actually being used to detect a different
 # installation route altogether.  If libmfx is installed via the Intel
