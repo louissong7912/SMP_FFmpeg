@@ -95,6 +95,7 @@ static inline int parse_obu_header(const uint8_t *buf, int buf_size,
 {
     GetBitContext gb;
     int ret, extension_flag, has_size_flag;
+    int64_t size;
 
     ret = init_get_bits8(&gb, buf, FFMIN(buf_size, 2 + 8)); // OBU header fields + max leb128 length
     if (ret < 0)
@@ -118,9 +119,18 @@ static inline int parse_obu_header(const uint8_t *buf, int buf_size,
 
     *obu_size  = has_size_flag ? leb128(&gb)
                                : buf_size - 1 - extension_flag;
+
+    if (get_bits_left(&gb) < 0)
+        return AVERROR_INVALIDDATA;
+
     *start_pos = get_bits_count(&gb) / 8;
 
-    return 0;
+    size = *obu_size + *start_pos;
+
+    if (size > INT_MAX)
+        return AVERROR(ERANGE);
+
+    return size;
 }
 
 #endif /* AVCODEC_AV1_PARSE_H */

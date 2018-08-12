@@ -33,14 +33,10 @@ int ff_av1_filter_obus(AVIOContext *pb, const uint8_t *buf, int size)
 
     size = 0;
     while (buf < end) {
-        int ret = parse_obu_header(buf, end - buf, &obu_size, &start_pos,
+        int len = parse_obu_header(buf, end - buf, &obu_size, &start_pos,
                                    &type, &temporal_id, &spatial_id);
-        if (ret < 0)
-            return ret;
-
-        obu_size += start_pos;
-        if (obu_size > INT_MAX)
-            return AVERROR_INVALIDDATA;
+        if (len < 0)
+            return len;
 
         switch (type) {
         case AV1_OBU_TEMPORAL_DELIMITER:
@@ -48,11 +44,11 @@ int ff_av1_filter_obus(AVIOContext *pb, const uint8_t *buf, int size)
         case AV1_OBU_PADDING:
             break;
         default:
-            avio_write(pb, buf, obu_size);
-            size += obu_size;
+            avio_write(pb, buf, len);
+            size += len;
             break;
         }
-        buf += obu_size;
+        buf += len;
     }
 
     return size;
@@ -79,30 +75,71 @@ int ff_av1_filter_obus_buf(const uint8_t *buf, uint8_t **out, int *size)
 
 int ff_isom_write_av1c(AVIOContext *pb, const uint8_t *buf, int size)
 {
+    AVIOContext *seq_pb = NULL, *meta_pb = NULL;
+    uint8_t *seq = NULL, *meta = NULL;
     int64_t obu_size;
     int start_pos, type, temporal_id, spatial_id;
+    int ret, nb_seq = 0, seq_size, meta_size;
+
+    if (size <= 0)
+        return AVERROR_INVALIDDATA;
+
+    ret = avio_open_dyn_buf(&seq_pb);
+    if (ret < 0)
+        return ret;
+    ret = avio_open_dyn_buf(&meta_pb);
+    if (ret < 0)
+        goto fail;
 
     while (size > 0) {
-        int ret = parse_obu_header(buf, size, &obu_size, &start_pos,
+        int len = parse_obu_header(buf, size, &obu_size, &start_pos,
                                    &type, &temporal_id, &spatial_id);
-        if (ret < 0)
-            return ret;
-
-        obu_size += start_pos;
-        if (obu_size > INT_MAX)
-            return AVERROR_INVALIDDATA;
+        if (len < 0) {
+            ret = len;
+            goto fail;
+        }
 
         switch (type) {
         case AV1_OBU_SEQUENCE_HEADER:
+            nb_seq++;
+            if (!obu_size || nb_seq > 1) {
+                ret = AVERROR_INVALIDDATA;
+                goto fail;
+            }
+            avio_write(seq_pb, buf, len);
+            break;
         case AV1_OBU_METADATA:
-            avio_write(pb, buf, obu_size);
+            if (!obu_size) {
+                ret = AVERROR_INVALIDDATA;
+                goto fail;
+            }
+            avio_write(meta_pb, buf, len);
             break;
         default:
             break;
         }
-        size -= obu_size;
-        buf  += obu_size;
+        size -= len;
+        buf  += len;
     }
 
-    return 0;
+    seq_size  = avio_close_dyn_buf(seq_pb, &seq);
+    if (!seq_size) {
+        ret = AVERROR_INVALIDDATA;
+        goto fail;
+    }
+    avio_write(pb, seq, seq_size);
+
+    meta_size = avio_close_dyn_buf(meta_pb, &meta);
+    if (meta_size)
+        avio_write(pb, meta, meta_size);
+
+fail:
+    if (!seq)
+        avio_close_dyn_buf(seq_pb, &seq);
+    if (!meta)
+        avio_close_dyn_buf(meta_pb, &meta);
+    av_free(seq);
+    av_free(meta);
+
+    return ret;
 }
