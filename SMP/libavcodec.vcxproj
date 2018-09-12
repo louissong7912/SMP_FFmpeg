@@ -552,6 +552,7 @@
     <ClCompile Include="..\libavcodec\idcinvideo.c" />
     <ClCompile Include="..\libavcodec\iff.c" />
     <ClCompile Include="..\libavcodec\imc.c" />
+    <ClCompile Include="..\libavcodec\imm4.c" />
     <ClCompile Include="..\libavcodec\indeo2.c" />
     <ClCompile Include="..\libavcodec\indeo3.c" />
     <ClCompile Include="..\libavcodec\indeo4.c" />
@@ -625,6 +626,7 @@
     <ClCompile Include="..\libavcodec\lcldec.c" />
     <ClCompile Include="..\libavcodec\mss4.c" />
     <ClCompile Include="..\libavcodec\mvcdec.c" />
+    <ClCompile Include="..\libavcodec\mwsc.c" />
     <ClCompile Include="..\libavcodec\mxpegdec.c" />
     <ClCompile Include="..\libavcodec\nellymoserdec.c" />
     <ClCompile Include="..\libavcodec\nellymoser.c" />
@@ -658,6 +660,7 @@
     <ClCompile Include="..\libavcodec\proresdata.c" />
     <ClCompile Include="..\libavcodec\proresenc_anatoliy.c" />
     <ClCompile Include="..\libavcodec\proresenc_kostya.c" />
+    <ClCompile Include="..\libavcodec\prosumer.c" />
     <ClCompile Include="..\libavcodec\psd.c" />
     <ClCompile Include="..\libavcodec\ptx.c" />
     <ClCompile Include="..\libavcodec\qcelpdec.c" />
@@ -672,6 +675,7 @@
     <ClCompile Include="..\libavcodec\ra144enc.c" />
     <ClCompile Include="..\libavcodec\ra288.c" />
     <ClCompile Include="..\libavcodec\ralf.c" />
+    <ClCompile Include="..\libavcodec\rasc.c" />
     <ClCompile Include="..\libavcodec\rawdec.c" />
     <ClCompile Include="..\libavcodec\rawenc.c" />
     <ClCompile Include="..\libavcodec\realtextdec.c" />
@@ -799,6 +803,7 @@
     <ClCompile Include="..\libavcodec\vqavideo.c" />
     <ClCompile Include="..\libavcodec\wavpack.c" />
     <ClCompile Include="..\libavcodec\wavpackenc.c" />
+    <ClCompile Include="..\libavcodec\wcmv.c" />
     <ClCompile Include="..\libavcodec\webp.c" />
     <ClCompile Include="..\libavcodec\webvttdec.c" />
     <ClCompile Include="..\libavcodec\webvttenc.c" />

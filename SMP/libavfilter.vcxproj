@@ -123,6 +123,7 @@
     <ClCompile Include="..\libavfilter\af_acopy.c" />
     <ClCompile Include="..\libavfilter\af_afade.c" />
     <ClCompile Include="..\libavfilter\af_acrusher.c" />
+    <ClCompile Include="..\libavfilter\f_cue.c" />
     <ClCompile Include="..\libavfilter\af_adeclick.c" />
     <ClCompile Include="..\libavfilter\af_adelay.c" />
     <ClCompile Include="..\libavfilter\af_aderivative.c" />

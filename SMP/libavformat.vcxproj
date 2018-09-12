@@ -179,6 +179,7 @@
     <ClCompile Include="..\libavformat\voc_packet.c" />
     <ClCompile Include="..\libavformat\vocdec.c" />
     <ClCompile Include="..\libavformat\voc.c" />
+    <ClCompile Include="..\libavformat\davs2.c" />
     <ClCompile Include="..\libavformat\bethsoftvid.c" />
     <ClCompile Include="..\libavformat\bfi.c" />
     <ClCompile Include="..\libavformat\bink.c" />
@@ -302,6 +303,7 @@
     <ClCompile Include="..\libavformat\matroskadec.c" />
     <ClCompile Include="..\libavformat\matroska.c" />
     <ClCompile Include="..\libavformat\matroskaenc.c" />
+    <ClCompile Include="..\libavformat\av1.c" />
     <ClCompile Include="..\libavformat\hevc.c" />
     <ClCompile Include="..\libavformat\wv.c" />
     <ClCompile Include="..\libavformat\webmdashenc.c" />
@@ -316,7 +318,6 @@
     <ClCompile Include="..\libavformat\mmf.c" />
     <ClCompile Include="..\libavformat\mov.c" />
     <ClCompile Include="..\libavformat\movenc.c" />
-    <ClCompile Include="..\libavformat\av1.c" />
     <ClCompile Include="..\libavformat\vpcc.c" />
     <ClCompile Include="..\libavformat\movenchint.c" />
     <ClCompile Include="..\libavformat\movenccenc.c" />
@@ -498,7 +499,6 @@
     <ClCompile Include="..\libavformat\avisynth.c" />
     <ClCompile Include="..\libavformat\libgme.c" />
     <ClCompile Include="..\libavformat\libmodplug.c" />
-    <ClCompile Include="..\libavformat\libssh.c" />
     <ClCompile Include="..\libavformat\async.c" />
     <ClCompile Include="..\libavformat\bluray.c" />
     <ClCompile Include="..\libavformat\cache.c" />
@@ -530,6 +530,7 @@
     <ClCompile Include="..\libavformat\tls.c" />
     <ClCompile Include="..\libavformat\tls_gnutls.c" />
     <ClCompile Include="..\libavformat\udp.c" />
+    <ClCompile Include="..\libavformat\libssh.c" />
     <ClCompile Include="libavformat\golomb_tab_wrap.c" />
     <ClCompile Include="libavformat\log2_tab_wrap.c" />
   </ItemGroup>

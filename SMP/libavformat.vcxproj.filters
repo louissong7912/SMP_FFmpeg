@@ -361,6 +361,9 @@
     <ClCompile Include="..\libavformat\voc.c">
       <Filter>Source Files\libavformat</Filter>
     </ClCompile>
+    <ClCompile Include="..\libavformat\davs2.c">
+      <Filter>Source Files\libavformat</Filter>
+    </ClCompile>
     <ClCompile Include="..\libavformat\bethsoftvid.c">
       <Filter>Source Files\libavformat</Filter>
     </ClCompile>
@@ -730,6 +733,9 @@
     <ClCompile Include="..\libavformat\matroskaenc.c">
       <Filter>Source Files\libavformat</Filter>
     </ClCompile>
+    <ClCompile Include="..\libavformat\av1.c">
+      <Filter>Source Files\libavformat</Filter>
+    </ClCompile>
     <ClCompile Include="..\libavformat\hevc.c">
       <Filter>Source Files\libavformat</Filter>
     </ClCompile>
@@ -770,9 +776,6 @@
       <Filter>Source Files\libavformat</Filter>
     </ClCompile>
     <ClCompile Include="..\libavformat\movenc.c">
-      <Filter>Source Files\libavformat</Filter>
-    </ClCompile>
-    <ClCompile Include="..\libavformat\av1.c">
       <Filter>Source Files\libavformat</Filter>
     </ClCompile>
     <ClCompile Include="..\libavformat\vpcc.c">
@@ -1318,9 +1321,6 @@
     <ClCompile Include="..\libavformat\libmodplug.c">
       <Filter>Source Files\libavformat</Filter>
     </ClCompile>
-    <ClCompile Include="..\libavformat\libssh.c">
-      <Filter>Source Files\libavformat</Filter>
-    </ClCompile>
     <ClCompile Include="..\libavformat\async.c">
       <Filter>Source Files\libavformat</Filter>
     </ClCompile>
@@ -1412,6 +1412,9 @@
       <Filter>Source Files\libavformat</Filter>
     </ClCompile>
     <ClCompile Include="..\libavformat\udp.c">
+      <Filter>Source Files\libavformat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libavformat\libssh.c">
       <Filter>Source Files\libavformat</Filter>
     </ClCompile>
     <ClCompile Include="libavformat\golomb_tab_wrap.c">

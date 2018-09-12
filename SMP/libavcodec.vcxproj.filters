@@ -1479,6 +1479,9 @@
     <ClCompile Include="..\libavcodec\imc.c">
       <Filter>Source Files\libavcodec</Filter>
     </ClCompile>
+    <ClCompile Include="..\libavcodec\imm4.c">
+      <Filter>Source Files\libavcodec</Filter>
+    </ClCompile>
     <ClCompile Include="..\libavcodec\indeo2.c">
       <Filter>Source Files\libavcodec</Filter>
     </ClCompile>
@@ -1698,6 +1701,9 @@
     <ClCompile Include="..\libavcodec\mvcdec.c">
       <Filter>Source Files\libavcodec</Filter>
     </ClCompile>
+    <ClCompile Include="..\libavcodec\mwsc.c">
+      <Filter>Source Files\libavcodec</Filter>
+    </ClCompile>
     <ClCompile Include="..\libavcodec\mxpegdec.c">
       <Filter>Source Files\libavcodec</Filter>
     </ClCompile>
@@ -1797,6 +1803,9 @@
     <ClCompile Include="..\libavcodec\proresenc_kostya.c">
       <Filter>Source Files\libavcodec</Filter>
     </ClCompile>
+    <ClCompile Include="..\libavcodec\prosumer.c">
+      <Filter>Source Files\libavcodec</Filter>
+    </ClCompile>
     <ClCompile Include="..\libavcodec\psd.c">
       <Filter>Source Files\libavcodec</Filter>
     </ClCompile>
@@ -1837,6 +1846,9 @@
       <Filter>Source Files\libavcodec</Filter>
     </ClCompile>
     <ClCompile Include="..\libavcodec\ralf.c">
+      <Filter>Source Files\libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libavcodec\rasc.c">
       <Filter>Source Files\libavcodec</Filter>
     </ClCompile>
     <ClCompile Include="..\libavcodec\rawdec.c">
@@ -2218,6 +2230,9 @@
       <Filter>Source Files\libavcodec</Filter>
     </ClCompile>
     <ClCompile Include="..\libavcodec\wavpackenc.c">
+      <Filter>Source Files\libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libavcodec\wcmv.c">
       <Filter>Source Files\libavcodec</Filter>
     </ClCompile>
     <ClCompile Include="..\libavcodec\webp.c">
