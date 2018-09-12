@@ -551,6 +551,11 @@ Set LFO range.
 Set LFO rate.
 @end table
 
+@section acue
+
+Delay audio filtering until a given wallclock timestamp. See the @ref{cue}
+filter.
+
 @section adeclick
 Remove impulsive noise from input audio.
 
@@ -6987,6 +6992,37 @@ indicates 'never reset', and returns the largest area encountered during
 playback.
 @end table
 
+@anchor{cue}
+@section cue
+
+Delay video filtering until a given wallclock timestamp. The filter first
+passes on @option{preroll} amount of frames, then it buffers at most
+@option{buffer} amount of frames and waits for the cue. After reaching the cue
+it forwards the buffered frames and also any subsequent frames coming in its
+input.
+
+The filter can be used synchronize the output of multiple ffmpeg processes for
+realtime output devices like decklink. By putting the delay in the filtering
+chain and pre-buffering frames the process can pass on data to output almost
+immediately after the target wallclock timestamp is reached.
+
+Perfect frame accuracy cannot be guaranteed, but the result is good enough for
+some use cases.
+
+@table @option
+
+@item cue
+The cue timestamp expressed in a UNIX timestamp in microseconds. Default is 0.
+
+@item preroll
+The duration of content to pass on as preroll expressed in seconds. Default is 0.
+
+@item buffer
+The maximum duration of content to buffer before waiting for the cue expressed
+in seconds. Default is 0.
+
+@end table
+
 @anchor{curves}
 @section curves
 
@@ -9955,13 +9991,13 @@ The order of differentiation to be applied on the scene. Must be chosen in the r
 
 @item minknorm
 The Minkowski parameter to be used for calculating the Minkowski distance. Must
-be chosen in the range [0,65535] and default value is 1. Set to 0 for getting
+be chosen in the range [0,20] and default value is 1. Set to 0 for getting
 max value instead of calculating Minkowski distance.
 
 @item sigma
 The standard deviation of Gaussian blur to be applied on the scene. Must be
-chosen in the range [0,1024.0] and default value = 1. Sigma can't be set to 0
-if @var{difford} is greater than 0.
+chosen in the range [0,1024.0] and default value = 1. floor( @var{sigma} * break_off_sigma(3) )
+can't be euqal to 0 if @var{difford} is greater than 0.
 @end table
 
 @subsection Examples
@@ -10960,6 +10996,37 @@ Set maximal size in number of frames. Default is 0.
 
 @item start
 Set first frame of loop. Default is 0.
+@end table
+
+@section lut1d
+
+Apply a 1D LUT to an input video.
+
+The filter accepts the following options:
+
+@table @option
+@item file
+Set the 1D LUT file name.
+
+Currently supported formats:
+@table @samp
+@item cube
+Iridas
+@end table
+
+@item interp
+Select interpolation mode.
+
+Available values are:
+
+@table @samp
+@item nearest
+Use values from the nearest defined point.
+@item linear
+Interpolate values using the linear interpolation.
+@item cubic
+Interpolate values using the cubic interpolation.
+@end table
 @end table
 
 @anchor{lut3d}
@@ -15403,6 +15470,65 @@ option may cause flicker since the B-Frames have often larger QP. Default is
 @code{0} (not enabled).
 @end table
 
+@section sr
+
+Scale the input by applying one of the super-resolution methods based on
+convolutional neural networks.
+
+Training scripts as well as scripts for model generation are provided in
+the repository at @url{https://github.com/HighVoltageRocknRoll/sr.git}.
+
+The filter accepts the following options:
+
+@table @option
+@item model
+Specify which super-resolution model to use. This option accepts the following values:
+
+@table @samp
+@item srcnn
+Super-Resolution Convolutional Neural Network model.
+See @url{https://arxiv.org/abs/1501.00092}.
+
+@item espcn
+Efficient Sub-Pixel Convolutional Neural Network model.
+See @url{https://arxiv.org/abs/1609.05158}.
+
+@end table
+
+Default value is @samp{srcnn}.
+
+@item dnn_backend
+Specify which DNN backend to use for model loading and execution. This option accepts
+the following values:
+
+@table @samp
+@item native
+Native implementation of DNN loading and execution.
+
+@item tensorflow
+TensorFlow backend. To enable this backend you
+need to install the TensorFlow for C library (see
+@url{https://www.tensorflow.org/install/install_c}) and configure FFmpeg with
+@code{--enable-libtensorflow}
+
+@end table
+
+Default value is @samp{native}.
+
+@item scale_factor
+Set scale factor for SRCNN model, for which custom model file was provided.
+Allowed values are @code{2}, @code{3} and @code{4}. Default value is @code{2}.
+Scale factor is necessary for SRCNN model, because it accepts input upscaled
+using bicubic upscaling with proper scale factor.
+
+@item model_filename
+Set path to model file specifying network architecture and its parameters.
+Note that different backends use different file formats. TensorFlow backend
+can load files for both formats, while native backend can load files for only
+its format.
+
+@end table
+
 @anchor{subtitles}
 @section subtitles
 
@@ -16115,6 +16241,7 @@ embedded peak information in display metadata is not reliable or when tone
 mapping from a lower range to a higher range.
 @end table
 
+@anchor{transpose}
 @section transpose
 
 Transpose rows with columns in the input video and optionally flip it.
@@ -16193,6 +16320,47 @@ The command above can also be specified as:
 @example
 transpose=1:portrait
 @end example
+
+@section transpose_npp
+
+Transpose rows with columns in the input video and optionally flip it.
+For more in depth examples see the @ref{transpose} video filter, which shares mostly the same options.
+
+It accepts the following parameters:
+
+@table @option
+
+@item dir
+Specify the transposition direction.
+
+Can assume the following values:
+@table @samp
+@item cclock_flip
+Rotate by 90 degrees counterclockwise and vertically flip. (default)
+
+@item clock
+Rotate by 90 degrees clockwise.
+
+@item cclock
+Rotate by 90 degrees counterclockwise.
+
+@item clock_flip
+Rotate by 90 degrees clockwise and vertically flip.
+@end table
+
+@item passthrough
+Do not apply the transposition if the input geometry matches the one
+specified by the specified value. It accepts the following values:
+@table @samp
+@item none
+Always apply transposition. (default)
+@item portrait
+Preserve portrait geometry (when @var{height} >= @var{width}).
+@item landscape
+Preserve landscape geometry (when @var{width} >= @var{height}).
+@end table
+
+@end table
 
 @section trim
 Trim the input so that the output contains one continuous subpart of the input.

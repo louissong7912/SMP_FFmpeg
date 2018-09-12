@@ -17,6 +17,16 @@ version <next>:
 - lensfun wrapper filter
 - colorconstancy filter
 - AVS2 video decoder via libdavs2
+- IMM4 video decoder
+- Brooktree ProSumer video decoder
+- MatchWare Screen Capture Codec decoder
+- WinCam Motion Video decoder
+- 1D LUT filter (lut1d)
+- RemotelyAnywhere Screen Capture decoder
+- cue and acue filters
+- support for AV1 in MP4
+- transpose_npp filter
+- AVS2 video encoder via libxavs2
 
 
 version 4.0:
