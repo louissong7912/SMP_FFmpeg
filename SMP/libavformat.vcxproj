@@ -523,6 +523,7 @@
     <ClCompile Include="..\libavformat\rtmpproto.c" />
     <ClCompile Include="..\libavformat\rtmppkt.c" />
     <ClCompile Include="..\libavformat\rtpproto.c" />
+    <ClCompile Include="..\libavformat\ip.c" />
     <ClCompile Include="..\libavformat\srtpproto.c" />
     <ClCompile Include="..\libavformat\subfile.c" />
     <ClCompile Include="..\libavformat\teeproto.c" />

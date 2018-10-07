@@ -429,10 +429,16 @@
     <ClCompile Include="..\libavcodec\cbs.c">
       <Filter>Source Files\libavcodec</Filter>
     </ClCompile>
+    <ClCompile Include="..\libavcodec\cbs_av1.c">
+      <Filter>Source Files\libavcodec</Filter>
+    </ClCompile>
     <ClCompile Include="..\libavcodec\cbs_h2645.c">
       <Filter>Source Files\libavcodec</Filter>
     </ClCompile>
     <ClCompile Include="..\libavcodec\h2645_parse.c">
+      <Filter>Source Files\libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libavcodec\cbs_jpeg.c">
       <Filter>Source Files\libavcodec</Filter>
     </ClCompile>
     <ClCompile Include="..\libavcodec\cbs_mpeg2.c">
@@ -1476,6 +1482,9 @@
     <ClCompile Include="..\libavcodec\iff.c">
       <Filter>Source Files\libavcodec</Filter>
     </ClCompile>
+    <ClCompile Include="..\libavcodec\ilbcdec.c">
+      <Filter>Source Files\libavcodec</Filter>
+    </ClCompile>
     <ClCompile Include="..\libavcodec\imc.c">
       <Filter>Source Files\libavcodec</Filter>
     </ClCompile>
@@ -2499,6 +2508,12 @@
     <ClCompile Include="..\libavcodec\adx_parser.c">
       <Filter>Source Files\libavcodec</Filter>
     </ClCompile>
+    <ClCompile Include="..\libavcodec\av1_parser.c">
+      <Filter>Source Files\libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libavcodec\av1_parse.c">
+      <Filter>Source Files\libavcodec</Filter>
+    </ClCompile>
     <ClCompile Include="..\libavcodec\avs2_parser.c">
       <Filter>Source Files\libavcodec</Filter>
     </ClCompile>
@@ -2610,6 +2625,9 @@
     <ClCompile Include="..\libavcodec\aac_adtstoasc_bsf.c">
       <Filter>Source Files\libavcodec</Filter>
     </ClCompile>
+    <ClCompile Include="..\libavcodec\av1_metadata_bsf.c">
+      <Filter>Source Files\libavcodec</Filter>
+    </ClCompile>
     <ClCompile Include="..\libavcodec\chomp_bsf.c">
       <Filter>Source Files\libavcodec</Filter>
     </ClCompile>
@@ -2625,13 +2643,13 @@
     <ClCompile Include="..\libavcodec\extract_extradata_bsf.c">
       <Filter>Source Files\libavcodec</Filter>
     </ClCompile>
-    <ClCompile Include="..\libavcodec\av1_parse.c">
-      <Filter>Source Files\libavcodec</Filter>
-    </ClCompile>
     <ClCompile Include="..\libavcodec\filter_units_bsf.c">
       <Filter>Source Files\libavcodec</Filter>
     </ClCompile>
     <ClCompile Include="..\libavcodec\h264_metadata_bsf.c">
+      <Filter>Source Files\libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libavcodec\h264_levels.c">
       <Filter>Source Files\libavcodec</Filter>
     </ClCompile>
     <ClCompile Include="..\libavcodec\h264_mp4toannexb_bsf.c">

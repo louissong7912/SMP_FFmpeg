@@ -1393,6 +1393,9 @@
     <ClCompile Include="..\libavformat\rtpproto.c">
       <Filter>Source Files\libavformat</Filter>
     </ClCompile>
+    <ClCompile Include="..\libavformat\ip.c">
+      <Filter>Source Files\libavformat</Filter>
+    </ClCompile>
     <ClCompile Include="..\libavformat\srtpproto.c">
       <Filter>Source Files\libavformat</Filter>
     </ClCompile>

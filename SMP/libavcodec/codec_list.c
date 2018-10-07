@@ -472,6 +472,7 @@ static const AVCodec *codec_list[] = {
     &ff_gsm_decoder,
     &ff_gsm_ms_decoder,
     &ff_iac_decoder,
+    &ff_ilbc_decoder,
     &ff_imc_decoder,
     &ff_interplay_acm_decoder,
     &ff_mace3_decoder,
