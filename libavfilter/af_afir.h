@@ -39,6 +39,9 @@ typedef struct AudioFIRContext {
     float dry_gain;
     float length;
     int again;
+    int gtype;
+    float ir_gain;
+    int ir_format;
     float max_ir_len;
     int response;
     int w, h;
@@ -69,7 +72,7 @@ typedef struct AudioFIRContext {
     float **block;
     FFTComplex **coeff;
 
-    AVAudioFifo *fifo[2];
+    AVAudioFifo *fifo;
     AVFrame *in[2];
     AVFrame *buffer;
     AVFrame *video;

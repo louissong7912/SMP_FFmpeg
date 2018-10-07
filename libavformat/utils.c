@@ -1405,7 +1405,7 @@ static void compute_pkt_fields(AVFormatContext *s, AVStream *st,
             presentation_delayed, delay, av_ts2str(pkt->pts), av_ts2str(pkt->dts), av_ts2str(st->cur_dts));
 
     /* update flags */
-    if (is_intra_only(st->codecpar->codec_id))
+    if (st->codecpar->codec_type == AVMEDIA_TYPE_DATA || is_intra_only(st->codecpar->codec_id))
         pkt->flags |= AV_PKT_FLAG_KEY;
 #if FF_API_CONVERGENCE_DURATION
 FF_DISABLE_DEPRECATION_WARNINGS
@@ -3461,7 +3461,7 @@ static int extract_extradata_check(AVStream *st)
 
 static int extract_extradata_init(AVStream *st)
 {
-    AVStreamInternal *i = st->internal;
+    AVStreamInternal *sti = st->internal;
     const AVBitStreamFilter *f;
     int ret;
 
@@ -3474,70 +3474,66 @@ static int extract_extradata_init(AVStream *st)
     if (!ret)
         goto finish;
 
-    i->extract_extradata.pkt = av_packet_alloc();
-    if (!i->extract_extradata.pkt)
+    sti->extract_extradata.pkt = av_packet_alloc();
+    if (!sti->extract_extradata.pkt)
         return AVERROR(ENOMEM);
 
-    ret = av_bsf_alloc(f, &i->extract_extradata.bsf);
+    ret = av_bsf_alloc(f, &sti->extract_extradata.bsf);
     if (ret < 0)
         goto fail;
 
-    ret = avcodec_parameters_copy(i->extract_extradata.bsf->par_in,
+    ret = avcodec_parameters_copy(sti->extract_extradata.bsf->par_in,
                                   st->codecpar);
     if (ret < 0)
         goto fail;
 
-    i->extract_extradata.bsf->time_base_in = st->time_base;
+    sti->extract_extradata.bsf->time_base_in = st->time_base;
 
-    /* if init fails here, we assume extracting extradata is just not
-     * supported for this codec, so we return success */
-    ret = av_bsf_init(i->extract_extradata.bsf);
-    if (ret < 0) {
-        av_bsf_free(&i->extract_extradata.bsf);
-        ret = 0;
-    }
+    ret = av_bsf_init(sti->extract_extradata.bsf);
+    if (ret < 0)
+        goto fail;
 
 finish:
-    i->extract_extradata.inited = 1;
+    sti->extract_extradata.inited = 1;
 
     return 0;
 fail:
-    av_bsf_free(&i->extract_extradata.bsf);
-    av_packet_free(&i->extract_extradata.pkt);
+    av_bsf_free(&sti->extract_extradata.bsf);
+    av_packet_free(&sti->extract_extradata.pkt);
     return ret;
 }
 
 static int extract_extradata(AVStream *st, AVPacket *pkt)
 {
-    AVStreamInternal *i = st->internal;
+    AVStreamInternal *sti = st->internal;
     AVPacket *pkt_ref;
     int ret;
 
-    if (!i->extract_extradata.inited) {
+    if (!sti->extract_extradata.inited) {
         ret = extract_extradata_init(st);
         if (ret < 0)
             return ret;
     }
 
-    if (i->extract_extradata.inited && !i->extract_extradata.bsf)
+    if (sti->extract_extradata.inited && !sti->extract_extradata.bsf)
         return 0;
 
-    pkt_ref = i->extract_extradata.pkt;
+    pkt_ref = sti->extract_extradata.pkt;
     ret = av_packet_ref(pkt_ref, pkt);
     if (ret < 0)
         return ret;
 
-    ret = av_bsf_send_packet(i->extract_extradata.bsf, pkt_ref);
+    ret = av_bsf_send_packet(sti->extract_extradata.bsf, pkt_ref);
     if (ret < 0) {
         av_packet_unref(pkt_ref);
         return ret;
     }
 
-    while (ret >= 0 && !i->avctx->extradata) {
+    while (ret >= 0 && !sti->avctx->extradata) {
         int extradata_size;
         uint8_t *extradata;
 
-        ret = av_bsf_receive_packet(i->extract_extradata.bsf, pkt_ref);
+        ret = av_bsf_receive_packet(sti->extract_extradata.bsf, pkt_ref);
         if (ret < 0) {
             if (ret != AVERROR(EAGAIN) && ret != AVERROR_EOF)
                 return ret;
@@ -3548,13 +3544,15 @@ static int extract_extradata(AVStream *st, AVPacket *pkt)
                                             &extradata_size);
 
         if (extradata) {
-            i->avctx->extradata = av_mallocz(extradata_size + AV_INPUT_BUFFER_PADDING_SIZE);
-            if (!i->avctx->extradata) {
+            av_assert0(!sti->avctx->extradata);
+            if ((unsigned)extradata_size < FF_MAX_EXTRADATA_SIZE)
+                sti->avctx->extradata = av_mallocz(extradata_size + AV_INPUT_BUFFER_PADDING_SIZE);
+            if (!sti->avctx->extradata) {
                 av_packet_unref(pkt_ref);
                 return AVERROR(ENOMEM);
             }
-            memcpy(i->avctx->extradata, extradata, extradata_size);
-            i->avctx->extradata_size = extradata_size;
+            memcpy(sti->avctx->extradata, extradata, extradata_size);
+            sti->avctx->extradata_size = extradata_size;
         }
         av_packet_unref(pkt_ref);
     }
@@ -4795,6 +4793,40 @@ void av_url_split(char *proto, int proto_size,
             av_strlcpy(hostname, p,
                        FFMIN(ls + 1 - p, hostname_size));
     }
+}
+
+int ff_mkdir_p(const char *path)
+{
+    int ret = 0;
+    char *temp = av_strdup(path);
+    char *pos = temp;
+    char tmp_ch = '\0';
+
+    if (!path || !temp) {
+        return -1;
+    }
+
+    if (!av_strncasecmp(temp, "/", 1) || !av_strncasecmp(temp, "\\", 1)) {
+        pos++;
+    } else if (!av_strncasecmp(temp, "./", 2) || !av_strncasecmp(temp, ".\\", 2)) {
+        pos += 2;
+    }
+
+    for ( ; *pos != '\0'; ++pos) {
+        if (*pos == '/' || *pos == '\\') {
+            tmp_ch = *pos;
+            *pos = '\0';
+            ret = mkdir(temp, 0755);
+            *pos = tmp_ch;
+        }
+    }
+
+    if ((*(pos - 1) != '/') || (*(pos - 1) != '\\')) {
+        ret = mkdir(temp, 0755);
+    }
+
+    av_free(temp);
+    return ret;
 }
 
 char *ff_data_to_hex(char *buff, const uint8_t *src, int s, int lowercase)

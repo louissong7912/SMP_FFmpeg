@@ -596,7 +596,7 @@ OBJS-$(CONFIG_RTMPS_PROTOCOL)            += rtmpproto.o rtmpdigest.o rtmppkt.o
 OBJS-$(CONFIG_RTMPT_PROTOCOL)            += rtmpproto.o rtmpdigest.o rtmppkt.o
 OBJS-$(CONFIG_RTMPTE_PROTOCOL)           += rtmpproto.o rtmpdigest.o rtmppkt.o
 OBJS-$(CONFIG_RTMPTS_PROTOCOL)           += rtmpproto.o rtmpdigest.o rtmppkt.o
-OBJS-$(CONFIG_RTP_PROTOCOL)              += rtpproto.o
+OBJS-$(CONFIG_RTP_PROTOCOL)              += rtpproto.o ip.o
 OBJS-$(CONFIG_SCTP_PROTOCOL)             += sctp.o
 OBJS-$(CONFIG_SRTP_PROTOCOL)             += srtpproto.o srtp.o
 OBJS-$(CONFIG_SUBFILE_PROTOCOL)          += subfile.o
@@ -609,8 +609,8 @@ TLS-OBJS-$(CONFIG_OPENSSL)               += tls_openssl.o
 TLS-OBJS-$(CONFIG_SECURETRANSPORT)       += tls_securetransport.o
 TLS-OBJS-$(CONFIG_SCHANNEL)              += tls_schannel.o
 OBJS-$(CONFIG_TLS_PROTOCOL)              += tls.o $(TLS-OBJS-yes)
-OBJS-$(CONFIG_UDP_PROTOCOL)              += udp.o
-OBJS-$(CONFIG_UDPLITE_PROTOCOL)          += udp.o
+OBJS-$(CONFIG_UDP_PROTOCOL)              += udp.o ip.o
+OBJS-$(CONFIG_UDPLITE_PROTOCOL)          += udp.o ip.o
 OBJS-$(CONFIG_UNIX_PROTOCOL)             += unix.o
 
 # external library protocols

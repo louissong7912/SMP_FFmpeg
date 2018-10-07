@@ -493,6 +493,23 @@ ffmpeg -i first.flac -i second.flac -filter_complex acrossfade=d=10:o=0:c1=exp:c
 @end example
 @end itemize
 
+@section acrossover
+Split audio stream into several bands.
+
+This filter splits audio stream into two or more frequency ranges.
+Summing all streams back will give flat output.
+
+The filter accepts the following options:
+
+@table @option
+@item split
+Set split frequencies. Those must be positive and increasing.
+
+@item order
+Set filter order, can be @var{2nd}, @var{4th} or @var{8th}.
+Default is @var{4th}.
+@end table
+
 @section acrusher
 
 Reduce audio bit resolution.
@@ -938,6 +955,8 @@ select inverted half of sine wave
 select double-exponential seat
 @item desi
 select double-exponential sigmoid
+@item losi
+select logistic sigmoid
 @end table
 @end table
 
@@ -956,6 +975,96 @@ Fade out last 25 seconds of a 900 seconds audio:
 afade=t=out:st=875:d=25
 @end example
 @end itemize
+
+@section afftdn
+Denoise audio samples with FFT.
+
+A description of the accepted parameters follows.
+
+@table @option
+@item nr
+Set the noise reduction in dB, allowed range is 0.01 to 97.
+Default value is 12 dB.
+
+@item nf
+Set the noise floor in dB, allowed range is -80 to -20.
+Default value is -50 dB.
+
+@item nt
+Set the noise type.
+
+It accepts the following values:
+@table @option
+@item w
+Select white noise.
+
+@item v
+Select vinyl noise.
+
+@item s
+Select shellac noise.
+
+@item c
+Select custom noise, defined in @code{bn} option.
+
+Default value is white noise.
+@end table
+
+@item bn
+Set custom band noise for every one of 15 bands.
+Bands are separated by ' ' or '|'.
+
+@item rf
+Set the residual floor in dB, allowed range is -80 to -20.
+Default value is -38 dB.
+
+@item tn
+Enable noise tracking. By default is disabled.
+With this enabled, noise floor is automatically adjusted.
+
+@item tr
+Enable residual tracking. By default is disabled.
+
+@item om
+Set the output mode.
+
+It accepts the following values:
+@table @option
+@item i
+Pass input unchanged.
+
+@item o
+Pass noise filtered out.
+
+@item n
+Pass only noise.
+
+Default value is @var{o}.
+@end table
+@end table
+
+@subsection Commands
+
+This filter supports the following commands:
+@table @option
+@item sample_noise, sn
+Start or stop measuring noise profile.
+Syntax for the command is : "start" or "stop" string.
+After measuring noise profile is stopped it will be
+automatically applied in filtering.
+
+@item noise_reduction, nr
+Change noise reduction. Argument is single float number.
+Syntax for the command is : "@var{noise_reduction}"
+
+@item noise_floor, nf
+Change noise floor. Argument is single float number.
+Syntax for the command is : "@var{noise_floor}"
+
+@item output_mode, om
+Change output mode operation.
+Syntax for the command is : "i", "o" or "n" string.
+@end table
 
 @section afftfilt
 Apply arbitrary expressions to samples in frequency domain.
@@ -1040,7 +1149,7 @@ afftfilt="1-clip((b/nb)*b,0,1)"
 Apply an arbitrary Frequency Impulse Response filter.
 
 This filter is designed for applying long FIR filters,
-up to 30 seconds long.
+up to 60 seconds long.
 
 It can be used as component for digital crossover filters,
 room equalization, cross talk cancellation, wavefield synthesis,
@@ -1065,7 +1174,30 @@ Set wet gain. This sets final output gain.
 Set Impulse Response filter length. Default is 1, which means whole IR is processed.
 
 @item again
-Enable applying gain measured from power of IR.
+Enable applying gain measured from power of IR. For approach to use for measuring power
+of IR see next option.
+
+@item gtype
+Set which approach to use for auto gain measurement.
+
+@table @option
+@item peak
+select peak gain, very conservative approach. This is default value.
+
+@item dc
+select DC gain, limited application.
+
+@item gn
+select gain to noise approach, this is most popular one.
+@end table
+
+@item irgain
+Set gain to be applied to IR coefficients before filtering.
+Allowed range is 0 to 1. This can be set even with @var{again} used.
+
+@item irfmt
+Set format of IR stream. Can be @code{mono} or @code{input}.
+Default is @code{input}.
 
 @item maxir
 Set max allowed Impulse Response filter duration in seconds. Default is 30 seconds.
@@ -1488,6 +1620,15 @@ Specify weight of each input audio stream as sequence.
 Each weight is separated by space. By default all inputs have same weight.
 @end table
 
+@section amultiply
+
+Multiply first audio stream with second audio stream and store result
+in output audio stream. Multiplication is done by multiplying each
+sample from first stream with sample at same position from second stream.
+
+With this element-wise multiplication one can create amplitude fades and
+amplitude modulations.
+
 @section anequalizer
 
 High-order parametric multiband equalizer for each channel.
@@ -1906,6 +2047,8 @@ Flat_factor
 Peak_count
 Bit_depth
 Dynamic_range
+Zero_crossings
+Zero_crossings_rate
 
 and for Overall:
 DC_offset
@@ -1983,6 +2126,12 @@ Overall bit depth of audio. Number of bits used for each sample.
 
 @item Dynamic range
 Measured dynamic range of audio in dB.
+
+@item Zero crossings
+Number of points where the waveform crosses the zero level axis.
+
+@item Zero crossings rate
+Rate of Zero crossings and number of audio samples.
 @end table
 
 @section atempo
@@ -4137,12 +4286,15 @@ The printed times and duration are expressed in seconds.
 The filter accepts the following options:
 
 @table @option
-@item duration, d
-Set silence duration until notification (default is 2 seconds).
-
 @item noise, n
 Set noise tolerance. Can be specified in dB (in case "dB" is appended to the
 specified value) or amplitude ratio. Default is -60dB, or 0.001.
+
+@item duration, d
+Set silence duration until notification (default is 2 seconds).
+
+@item mono, m
+Process each channel separately, instead of combined. By default is disabled.
 @end table
 
 @subsection Examples
@@ -5717,6 +5869,91 @@ blend=all_expr='if(gt(X,Y*(W/H)),A,B)'
 Display differences between the current and the previous frame:
 @example
 tblend=all_mode=grainextract
+@end example
+@end itemize
+
+@section bm3d
+
+Denoise frames using Block-Matching 3D algorithm.
+
+The filter accepts the following options.
+
+@table @option
+@item sigma
+Set denoising strength. Default value is 1.
+Allowed range is from 0 to 999.9.
+The denoising algorith is very sensitive to sigma, so adjust it
+according to the source.
+
+@item block
+Set local patch size. This sets dimensions in 2D.
+
+@item bstep
+Set sliding step for processing blocks. Default value is 4.
+Allowed range is from 1 to 64.
+Smaller values allows processing more reference blocks and is slower.
+
+@item group
+Set maximal number of similar blocks for 3rd dimension. Default value is 1.
+When set to 1, no block matching is done. Larger values allows more blocks
+in single group.
+Allowed range is from 1 to 256.
+
+@item range
+Set radius for search block matching. Default is 9.
+Allowed range is from 1 to INT32_MAX.
+
+@item mstep
+Set step between two search locations for block matching. Default is 1.
+Allowed range is from 1 to 64. Smaller is slower.
+
+@item thmse
+Set threshold of mean square error for block matching. Valid range is 0 to
+INT32_MAX.
+
+@item hdthr
+Set thresholding parameter for hard thresholding in 3D transformed domain.
+Larger values results in stronger hard-thresholding filtering in frequency
+domain.
+
+@item estim
+Set filtering estimation mode. Can be @code{basic} or @code{final}.
+Default is @code{basic}.
+
+@item ref
+If enabled, filter will use 2nd stream for block matching.
+Default is disabled for @code{basic} value of @var{estim} option,
+and always enabled if value of @var{estim} is @code{final}.
+
+@item planes
+Set planes to filter. Default is all available except alpha.
+@end table
+
+@subsection Examples
+
+@itemize
+@item
+Basic filtering with bm3d:
+@example
+bm3d=sigma=3:block=4:bstep=2:group=1:estim=basic
+@end example
+
+@item
+Same as above, but filtering only luma:
+@example
+bm3d=sigma=3:block=4:bstep=2:group=1:estim=basic:planes=1
+@end example
+
+@item
+Same as above, but with both estimation modes:
+@example
+split[a][b],[a]bm3d=sigma=3:block=4:bstep=2:group=1:estim=basic[a],[b][a]bm3d=sigma=3:block=4:bstep=2:group=16:estim=final:ref=1
+@end example
+
+@item
+Same as above, but prefilter with @ref{nlmeans} filter instead:
+@example
+split[a][b],[a]nlmeans=s=3:r=7:p=3[a],[b][a]bm3d=sigma=3:block=4:bstep=2:group=16:estim=final:ref=1
 @end example
 @end itemize
 
@@ -11682,6 +11919,7 @@ It accepts the following option:
 With value 1, it negates the alpha component, if present. Default value is 0.
 @end table
 
+@anchor{nlmeans}
 @section nlmeans
 
 Denoise frames using Non-Local Means algorithm.
@@ -15473,7 +15711,17 @@ option may cause flicker since the B-Frames have often larger QP. Default is
 @section sr
 
 Scale the input by applying one of the super-resolution methods based on
-convolutional neural networks.
+convolutional neural networks. Supported models:
+
+@itemize
+@item
+Super-Resolution Convolutional Neural Network model (SRCNN).
+See @url{https://arxiv.org/abs/1501.00092}.
+
+@item
+Efficient Sub-Pixel Convolutional Neural Network model (ESPCN).
+See @url{https://arxiv.org/abs/1609.05158}.
+@end itemize
 
 Training scripts as well as scripts for model generation are provided in
 the repository at @url{https://github.com/HighVoltageRocknRoll/sr.git}.
@@ -15481,22 +15729,6 @@ the repository at @url{https://github.com/HighVoltageRocknRoll/sr.git}.
 The filter accepts the following options:
 
 @table @option
-@item model
-Specify which super-resolution model to use. This option accepts the following values:
-
-@table @samp
-@item srcnn
-Super-Resolution Convolutional Neural Network model.
-See @url{https://arxiv.org/abs/1501.00092}.
-
-@item espcn
-Efficient Sub-Pixel Convolutional Neural Network model.
-See @url{https://arxiv.org/abs/1609.05158}.
-
-@end table
-
-Default value is @samp{srcnn}.
-
 @item dnn_backend
 Specify which DNN backend to use for model loading and execution. This option accepts
 the following values:
@@ -15510,23 +15742,20 @@ TensorFlow backend. To enable this backend you
 need to install the TensorFlow for C library (see
 @url{https://www.tensorflow.org/install/install_c}) and configure FFmpeg with
 @code{--enable-libtensorflow}
-
 @end table
 
 Default value is @samp{native}.
 
-@item scale_factor
-Set scale factor for SRCNN model, for which custom model file was provided.
-Allowed values are @code{2}, @code{3} and @code{4}. Default value is @code{2}.
-Scale factor is necessary for SRCNN model, because it accepts input upscaled
-using bicubic upscaling with proper scale factor.
-
-@item model_filename
+@item model
 Set path to model file specifying network architecture and its parameters.
 Note that different backends use different file formats. TensorFlow backend
 can load files for both formats, while native backend can load files for only
 its format.
 
+@item scale_factor
+Set scale factor for SRCNN model. Allowed values are @code{2}, @code{3} and @code{4}.
+Default value is @code{2}. Scale factor is necessary for SRCNN model, because it accepts
+input upscaled using bicubic upscaling with proper scale factor.
 @end table
 
 @anchor{subtitles}
@@ -20411,6 +20640,10 @@ each channel is displayed using the fiery color scheme
 each channel is displayed using the fruit color scheme
 @item cool
 each channel is displayed using the cool color scheme
+@item magma
+each channel is displayed using the magma color scheme
+@item green
+each channel is displayed using the green color scheme
 @end table
 
 Default value is @samp{channel}.
@@ -20490,6 +20723,18 @@ Set which data to display. Can be @code{magnitude}, default or @code{phase}.
 @item rotation
 Set color rotation, must be in [-1.0, 1.0] range.
 Default value is @code{0}.
+
+@item start
+Set start frequency from which to display spectrogram. Default is @code{0}.
+
+@item stop
+Set stop frequency to which to display spectrogram. Default is @code{0}.
+
+@item fps
+Set upper frame rate limit. Default is @code{auto}, unlimited.
+
+@item legend
+Draw time and frequency axes and legends. Default is disabled.
 @end table
 
 The usage is very similar to the showwaves filter; see the examples in that
@@ -20560,6 +20805,10 @@ each channel is displayed using the fiery color scheme
 each channel is displayed using the fruit color scheme
 @item cool
 each channel is displayed using the cool color scheme
+@item magma
+each channel is displayed using the magma color scheme
+@item green
+each channel is displayed using the green color scheme
 @end table
 Default value is @samp{intensity}.
 
@@ -20631,6 +20880,12 @@ Draw time and frequency axes and legends. Default is enabled.
 @item rotation
 Set color rotation, must be in [-1.0, 1.0] range.
 Default value is @code{0}.
+
+@item start
+Set start frequency from which to display spectrogram. Default is @code{0}.
+
+@item stop
+Set stop frequency to which to display spectrogram. Default is @code{0}.
 @end table
 
 @subsection Examples

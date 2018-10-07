@@ -211,7 +211,7 @@ static void set_vp9_codec_str(AVFormatContext *s, AVCodecParameters *par,
     VPCC vpcc;
     int ret = ff_isom_get_vpcc_features(s, par, frame_rate, &vpcc);
     if (ret == 0) {
-        av_strlcatf(str, size, "vp09.%02x.%02x.%02x",
+        av_strlcatf(str, size, "vp09.%02d.%02d.%02d",
                     vpcc.profile, vpcc.level, vpcc.bitdepth);
     } else {
         // Default to just vp9 in case of error while finding out profile or level
@@ -1065,7 +1065,7 @@ static int dash_init(AVFormatContext *s)
 
         if (c->segment_type == SEGMENT_TYPE_MP4) {
             if (c->streaming)
-                av_dict_set(&opts, "movflags", "frag_every_frame+dash+delay_moov", 0);
+                av_dict_set(&opts, "movflags", "frag_every_frame+dash+delay_moov+global_sidx", 0);
             else
                 av_dict_set(&opts, "movflags", "frag_custom+dash+delay_moov", 0);
         } else {

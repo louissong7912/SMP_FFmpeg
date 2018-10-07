@@ -30,6 +30,10 @@
 typedef struct VAAPIEncodeMPEG2Context {
     VAAPIEncodeContext common;
 
+    // User options.
+    int profile;
+    int level;
+
     // Derived settings.
     int mb_width;
     int mb_height;
@@ -184,8 +188,8 @@ static int vaapi_encode_mpeg2_init_sequence_params(AVCodecContext *avctx)
     memset(pce,  0, sizeof(*pce));
 
 
-    if (avctx->bit_rate > 0) {
-        priv->bit_rate = (avctx->bit_rate + 399) / 400;
+    if (ctx->va_bit_rate > 0) {
+        priv->bit_rate = (ctx->va_bit_rate + 399) / 400;
     } else {
         // Unknown (not a bitrate-targetting mode), so just use the
         // highest value.
@@ -351,13 +355,13 @@ static int vaapi_encode_mpeg2_init_sequence_params(AVCodecContext *avctx)
 
 
     *vseq = (VAEncSequenceParameterBufferMPEG2) {
-        .intra_period = avctx->gop_size,
+        .intra_period = ctx->gop_size,
         .ip_period    = ctx->b_per_p + 1,
 
         .picture_width  = avctx->width,
         .picture_height = avctx->height,
 
-        .bits_per_second          = avctx->bit_rate,
+        .bits_per_second          = ctx->va_bit_rate,
         .frame_rate               = av_q2d(priv->frame_rate),
         .aspect_ratio_information = sh->aspect_ratio_information,
         .vbv_buffer_size          = priv->vbv_buffer_size,
@@ -552,7 +556,15 @@ static av_cold int vaapi_encode_mpeg2_configure(AVCodecContext *avctx)
     return 0;
 }
 
+static const VAAPIEncodeProfile vaapi_encode_mpeg2_profiles[] = {
+    { FF_PROFILE_MPEG2_MAIN,   8, 3, 1, 1, VAProfileMPEG2Main   },
+    { FF_PROFILE_MPEG2_SIMPLE, 8, 3, 1, 1, VAProfileMPEG2Simple },
+    { FF_PROFILE_UNKNOWN }
+};
+
 static const VAAPIEncodeType vaapi_encode_type_mpeg2 = {
+    .profiles              = vaapi_encode_mpeg2_profiles,
+
     .configure             = &vaapi_encode_mpeg2_configure,
 
     .sequence_params_size  = sizeof(VAEncSequenceParameterBufferMPEG2),
@@ -573,35 +585,18 @@ static const VAAPIEncodeType vaapi_encode_type_mpeg2 = {
 
 static av_cold int vaapi_encode_mpeg2_init(AVCodecContext *avctx)
 {
-    VAAPIEncodeContext *ctx = avctx->priv_data;
+    VAAPIEncodeContext       *ctx = avctx->priv_data;
+    VAAPIEncodeMPEG2Context *priv = avctx->priv_data;
 
     ctx->codec = &vaapi_encode_type_mpeg2;
 
-    switch (avctx->profile) {
-    case FF_PROFILE_MPEG2_SIMPLE:
-        ctx->va_profile = VAProfileMPEG2Simple;
-        break;
-    case FF_PROFILE_MPEG2_MAIN:
-        ctx->va_profile = VAProfileMPEG2Main;
-        break;
-    case FF_PROFILE_MPEG2_422:
-        av_log(avctx, AV_LOG_ERROR, "MPEG-2 4:2:2 profile "
-               "is not supported.\n");
-        return AVERROR_PATCHWELCOME;
-    case FF_PROFILE_MPEG2_HIGH:
-        av_log(avctx, AV_LOG_ERROR, "MPEG-2 high profile "
-               "is not supported.\n");
-        return AVERROR_PATCHWELCOME;
-    case FF_PROFILE_MPEG2_SS:
-    case FF_PROFILE_MPEG2_SNR_SCALABLE:
-        av_log(avctx, AV_LOG_ERROR, "MPEG-2 scalable profiles "
-               "are not supported.\n");
-        return AVERROR_PATCHWELCOME;
-    default:
-        av_log(avctx, AV_LOG_ERROR, "Unknown MPEG-2 profile %d.\n",
-               avctx->profile);
-        return AVERROR(EINVAL);
-    }
+    if (avctx->profile == FF_PROFILE_UNKNOWN)
+        avctx->profile = priv->profile;
+    if (avctx->level == FF_LEVEL_UNKNOWN)
+        avctx->level = priv->level;
+
+    // Reject unknown levels (these are required to set f_code for
+    // motion vector encoding).
     switch (avctx->level) {
     case 4: // High
     case 6: // High 1440
@@ -620,12 +615,8 @@ static av_cold int vaapi_encode_mpeg2_init(AVCodecContext *avctx)
         return AVERROR(EINVAL);
     }
 
-    ctx->va_entrypoint = VAEntrypointEncSlice;
-    ctx->va_rt_format  = VA_RT_FORMAT_YUV420;
-    ctx->va_rc_mode    = VA_RC_CQP;
-
-    ctx->va_packed_headers = VA_ENC_PACKED_HEADER_SEQUENCE |
-                             VA_ENC_PACKED_HEADER_PICTURE;
+    ctx->desired_packed_headers = VA_ENC_PACKED_HEADER_SEQUENCE |
+                                  VA_ENC_PACKED_HEADER_PICTURE;
 
     ctx->surface_width  = FFALIGN(avctx->width,  16);
     ctx->surface_height = FFALIGN(avctx->height, 16);
@@ -642,9 +633,38 @@ static av_cold int vaapi_encode_mpeg2_close(AVCodecContext *avctx)
     return ff_vaapi_encode_close(avctx);
 }
 
+#define OFFSET(x) offsetof(VAAPIEncodeMPEG2Context, x)
+#define FLAGS (AV_OPT_FLAG_VIDEO_PARAM | AV_OPT_FLAG_ENCODING_PARAM)
+static const AVOption vaapi_encode_mpeg2_options[] = {
+    VAAPI_ENCODE_COMMON_OPTIONS,
+
+    { "profile", "Set profile (in profile_and_level_indication)",
+      OFFSET(profile), AV_OPT_TYPE_INT,
+      { .i64 = FF_PROFILE_UNKNOWN }, FF_PROFILE_UNKNOWN, 7, FLAGS, "profile" },
+
+#define PROFILE(name, value)  name, NULL, 0, AV_OPT_TYPE_CONST, \
+      { .i64 = value }, 0, 0, FLAGS, "profile"
+    { PROFILE("simple", FF_PROFILE_MPEG2_SIMPLE) },
+    { PROFILE("main",   FF_PROFILE_MPEG2_MAIN)   },
+#undef PROFILE
+
+    { "level", "Set level (in profile_and_level_indication)",
+      OFFSET(level), AV_OPT_TYPE_INT,
+      { .i64 = 4 }, 0, 15, FLAGS, "level" },
+
+#define LEVEL(name, value) name, NULL, 0, AV_OPT_TYPE_CONST, \
+      { .i64 = value }, 0, 0, FLAGS, "level"
+    { LEVEL("low",       10) },
+    { LEVEL("main",       8) },
+    { LEVEL("high_1440",  6) },
+    { LEVEL("high",       4) },
+#undef LEVEL
+
+    { NULL },
+};
+
 static const AVCodecDefault vaapi_encode_mpeg2_defaults[] = {
-    { "profile",        "4"   },
-    { "level",          "4"   },
+    { "b",              "0"   },
     { "bf",             "1"   },
     { "g",              "120" },
     { "i_qfactor",      "1"   },
@@ -652,7 +672,16 @@ static const AVCodecDefault vaapi_encode_mpeg2_defaults[] = {
     { "b_qfactor",      "6/5" },
     { "b_qoffset",      "0"   },
     { "global_quality", "10"  },
+    { "qmin",           "-1"  },
+    { "qmax",           "-1"  },
     { NULL },
+};
+
+static const AVClass vaapi_encode_mpeg2_class = {
+    .class_name = "mpeg2_vaapi",
+    .item_name  = av_default_item_name,
+    .option     = vaapi_encode_mpeg2_options,
+    .version    = LIBAVUTIL_VERSION_INT,
 };
 
 AVCodec ff_mpeg2_vaapi_encoder = {
@@ -664,6 +693,7 @@ AVCodec ff_mpeg2_vaapi_encoder = {
     .init           = &vaapi_encode_mpeg2_init,
     .encode2        = &ff_vaapi_encode2,
     .close          = &vaapi_encode_mpeg2_close,
+    .priv_class     = &vaapi_encode_mpeg2_class,
     .capabilities   = AV_CODEC_CAP_DELAY | AV_CODEC_CAP_HARDWARE,
     .defaults       = vaapi_encode_mpeg2_defaults,
     .pix_fmts = (const enum AVPixelFormat[]) {

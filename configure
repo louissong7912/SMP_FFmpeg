@@ -2271,8 +2271,10 @@ CONFIG_EXTRA="
     bswapdsp
     cabac
     cbs
+    cbs_av1
     cbs_h264
     cbs_h265
+    cbs_jpeg
     cbs_mpeg2
     cbs_vp9
     dirac_parse
@@ -2534,8 +2536,10 @@ w32threads_deps="atomics_native"
 threads_if_any="$THREADS_LIST"
 
 # subsystems
+cbs_av1_select="cbs"
 cbs_h264_select="cbs golomb"
 cbs_h265_select="cbs golomb"
+cbs_jpeg_select="cbs"
 cbs_mpeg2_select="cbs"
 cbs_vp9_select="cbs"
 dct_select="rdft"
@@ -2742,6 +2746,7 @@ sonic_decoder_select="golomb rangecoder"
 sonic_encoder_select="golomb rangecoder"
 sonic_ls_encoder_select="golomb rangecoder"
 sp5x_decoder_select="mjpeg_decoder"
+speedhq_decoder_select="mpegvideo"
 srgc_decoder_deps="zlib"
 svq1_decoder_select="hpeldsp"
 svq1_encoder_select="hpeldsp me_cmp mpegvideoenc"
@@ -2895,7 +2900,7 @@ vc1_vdpau_hwaccel_deps="vdpau"
 vc1_vdpau_hwaccel_select="vc1_decoder"
 vp8_nvdec_hwaccel_deps="nvdec"
 vp8_nvdec_hwaccel_select="vp8_decoder"
-vp8_vaapi_hwaccel_deps="vaapi VAPictureParameterBufferVP8"
+vp8_vaapi_hwaccel_deps="vaapi"
 vp8_vaapi_hwaccel_select="vp8_decoder"
 vp9_d3d11va_hwaccel_deps="d3d11va DXVA_PicParams_VP9"
 vp9_d3d11va_hwaccel_select="vp9_decoder"
@@ -2950,7 +2955,6 @@ h264_qsv_decoder_select="h264_mp4toannexb_bsf h264_parser qsvdec"
 h264_qsv_encoder_select="qsvenc"
 h264_rkmpp_decoder_deps="rkmpp"
 h264_rkmpp_decoder_select="h264_mp4toannexb_bsf"
-h264_vaapi_encoder_deps="VAEncPictureParameterBufferH264"
 h264_vaapi_encoder_select="cbs_h264 vaapi_encode"
 h264_v4l2m2m_decoder_deps="v4l2_m2m h264_v4l2_m2m"
 h264_v4l2m2m_encoder_deps="v4l2_m2m h264_v4l2_m2m"
@@ -2972,7 +2976,7 @@ mjpeg_cuvid_decoder_deps="cuvid"
 mjpeg_qsv_encoder_deps="libmfx"
 mjpeg_qsv_encoder_select="qsvenc"
 mjpeg_vaapi_encoder_deps="VAEncPictureParameterBufferJPEG"
-mjpeg_vaapi_encoder_select="vaapi_encode jpegtables"
+mjpeg_vaapi_encoder_select="cbs_jpeg jpegtables vaapi_encode"
 mpeg1_cuvid_decoder_deps="cuvid"
 mpeg1_v4l2m2m_decoder_deps="v4l2_m2m mpeg1_v4l2_m2m"
 mpeg2_crystalhd_decoder_select="crystalhd"
@@ -2981,7 +2985,6 @@ mpeg2_mmal_decoder_deps="mmal"
 mpeg2_mediacodec_decoder_deps="mediacodec"
 mpeg2_qsv_decoder_select="qsvdec mpegvideo_parser"
 mpeg2_qsv_encoder_select="qsvenc"
-mpeg2_vaapi_encoder_deps="VAEncPictureParameterBufferMPEG2"
 mpeg2_vaapi_encoder_select="cbs_mpeg2 vaapi_encode"
 mpeg2_v4l2m2m_decoder_deps="v4l2_m2m mpeg2_v4l2_m2m"
 mpeg4_crystalhd_decoder_select="crystalhd"
@@ -3017,6 +3020,7 @@ wmv3_crystalhd_decoder_select="crystalhd"
 
 # parsers
 aac_parser_select="adts_header"
+av1_parser_select="cbs_av1"
 h264_parser_select="golomb h264dsp h264parse"
 hevc_parser_select="hevcparse"
 mpegaudio_parser_select="mpegaudioheader"
@@ -3026,6 +3030,7 @@ vc1_parser_select="vc1dsp"
 
 # bitstream_filters
 aac_adtstoasc_bsf_select="adts_header"
+av1_metadata_bsf_select="cbs_av1"
 eac3_core_bsf_select="ac3_parser"
 filter_units_bsf_select="cbs"
 h264_metadata_bsf_deps="const_nan"
@@ -3338,6 +3343,8 @@ libssh_protocol_deps="libssh"
 libtls_conflict="openssl gnutls mbedtls"
 
 # filters
+afftdn_filter_deps="avcodec"
+afftdn_filter_select="fft"
 afftfilt_filter_deps="avcodec"
 afftfilt_filter_select="fft"
 afir_filter_deps="avcodec"
@@ -3350,6 +3357,8 @@ atempo_filter_select="rdft"
 avgblur_opencl_filter_deps="opencl"
 azmq_filter_deps="libzmq"
 blackframe_filter_deps="gpl"
+bm3d_filter_deps="avcodec"
+bm3d_filter_select="dct"
 boxblur_filter_deps="gpl"
 boxblur_opencl_filter_deps="opencl gpl"
 bs2b_filter_deps="libbs2b"
@@ -3368,7 +3377,7 @@ deconvolve_filter_select="fft"
 deinterlace_qsv_filter_deps="libmfx"
 deinterlace_vaapi_filter_deps="vaapi"
 delogo_filter_deps="gpl"
-denoise_vaapi_filter_deps="vaapi VAProcPipelineParameterBuffer"
+denoise_vaapi_filter_deps="vaapi"
 deshake_filter_select="pixelutils"
 dilation_opencl_filter_deps="opencl"
 drawtext_filter_deps="libfreetype"
@@ -3416,7 +3425,7 @@ phase_filter_deps="gpl"
 pp7_filter_deps="gpl"
 pp_filter_deps="gpl postproc"
 prewitt_opencl_filter_deps="opencl"
-procamp_vaapi_filter_deps="vaapi VAProcPipelineParameterBuffer"
+procamp_vaapi_filter_deps="vaapi"
 program_opencl_filter_deps="opencl"
 pullup_filter_deps="gpl"
 removelogo_filter_deps="avcodec avformat swscale"
@@ -3429,7 +3438,7 @@ scale2ref_filter_deps="swscale"
 scale_filter_deps="swscale"
 scale_qsv_filter_deps="libmfx"
 select_filter_select="pixelutils"
-sharpness_vaapi_filter_deps="vaapi VAProcPipelineParameterBuffer"
+sharpness_vaapi_filter_deps="vaapi"
 showcqt_filter_deps="avcodec avformat swscale"
 showcqt_filter_suggest="libfontconfig libfreetype"
 showcqt_filter_select="fft"
@@ -3468,7 +3477,7 @@ libvmaf_filter_deps="libvmaf pthreads"
 zmq_filter_deps="libzmq"
 zoompan_filter_deps="swscale"
 zscale_filter_deps="libzimg const_nan"
-scale_vaapi_filter_deps="vaapi VAProcPipelineParameterBuffer"
+scale_vaapi_filter_deps="vaapi"
 vpp_qsv_filter_deps="libmfx"
 vpp_qsv_filter_select="qsvvpp"
 
@@ -5951,13 +5960,9 @@ check_type "windows.h d3d11.h" "ID3D11VideoContext"
 check_type "d3d9.h dxva2api.h" DXVA2_ConfigPictureDecode -D_WIN32_WINNT=0x0602
 
 check_type "va/va.h va/va_dec_hevc.h" "VAPictureParameterBufferHEVC"
-check_type "va/va.h va/va_dec_vp8.h" "VAPictureParameterBufferVP8"
 check_struct "va/va.h" "VADecPictureParameterBufferVP9" bit_depth
-check_type "va/va.h va/va_vpp.h" "VAProcPipelineParameterBuffer"
-check_type "va/va.h va/va_enc_h264.h" "VAEncPictureParameterBufferH264"
 check_type "va/va.h va/va_enc_hevc.h" "VAEncPictureParameterBufferHEVC"
 check_type "va/va.h va/va_enc_jpeg.h" "VAEncPictureParameterBufferJPEG"
-check_type "va/va.h va/va_enc_mpeg2.h" "VAEncPictureParameterBufferMPEG2"
 check_type "va/va.h va/va_enc_vp8.h"  "VAEncPictureParameterBufferVP8"
 check_type "va/va.h va/va_enc_vp9.h"  "VAEncPictureParameterBufferVP9"
 
@@ -6040,7 +6045,7 @@ done
 enabled cuda_sdk          && require cuda_sdk cuda.h cuCtxCreate -lcuda
 enabled chromaprint       && require chromaprint chromaprint.h chromaprint_get_version -lchromaprint
 enabled decklink          && { require_headers DeckLinkAPI.h &&
-                               { test_cpp_condition DeckLinkAPIVersion.h "BLACKMAGIC_DECKLINK_API_VERSION >= 0x0a060100" || die "ERROR: Decklink API version must be >= 10.6.1."; } }
+                               { test_cpp_condition DeckLinkAPIVersion.h "BLACKMAGIC_DECKLINK_API_VERSION >= 0x0a090500" || die "ERROR: Decklink API version must be >= 10.9.5."; } }
 enabled libndi_newtek     && require_headers Processing.NDI.Lib.h
 enabled frei0r            && require_headers frei0r.h
 enabled gmp               && require gmp gmp.h mpz_export -lgmp
@@ -6375,18 +6380,17 @@ test_cpp <<EOF && enable uwp && d3d11va_extralibs="-ldxgi -ld3d11"
 EOF
 
 enabled vaapi &&
-    check_lib vaapi va/va.h vaInitialize -lva
-
-enabled vaapi &&
-    check_cc vaapi "va/va.h" "vaCreateSurfaces(0, 0, 0, 0, 0, 0, 0, 0)"
+    check_pkg_config vaapi "libva >= 0.35.0" "va/va.h" vaInitialize
 
 if enabled vaapi; then
-    check_lib vaapi_drm "va/va.h va/va_drm.h" vaGetDisplayDRM -lva -lva-drm
-    check_lib vaapi_x11 "va/va.h va/va_x11.h" vaGetDisplay -lva -lva-x11 -lX11
-fi
+    check_pkg_config vaapi_drm "libva-drm" "va/va_drm.h" vaGetDisplayDRM
 
-enabled vaapi &&
+    if enabled xlib; then
+        check_pkg_config vaapi_x11 "libva-x11" "va/va_x11.h" vaGetDisplay
+    fi
+
     check_cpp_condition vaapi_1 "va/va.h" "VA_CHECK_VERSION(1, 0, 0)"
+fi
 
 if enabled_all opencl libdrm ; then
     check_type "CL/cl_intel.h" "clCreateImageFromFdINTEL_fn" &&
@@ -6859,11 +6863,13 @@ done
 enabled zlib && add_cppflags -DZLIB_CONST
 
 # conditional library dependencies, in any order
+enabled afftdn_filter       && prepend avfilter_deps "avcodec"
 enabled afftfilt_filter     && prepend avfilter_deps "avcodec"
 enabled afir_filter         && prepend avfilter_deps "avcodec"
 enabled amovie_filter       && prepend avfilter_deps "avformat avcodec"
 enabled aresample_filter    && prepend avfilter_deps "swresample"
 enabled atempo_filter       && prepend avfilter_deps "avcodec"
+enabled bm3d_filter         && prepend avfilter_deps "avcodec"
 enabled cover_rect_filter   && prepend avfilter_deps "avformat avcodec"
 enabled convolve_filter     && prepend avfilter_deps "avcodec"
 enabled deconvolve_filter   && prepend avfilter_deps "avcodec"
