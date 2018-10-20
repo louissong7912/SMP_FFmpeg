@@ -33,6 +33,8 @@ version <next>:
 - ilbc decoder
 - audio denoiser as afftdn filter
 - AV1 parser
+- SER demuxer
+- sinc audio filter source
 
 
 version 4.0:
