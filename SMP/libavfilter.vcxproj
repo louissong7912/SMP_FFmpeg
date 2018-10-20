@@ -204,6 +204,7 @@
     <ClCompile Include="..\libavfilter\asrc_anoisesrc.c" />
     <ClCompile Include="..\libavfilter\asrc_anullsrc.c" />
     <ClCompile Include="..\libavfilter\asrc_hilbert.c" />
+    <ClCompile Include="..\libavfilter\asrc_sinc.c" />
     <ClCompile Include="..\libavfilter\asrc_sine.c" />
     <ClCompile Include="..\libavfilter\asink_anullsink.c" />
     <ClCompile Include="..\libavfilter\vf_extractplanes.c" />

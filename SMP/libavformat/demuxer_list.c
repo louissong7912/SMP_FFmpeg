@@ -226,6 +226,7 @@ static const AVInputFormat *demuxer_list[] = {
     &ff_sds_demuxer,
     &ff_sdx_demuxer,
     &ff_segafilm_demuxer,
+    &ff_ser_demuxer,
     &ff_shorten_demuxer,
     &ff_siff_demuxer,
     &ff_sln_demuxer,

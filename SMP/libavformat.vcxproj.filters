@@ -1096,6 +1096,9 @@
     <ClCompile Include="..\libavformat\segment.c">
       <Filter>Source Files\libavformat</Filter>
     </ClCompile>
+    <ClCompile Include="..\libavformat\serdec.c">
+      <Filter>Source Files\libavformat</Filter>
+    </ClCompile>
     <ClCompile Include="..\libavformat\shortendec.c">
       <Filter>Source Files\libavformat</Filter>
     </ClCompile>

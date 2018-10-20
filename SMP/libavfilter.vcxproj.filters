@@ -435,6 +435,9 @@
     <ClCompile Include="..\libavfilter\asrc_hilbert.c">
       <Filter>Source Files\libavfilter</Filter>
     </ClCompile>
+    <ClCompile Include="..\libavfilter\asrc_sinc.c">
+      <Filter>Source Files\libavfilter</Filter>
+    </ClCompile>
     <ClCompile Include="..\libavfilter\asrc_sine.c">
       <Filter>Source Files\libavfilter</Filter>
     </ClCompile>

@@ -80,6 +80,7 @@ EXPORTS
     av_mediacodec_default_free
     av_mediacodec_default_init
     av_mediacodec_release_buffer
+    av_mediacodec_render_buffer_at_time
     av_new_packet
     av_packet_add_side_data
     av_packet_alloc
