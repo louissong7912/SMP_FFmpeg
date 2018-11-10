@@ -19,7 +19,8 @@ Required project dependencies include:
     iconv
     zlib
     lzma
-    sdl
+    libxml2
+    sdl2
     libmp3lame
     libvorbis
     libspeex
@@ -38,13 +39,13 @@ Required project dependencies include:
     libfribidi
     libass
     gnutls
-    librtmp
+    libgcrypt
     libssh
     libcdio
 	libcdio_paranoia
     libbluray
     opengl
-    nvenc
+    ffnvcodec
 	libmfx
 
 Most of the above dependencies are supplied as part of the ShiftMediaProject repositories.
@@ -81,7 +82,7 @@ other sources may result in version mismatch or other issues. Although these ext
 with them are not covered by ShiftMediaProject and so they should be used with discretion.
 	
 
-*** Building with NASM ***
+*** Building with ASM ***
 
 In order to build FFmpeg using msvc you must first download and install NASM.
 NASM is required to compile all assembly files.

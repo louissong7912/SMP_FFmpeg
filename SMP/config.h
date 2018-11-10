@@ -21,7 +21,7 @@
 
 #ifndef SMP_CONFIG_H
 #define SMP_CONFIG_H
-#define FFMPEG_CONFIGURATION "--enable-gpl --enable-version3 --enable-avisynth --enable-libmp3lame --enable-libvorbis --enable-libspeex --enable-libopus --enable-libilbc --enable-libtheora --enable-libx264 --enable-libx265 --enable-libxvid --enable-libvpx --enable-libgme --enable-libmodplug --enable-libsoxr --enable-libfreetype --enable-fontconfig --enable-libfribidi --enable-libass --enable-libxml2 --enable-gnutls --disable-schannel --enable-gmp --enable-libssh --enable-libcdio --enable-libbluray --enable-opengl --enable-libmfx --toolchain=msvc"
+#define FFMPEG_CONFIGURATION "--enable-gpl --enable-version3 --enable-bzlib --enable-iconv --enable-lzma --enable-sdl2 --enable-zlib --enable-avisynth --enable-libmp3lame --enable-libvorbis --enable-libspeex --enable-libopus --enable-libilbc --enable-libtheora --enable-libx264 --enable-libx265 --enable-libxvid --enable-libvpx --enable-libgme --enable-libmodplug --enable-libsoxr --enable-libfreetype --enable-fontconfig --enable-libfribidi --enable-libass --enable-libxml2 --enable-gnutls --disable-schannel --enable-gcrypt --enable-libssh --enable-libcdio --enable-libbluray --enable-opengl --enable-libmfx --enable-ffnvcodec --enable-cuda --enable-amf --toolchain=msvc"
 #define FFMPEG_LICENSE "GPL version 3 or later"
 #define CONFIG_THIS_YEAR 2018
 #define FFMPEG_DATADIR "."
@@ -490,7 +490,7 @@
 #define CONFIG_LIBFDK_AAC 0
 #define CONFIG_OPENSSL 0
 #define CONFIG_LIBTLS 0
-#define CONFIG_GMP 1
+#define CONFIG_GMP 0
 #define CONFIG_LIBLENSFUN 0
 #define CONFIG_LIBOPENCORE_AMRNB 0
 #define CONFIG_LIBOPENCORE_AMRWB 0
@@ -500,7 +500,7 @@
 #define CONFIG_RKMPP 0
 #define CONFIG_LIBSMBCLIENT 0
 #define CONFIG_CHROMAPRINT 0
-#define CONFIG_GCRYPT 0
+#define CONFIG_GCRYPT 1
 #define CONFIG_GNUTLS 1
 #define CONFIG_JNI 0
 #define CONFIG_LADSPA 0
@@ -511,6 +511,7 @@
 #define CONFIG_LIBCACA 0
 #define CONFIG_LIBCELT 0
 #define CONFIG_LIBCODEC2 0
+#define CONFIG_LIBDAV1D 0
 #define CONFIG_LIBDC1394 0
 #define CONFIG_LIBDRM 0
 #define CONFIG_LIBFLITE 0
@@ -1176,6 +1177,7 @@
 #define CONFIG_PCM_U24LE_DECODER 1
 #define CONFIG_PCM_U32BE_DECODER 1
 #define CONFIG_PCM_U32LE_DECODER 1
+#define CONFIG_PCM_VIDC_DECODER 1
 #define CONFIG_PCM_ZORK_DECODER 1
 #define CONFIG_GREMLIN_DPCM_DECODER 1
 #define CONFIG_INTERPLAY_DPCM_DECODER 1
@@ -1263,6 +1265,7 @@
 #define CONFIG_LIBAOM_AV1_DECODER 0
 #define CONFIG_LIBCELT_DECODER 0
 #define CONFIG_LIBCODEC2_DECODER 0
+#define CONFIG_LIBDAV1D_DECODER 0
 #define CONFIG_LIBDAVS2_DECODER 0
 #define CONFIG_LIBFDK_AAC_DECODER 0
 #define CONFIG_LIBGSM_DECODER 0
@@ -1429,6 +1432,7 @@
 #define CONFIG_PCM_U24LE_ENCODER 1
 #define CONFIG_PCM_U32BE_ENCODER 1
 #define CONFIG_PCM_U32LE_ENCODER 1
+#define CONFIG_PCM_VIDC_ENCODER 1
 #define CONFIG_ROQ_DPCM_ENCODER 1
 #define CONFIG_ADPCM_ADX_ENCODER 1
 #define CONFIG_ADPCM_G722_ENCODER 1
@@ -1790,6 +1794,7 @@
 #define CONFIG_BOXBLUR_FILTER 1
 #define CONFIG_BOXBLUR_OPENCL_FILTER 0
 #define CONFIG_BWDIF_FILTER 1
+#define CONFIG_CHROMAHOLD_FILTER 1
 #define CONFIG_CHROMAKEY_FILTER 1
 #define CONFIG_CIESCOPE_FILTER 1
 #define CONFIG_CODECVIEW_FILTER 1
@@ -1860,6 +1865,7 @@
 #define CONFIG_GBLUR_FILTER 1
 #define CONFIG_GEQ_FILTER 1
 #define CONFIG_GRADFUN_FILTER 1
+#define CONFIG_GRAPHMONITOR_FILTER 1
 #define CONFIG_GREYEDGE_FILTER 1
 #define CONFIG_HALDCLUT_FILTER 1
 #define CONFIG_HFLIP_FILTER 1
@@ -1960,6 +1966,7 @@
 #define CONFIG_SEPARATEFIELDS_FILTER 1
 #define CONFIG_SETDAR_FILTER 1
 #define CONFIG_SETFIELD_FILTER 1
+#define CONFIG_SETPARAMS_FILTER 1
 #define CONFIG_SETPTS_FILTER 1
 #define CONFIG_SETRANGE_FILTER 1
 #define CONFIG_SETSAR_FILTER 1
@@ -1996,6 +2003,7 @@
 #define CONFIG_TMIX_FILTER 1
 #define CONFIG_TONEMAP_FILTER 1
 #define CONFIG_TONEMAP_OPENCL_FILTER 0
+#define CONFIG_TPAD_FILTER 1
 #define CONFIG_TRANSPOSE_FILTER 1
 #define CONFIG_TRANSPOSE_NPP_FILTER 0
 #define CONFIG_TRIM_FILTER 1
@@ -2007,6 +2015,7 @@
 #define CONFIG_VECTORSCOPE_FILTER 1
 #define CONFIG_VFLIP_FILTER 1
 #define CONFIG_VFRDET_FILTER 1
+#define CONFIG_VIBRANCE_FILTER 1
 #define CONFIG_VIDSTABDETECT_FILTER 0
 #define CONFIG_VIDSTABTRANSFORM_FILTER 0
 #define CONFIG_VIGNETTE_FILTER 1
@@ -2017,7 +2026,9 @@
 #define CONFIG_WAVEFORM_FILTER 1
 #define CONFIG_WEAVE_FILTER 1
 #define CONFIG_XBR_FILTER 1
+#define CONFIG_XSTACK_FILTER 1
 #define CONFIG_YADIF_FILTER 1
+#define CONFIG_YADIF_CUDA_FILTER 0
 #define CONFIG_ZMQ_FILTER 0
 #define CONFIG_ZOOMPAN_FILTER 1
 #define CONFIG_ZSCALE_FILTER 0
@@ -2044,6 +2055,7 @@
 #define CONFIG_NULLSINK_FILTER 1
 #define CONFIG_ABITSCOPE_FILTER 1
 #define CONFIG_ADRAWGRAPH_FILTER 1
+#define CONFIG_AGRAPHMONITOR_FILTER 1
 #define CONFIG_AHISTOGRAM_FILTER 1
 #define CONFIG_APHASEMETER_FILTER 1
 #define CONFIG_AVECTORSCOPE_FILTER 1
@@ -2221,6 +2233,7 @@
 #define CONFIG_PAF_DEMUXER 1
 #define CONFIG_PCM_ALAW_DEMUXER 1
 #define CONFIG_PCM_MULAW_DEMUXER 1
+#define CONFIG_PCM_VIDC_DEMUXER 1
 #define CONFIG_PCM_F64BE_DEMUXER 1
 #define CONFIG_PCM_F64LE_DEMUXER 1
 #define CONFIG_PCM_F32BE_DEMUXER 1
@@ -2454,6 +2467,7 @@
 #define CONFIG_OPUS_MUXER 1
 #define CONFIG_PCM_ALAW_MUXER 1
 #define CONFIG_PCM_MULAW_MUXER 1
+#define CONFIG_PCM_VIDC_MUXER 1
 #define CONFIG_PCM_F64BE_MUXER 1
 #define CONFIG_PCM_F64LE_MUXER 1
 #define CONFIG_PCM_F32BE_MUXER 1

@@ -277,6 +277,7 @@
     <ClCompile Include="..\libavfilter\vf_framestep.c" />
     <ClCompile Include="..\libavfilter\vf_gblur.c" />
     <ClCompile Include="..\libavfilter\vf_geq.c" />
+    <ClCompile Include="..\libavfilter\f_graphmonitor.c" />
     <ClCompile Include="..\libavfilter\vf_colorconstancy.c" />
     <ClCompile Include="..\libavfilter\vf_lut3d.c" />
     <ClCompile Include="..\libavfilter\vf_histeq.c" />
@@ -337,7 +338,6 @@
     <ClCompile Include="..\libavfilter\vf_selectivecolor.c" />
     <ClCompile Include="..\libavfilter\vf_separatefields.c" />
     <ClCompile Include="..\libavfilter\vf_aspect.c" />
-    <ClCompile Include="..\libavfilter\vf_setfield.c" />
     <ClCompile Include="..\libavfilter\vf_setparams.c" />
     <ClCompile Include="..\libavfilter\vf_showinfo.c" />
     <ClCompile Include="..\libavfilter\vf_showpalette.c" />
@@ -355,6 +355,7 @@
     <ClCompile Include="..\libavfilter\vf_thumbnail.c" />
     <ClCompile Include="..\libavfilter\vf_tile.c" />
     <ClCompile Include="..\libavfilter\vf_tonemap.c" />
+    <ClCompile Include="..\libavfilter\vf_tpad.c" />
     <ClCompile Include="..\libavfilter\vf_transpose.c" />
     <ClCompile Include="..\libavfilter\vf_unsharp.c" />
     <ClCompile Include="..\libavfilter\vf_uspp.c" />
@@ -362,11 +363,13 @@
     <ClCompile Include="..\libavfilter\vf_vectorscope.c" />
     <ClCompile Include="..\libavfilter\vf_vflip.c" />
     <ClCompile Include="..\libavfilter\vf_vfrdet.c" />
+    <ClCompile Include="..\libavfilter\vf_vibrance.c" />
     <ClCompile Include="..\libavfilter\vf_vignette.c" />
     <ClCompile Include="..\libavfilter\vf_vmafmotion.c" />
     <ClCompile Include="..\libavfilter\vf_vpp_qsv.c" />
     <ClCompile Include="..\libavfilter\vf_waveform.c" />
     <ClCompile Include="..\libavfilter\vf_xbr.c" />
+    <ClCompile Include="..\libavfilter\yadif_common.c" />
     <ClCompile Include="..\libavfilter\vf_zoompan.c" />
     <ClCompile Include="..\libavfilter\vsrc_testsrc.c" />
     <ClCompile Include="..\libavfilter\vsrc_cellauto.c" />

@@ -654,6 +654,9 @@
     <ClCompile Include="..\libavfilter\vf_geq.c">
       <Filter>Source Files\libavfilter</Filter>
     </ClCompile>
+    <ClCompile Include="..\libavfilter\f_graphmonitor.c">
+      <Filter>Source Files\libavfilter</Filter>
+    </ClCompile>
     <ClCompile Include="..\libavfilter\vf_colorconstancy.c">
       <Filter>Source Files\libavfilter</Filter>
     </ClCompile>
@@ -834,9 +837,6 @@
     <ClCompile Include="..\libavfilter\vf_aspect.c">
       <Filter>Source Files\libavfilter</Filter>
     </ClCompile>
-    <ClCompile Include="..\libavfilter\vf_setfield.c">
-      <Filter>Source Files\libavfilter</Filter>
-    </ClCompile>
     <ClCompile Include="..\libavfilter\vf_setparams.c">
       <Filter>Source Files\libavfilter</Filter>
     </ClCompile>
@@ -888,6 +888,9 @@
     <ClCompile Include="..\libavfilter\vf_tonemap.c">
       <Filter>Source Files\libavfilter</Filter>
     </ClCompile>
+    <ClCompile Include="..\libavfilter\vf_tpad.c">
+      <Filter>Source Files\libavfilter</Filter>
+    </ClCompile>
     <ClCompile Include="..\libavfilter\vf_transpose.c">
       <Filter>Source Files\libavfilter</Filter>
     </ClCompile>
@@ -909,6 +912,9 @@
     <ClCompile Include="..\libavfilter\vf_vfrdet.c">
       <Filter>Source Files\libavfilter</Filter>
     </ClCompile>
+    <ClCompile Include="..\libavfilter\vf_vibrance.c">
+      <Filter>Source Files\libavfilter</Filter>
+    </ClCompile>
     <ClCompile Include="..\libavfilter\vf_vignette.c">
       <Filter>Source Files\libavfilter</Filter>
     </ClCompile>
@@ -922,6 +928,9 @@
       <Filter>Source Files\libavfilter</Filter>
     </ClCompile>
     <ClCompile Include="..\libavfilter\vf_xbr.c">
+      <Filter>Source Files\libavfilter</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libavfilter\yadif_common.c">
       <Filter>Source Files\libavfilter</Filter>
     </ClCompile>
     <ClCompile Include="..\libavfilter\vf_zoompan.c">

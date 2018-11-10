@@ -8,7 +8,6 @@ fontconfig, ^
 freetype2, ^
 fribidi, ^
 game-music-emu, ^
-gmp, ^
 gnutls, ^
 lame, ^
 libass, ^
@@ -16,6 +15,7 @@ libbluray, ^
 libcdio, ^
 libcdio-paranoia, ^
 libiconv, ^
+libgcrypt, ^
 libilbc, ^
 liblzma, ^
 libssh, ^

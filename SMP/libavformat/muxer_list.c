@@ -119,6 +119,7 @@ static const AVOutputFormat *muxer_list[] = {
     &ff_opus_muxer,
     &ff_pcm_alaw_muxer,
     &ff_pcm_mulaw_muxer,
+    &ff_pcm_vidc_muxer,
     &ff_pcm_f64be_muxer,
     &ff_pcm_f64le_muxer,
     &ff_pcm_f32be_muxer,
