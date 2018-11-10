@@ -111,6 +111,7 @@ typedef struct VPxEncoderContext {
     int row_mt;
     int tune_content;
     int corpus_complexity;
+    int tpl_model;
 } VPxContext;
 
 /** String mappings for enum vp8e_enc_control_id */
@@ -145,6 +146,9 @@ static const char *const ctlidstr[] = {
 #endif
 #ifdef VPX_CTRL_VP9E_SET_TUNE_CONTENT
     [VP9E_SET_TUNE_CONTENT]            = "VP9E_SET_TUNE_CONTENT",
+#endif
+#ifdef VPX_CTRL_VP9E_SET_TPL
+    [VP9E_SET_TPL]                     = "VP9E_SET_TPL",
 #endif
 #endif
 };
@@ -717,6 +721,10 @@ FF_ENABLE_DEPRECATION_WARNINGS
         if (ctx->tune_content >= 0)
             codecctl_int(avctx, VP9E_SET_TUNE_CONTENT, ctx->tune_content);
 #endif
+#ifdef VPX_CTRL_VP9E_SET_TPL
+        if (ctx->tpl_model >= 0)
+            codecctl_int(avctx, VP9E_SET_TPL, ctx->tpl_model);
+#endif
     }
 #endif
 
@@ -1067,8 +1075,6 @@ static int vpx_encode(AVCodecContext *avctx, AVPacket *pkt,
 #define VE AV_OPT_FLAG_VIDEO_PARAM | AV_OPT_FLAG_ENCODING_PARAM
 
 #define COMMON_OPTIONS \
-    { "auto-alt-ref",    "Enable use of alternate reference " \
-                         "frames (2-pass only)",                   OFFSET(auto_alt_ref),    AV_OPT_TYPE_INT, {.i64 = -1},      -1,      2,       VE}, \
     { "lag-in-frames",   "Number of frames to look ahead for " \
                          "alternate reference frame selection",    OFFSET(lag_in_frames),   AV_OPT_TYPE_INT, {.i64 = -1},      -1,      INT_MAX, VE}, \
     { "arnr-maxframes",  "altref noise reduction max frame count", OFFSET(arnr_max_frames), AV_OPT_TYPE_INT, {.i64 = -1},      -1,      INT_MAX, VE}, \
@@ -1112,6 +1118,8 @@ static int vpx_encode(AVCodecContext *avctx, AVPacket *pkt,
 #if CONFIG_LIBVPX_VP8_ENCODER
 static const AVOption vp8_options[] = {
     COMMON_OPTIONS
+    { "auto-alt-ref",    "Enable use of alternate reference "
+                         "frames (2-pass only)",                        OFFSET(auto_alt_ref),    AV_OPT_TYPE_INT, {.i64 = -1}, -1,  2, VE},
     { "cpu-used",        "Quality/Speed ratio modifier",                OFFSET(cpu_used),        AV_OPT_TYPE_INT, {.i64 = 1}, -16, 16, VE},
     LEGACY_OPTIONS
     { NULL }
@@ -1121,6 +1129,8 @@ static const AVOption vp8_options[] = {
 #if CONFIG_LIBVPX_VP9_ENCODER
 static const AVOption vp9_options[] = {
     COMMON_OPTIONS
+    { "auto-alt-ref",    "Enable use of alternate reference "
+                         "frames (2-pass only)",                        OFFSET(auto_alt_ref),    AV_OPT_TYPE_INT, {.i64 = -1}, -1, 6, VE},
     { "cpu-used",        "Quality/Speed ratio modifier",                OFFSET(cpu_used),        AV_OPT_TYPE_INT, {.i64 = 1},  -8, 8, VE},
     { "lossless",        "Lossless mode",                               OFFSET(lossless),        AV_OPT_TYPE_INT, {.i64 = -1}, -1, 1, VE},
     { "tile-columns",    "Number of tile columns to use, log2",         OFFSET(tile_columns),    AV_OPT_TYPE_INT, {.i64 = -1}, -1, 6, VE},
@@ -1156,6 +1166,9 @@ static const AVOption vp9_options[] = {
 #endif
 #if VPX_ENCODER_ABI_VERSION >= 14
     { "corpus-complexity", "corpus vbr complexity midpoint", OFFSET(corpus_complexity), AV_OPT_TYPE_INT, {.i64 = -1}, -1, 10000, VE },
+#endif
+#ifdef VPX_CTRL_VP9E_SET_TPL
+    { "enable-tpl",      "Enable temporal dependency model", OFFSET(tpl_model), AV_OPT_TYPE_BOOL, {.i64 = -1}, -1, 1, VE },
 #endif
     LEGACY_OPTIONS
     { NULL }

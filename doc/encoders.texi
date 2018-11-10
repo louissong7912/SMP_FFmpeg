@@ -1641,6 +1641,7 @@ means unlimited.
 @table @option
 @item auto-alt-ref
 Enable use of alternate reference frames (2-pass only).
+Values greater than 1 enable multi-layer alternate reference frames (VP9 only).
 @item arnr-max-frames
 Set altref noise reduction max frame count.
 @item arnr-type
@@ -1692,6 +1693,8 @@ Corpus VBR mode is a variant of standard VBR where the complexity distribution
 midpoint is passed in rather than calculated for a specific clip or chunk.
 
 The valid range is [0, 10000]. 0 (default) uses standard VBR.
+@item enable-tpl @var{boolean}
+Enable temporal dependency model.
 @end table
 
 @end table
@@ -2598,6 +2601,8 @@ Size / quality tradeoff: higher values are smaller / worse quality.
 @option{b_qfactor} / @option{b_quant_factor}
 @item
 @option{b_qoffset} / @option{b_quant_offset}
+@item
+@option{slices}
 @end itemize
 
 All encoders support the following options:
