@@ -445,6 +445,9 @@
     <ClCompile Include="..\libavformat\dfa.c">
       <Filter>Source Files\libavformat</Filter>
     </ClCompile>
+    <ClCompile Include="..\libavformat\dhav.c">
+      <Filter>Source Files\libavformat</Filter>
+    </ClCompile>
     <ClCompile Include="..\libavformat\diracdec.c">
       <Filter>Source Files\libavformat</Filter>
     </ClCompile>

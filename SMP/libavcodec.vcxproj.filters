@@ -639,6 +639,9 @@
     <ClCompile Include="..\libavcodec\nvenc.c">
       <Filter>Source Files\libavcodec</Filter>
     </ClCompile>
+    <ClCompile Include="..\libavcodec\cuda_check.c">
+      <Filter>Source Files\libavcodec</Filter>
+    </ClCompile>
     <ClCompile Include="..\libavcodec\qsv.c">
       <Filter>Source Files\libavcodec</Filter>
     </ClCompile>
@@ -2370,6 +2373,9 @@
     <ClCompile Include="..\libavcodec\pcm-dvd.c">
       <Filter>Source Files\libavcodec</Filter>
     </ClCompile>
+    <ClCompile Include="..\libavcodec\pcm-dvdenc.c">
+      <Filter>Source Files\libavcodec</Filter>
+    </ClCompile>
     <ClCompile Include="..\libavcodec\adpcm.c">
       <Filter>Source Files\libavcodec</Filter>
     </ClCompile>
@@ -2694,10 +2700,16 @@
     <ClCompile Include="..\libavcodec\null_bsf.c">
       <Filter>Source Files\libavcodec</Filter>
     </ClCompile>
+    <ClCompile Include="..\libavcodec\prores_metadata_bsf.c">
+      <Filter>Source Files\libavcodec</Filter>
+    </ClCompile>
     <ClCompile Include="..\libavcodec\remove_extradata_bsf.c">
       <Filter>Source Files\libavcodec</Filter>
     </ClCompile>
     <ClCompile Include="..\libavcodec\trace_headers_bsf.c">
+      <Filter>Source Files\libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libavcodec\truehd_core_bsf.c">
       <Filter>Source Files\libavcodec</Filter>
     </ClCompile>
     <ClCompile Include="..\libavcodec\vp9_metadata_bsf.c">

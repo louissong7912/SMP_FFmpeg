@@ -124,6 +124,7 @@ static const AVCodec *codec_list[] = {
     &ff_wmav1_encoder,
     &ff_wmav2_encoder,
     &ff_pcm_alaw_encoder,
+    &ff_pcm_dvd_encoder,
     &ff_pcm_f32be_encoder,
     &ff_pcm_f32le_encoder,
     &ff_pcm_f64be_encoder,
