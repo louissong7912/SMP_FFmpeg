@@ -1231,14 +1231,14 @@ Set video stream size. This option is used only when @var{response} is enabled.
 Set video stream frame rate. This option is used only when @var{response} is enabled.
 
 @item minp
-Set minimal partition size used for convolution. Default is @var{16}.
-Allowed range is from @var{16} to @var{65536}.
+Set minimal partition size used for convolution. Default is @var{8192}.
+Allowed range is from @var{16} to @var{32768}.
 Lower values decreases latency at cost of higher CPU usage.
 
 @item maxp
-Set maximal partition size used for convolution. Default is @var{65536}.
-Allowed range is from @var{16} to @var{65536}.
-Lower values decreases latency at cost of higher CPU usage.
+Set maximal partition size used for convolution. Default is @var{8192}.
+Allowed range is from @var{16} to @var{32768}.
+Lower values may increase CPU usage.
 @end table
 
 @subsection Examples
@@ -1776,11 +1776,23 @@ Set the minimum total number of samples in the output audio stream. If
 the value is longer than the input audio length, silence is added to
 the end, until the value is reached. This option is mutually exclusive
 with @option{pad_len}.
+
+@item pad_dur
+Specify the duration of samples of silence to add. See
+@ref{time duration syntax,,the Time duration section in the ffmpeg-utils(1) manual,ffmpeg-utils}
+for the accepted syntax. Used only if set to non-zero value.
+
+@item whole_dur
+Specify the minimum total duration in the output audio stream. See
+@ref{time duration syntax,,the Time duration section in the ffmpeg-utils(1) manual,ffmpeg-utils}
+for the accepted syntax. Used only if set to non-zero value. If the value is longer than
+the input audio length, silence is added to the end, until the value is reached.
+This option is mutually exclusive with @option{pad_dur}
 @end table
 
-If neither the @option{pad_len} nor the @option{whole_len} option is
-set, the filter will add silence to the end of the input stream
-indefinitely.
+If neither the @option{pad_len} nor the @option{whole_len} nor @option{pad_dur}
+nor @option{whole_dur} option is set, the filter will add silence to the end of
+the input stream indefinitely.
 
 @subsection Examples
 
@@ -4494,6 +4506,28 @@ Descriptions with unrecognised channel names are ignored.
 
 @item lfegain
 Set custom gain for LFE channels. Value is in dB. Default is 0.
+
+@item framesize
+Set custom frame size in number of samples. Default is 1024.
+Allowed range is from 1024 to 96000. Only used if option @samp{type}
+is set to @var{freq}.
+
+@item normalize
+Should all IRs be normalized upon importing SOFA file.
+By default is enabled.
+
+@item interpolate
+Should nearest IRs be interpolated with neighbor IRs if exact position
+does not match. By default is disabled.
+
+@item minphase
+Minphase all IRs upon loading of SOFA file. By default is disabled.
+
+@item anglestep
+Set neighbor search angle step. Only used if option @var{interpolate} is enabled.
+
+@item radstep
+Set neighbor search radius step. Only used if option @var{interpolate} is enabled.
 @end table
 
 @subsection Examples
@@ -15303,6 +15337,13 @@ Keep the same colorspace property (default).
 
 Show a line containing various information for each input video frame.
 The input video is not modified.
+
+This filter supports the following options:
+
+@table @option
+@item checksum
+Calculate checksums of each plane. By default enabled.
+@end table
 
 The shown line contains a sequence of key/value pairs of the form
 @var{key}:@var{value}.
