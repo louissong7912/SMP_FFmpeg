@@ -469,6 +469,7 @@
     <ClCompile Include="..\libavformat\vc1dec.c" />
     <ClCompile Include="..\libavformat\vc1test.c" />
     <ClCompile Include="..\libavformat\vc1testenc.c" />
+    <ClCompile Include="..\libavformat\vividas.c" />
     <ClCompile Include="..\libavformat\vivo.c" />
     <ClCompile Include="..\libavformat\sierravmd.c" />
     <ClCompile Include="..\libavformat\vocenc.c" />

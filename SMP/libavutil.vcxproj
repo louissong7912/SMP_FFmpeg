@@ -106,6 +106,7 @@
     <ClCompile Include="..\libavutil\file_open.c" />
     <ClCompile Include="..\libavutil\frame.c" />
     <ClCompile Include="..\libavutil\hash.c" />
+    <ClCompile Include="..\libavutil\hdr_dynamic_metadata.c" />
     <ClCompile Include="..\libavutil\hmac.c" />
     <ClCompile Include="..\libavutil\hwcontext.c" />
     <ClCompile Include="..\libavutil\integer.c" />
@@ -206,6 +207,7 @@
     <ClInclude Include="..\libavutil\file.h" />
     <ClInclude Include="..\libavutil\frame.h" />
     <ClInclude Include="..\libavutil\hash.h" />
+    <ClInclude Include="..\libavutil\hdr_dynamic_metadata.h" />
     <ClInclude Include="..\libavutil\hmac.h" />
     <ClInclude Include="..\libavutil\hwcontext.h" />
     <ClInclude Include="..\libavutil\hwcontext_cuda.h" />
@@ -567,6 +569,7 @@ copy ..\libavutil\fifo.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\file.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\frame.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\hash.h "$(OutDir)"\include\libavutil
+copy ..\libavutil\hdr_dynamic_metadata.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\hmac.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\hwcontext.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\hwcontext_cuda.h "$(OutDir)"\include\libavutil
@@ -711,6 +714,7 @@ copy ..\libavutil\fifo.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\file.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\frame.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\hash.h "$(OutDir)"\include\libavutil
+copy ..\libavutil\hdr_dynamic_metadata.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\hmac.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\hwcontext.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\hwcontext_cuda.h "$(OutDir)"\include\libavutil
@@ -862,6 +866,7 @@ copy ..\libavutil\fifo.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\file.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\frame.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\hash.h "$(OutDir)"\include\libavutil
+copy ..\libavutil\hdr_dynamic_metadata.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\hmac.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\hwcontext.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\hwcontext_cuda.h "$(OutDir)"\include\libavutil
@@ -1011,6 +1016,7 @@ copy ..\libavutil\fifo.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\file.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\frame.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\hash.h "$(OutDir)"\include\libavutil
+copy ..\libavutil\hdr_dynamic_metadata.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\hmac.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\hwcontext.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\hwcontext_cuda.h "$(OutDir)"\include\libavutil
@@ -1162,6 +1168,7 @@ copy ..\libavutil\fifo.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\file.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\frame.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\hash.h "$(OutDir)"\include\libavutil
+copy ..\libavutil\hdr_dynamic_metadata.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\hmac.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\hwcontext.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\hwcontext_cuda.h "$(OutDir)"\include\libavutil
@@ -1311,6 +1318,7 @@ copy ..\libavutil\fifo.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\file.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\frame.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\hash.h "$(OutDir)"\include\libavutil
+copy ..\libavutil\hdr_dynamic_metadata.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\hmac.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\hwcontext.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\hwcontext_cuda.h "$(OutDir)"\include\libavutil
@@ -1461,6 +1469,7 @@ copy ..\libavutil\fifo.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\file.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\frame.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\hash.h "$(OutDir)"\include\libavutil
+copy ..\libavutil\hdr_dynamic_metadata.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\hmac.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\hwcontext.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\hwcontext_cuda.h "$(OutDir)"\include\libavutil
@@ -1609,6 +1618,7 @@ copy ..\libavutil\fifo.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\file.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\frame.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\hash.h "$(OutDir)"\include\libavutil
+copy ..\libavutil\hdr_dynamic_metadata.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\hmac.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\hwcontext.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\hwcontext_cuda.h "$(OutDir)"\include\libavutil
@@ -1765,6 +1775,7 @@ copy ..\libavutil\fifo.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\file.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\frame.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\hash.h "$(OutDir)"\include\libavutil
+copy ..\libavutil\hdr_dynamic_metadata.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\hmac.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\hwcontext.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\hwcontext_cuda.h "$(OutDir)"\include\libavutil
@@ -1920,6 +1931,7 @@ copy ..\libavutil\fifo.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\file.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\frame.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\hash.h "$(OutDir)"\include\libavutil
+copy ..\libavutil\hdr_dynamic_metadata.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\hmac.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\hwcontext.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\hwcontext_cuda.h "$(OutDir)"\include\libavutil
@@ -2076,6 +2088,7 @@ copy ..\libavutil\fifo.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\file.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\frame.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\hash.h "$(OutDir)"\include\libavutil
+copy ..\libavutil\hdr_dynamic_metadata.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\hmac.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\hwcontext.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\hwcontext_cuda.h "$(OutDir)"\include\libavutil
@@ -2231,6 +2244,7 @@ copy ..\libavutil\fifo.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\file.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\frame.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\hash.h "$(OutDir)"\include\libavutil
+copy ..\libavutil\hdr_dynamic_metadata.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\hmac.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\hwcontext.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\hwcontext_cuda.h "$(OutDir)"\include\libavutil
@@ -2379,6 +2393,7 @@ copy ..\libavutil\fifo.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\file.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\frame.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\hash.h "$(OutDir)"\include\libavutil
+copy ..\libavutil\hdr_dynamic_metadata.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\hmac.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\hwcontext.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\hwcontext_cuda.h "$(OutDir)"\include\libavutil
@@ -2527,6 +2542,7 @@ copy ..\libavutil\fifo.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\file.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\frame.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\hash.h "$(OutDir)"\include\libavutil
+copy ..\libavutil\hdr_dynamic_metadata.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\hmac.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\hwcontext.h "$(OutDir)"\include\libavutil
 copy ..\libavutil\hwcontext_cuda.h "$(OutDir)"\include\libavutil

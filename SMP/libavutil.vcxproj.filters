@@ -147,6 +147,9 @@
     <ClCompile Include="..\libavutil\hash.c">
       <Filter>Source Files\libavutil</Filter>
     </ClCompile>
+    <ClCompile Include="..\libavutil\hdr_dynamic_metadata.c">
+      <Filter>Source Files\libavutil</Filter>
+    </ClCompile>
     <ClCompile Include="..\libavutil\hmac.c">
       <Filter>Source Files\libavutil</Filter>
     </ClCompile>
@@ -405,6 +408,9 @@
       <Filter>Header Files\libavutil</Filter>
     </ClInclude>
     <ClInclude Include="..\libavutil\hash.h">
+      <Filter>Header Files\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\libavutil\hdr_dynamic_metadata.h">
       <Filter>Header Files\libavutil</Filter>
     </ClInclude>
     <ClInclude Include="..\libavutil\hmac.h">

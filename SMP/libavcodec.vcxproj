@@ -912,7 +912,9 @@
     <ClCompile Include="..\libavcodec\dvd_nav_parser.c" />
     <ClCompile Include="..\libavcodec\dvdsub_parser.c" />
     <ClCompile Include="..\libavcodec\flac_parser.c" />
+    <ClCompile Include="..\libavcodec\g723_1_parser.c" />
     <ClCompile Include="..\libavcodec\g729_parser.c" />
+    <ClCompile Include="..\libavcodec\gif_parser.c" />
     <ClCompile Include="..\libavcodec\gsm_parser.c" />
     <ClCompile Include="..\libavcodec\h261_parser.c" />
     <ClCompile Include="..\libavcodec\h263_parser.c" />

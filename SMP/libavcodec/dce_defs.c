@@ -3575,6 +3575,7 @@ void ff_vorbisdsp_init_aarch64(VorbisDSPContext *dsp) {return;}
 void ff_vorbisdsp_init_arm(VorbisDSPContext *dsp) {return;}
 void ff_vorbisdsp_init_ppc(VorbisDSPContext *dsp) {return;}
 void ff_vp3dsp_init_arm(VP3DSPContext *c, int flags) {return;}
+void ff_vp3dsp_init_mips(VP3DSPContext *c, int flags) {return;}
 void ff_vp3dsp_init_ppc(VP3DSPContext *c, int flags) {return;}
 void ff_vp6dsp_init_arm(VP56DSPContext *s) {return;}
 void ff_vp78dsp_init_arm(VP8DSPContext *c) {return;}
