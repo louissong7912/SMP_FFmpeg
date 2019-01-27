@@ -40,6 +40,9 @@
     <NASM Include="..\libavfilter\x86\af_afir.asm">
       <Filter>Source Files\libavfilter\x86</Filter>
     </NASM>
+    <NASM Include="..\libavfilter\x86\af_anlmdn.asm">
+      <Filter>Source Files\libavfilter\x86</Filter>
+    </NASM>
     <NASM Include="..\libavfilter\x86\vf_blend.asm">
       <Filter>Source Files\libavfilter\x86</Filter>
     </NASM>
@@ -489,6 +492,9 @@
     <ClCompile Include="..\libavfilter\boxblur.c">
       <Filter>Source Files\libavfilter</Filter>
     </ClCompile>
+    <ClCompile Include="..\libavfilter\yadif_common.c">
+      <Filter>Source Files\libavfilter</Filter>
+    </ClCompile>
     <ClCompile Include="..\libavfilter\vf_chromakey.c">
       <Filter>Source Files\libavfilter</Filter>
     </ClCompile>
@@ -729,6 +735,9 @@
     <ClCompile Include="..\libavfilter\vf_maskedclamp.c">
       <Filter>Source Files\libavfilter</Filter>
     </ClCompile>
+    <ClCompile Include="..\libavfilter\vf_maskfun.c">
+      <Filter>Source Files\libavfilter</Filter>
+    </ClCompile>
     <ClCompile Include="..\libavfilter\vf_mcdeint.c">
       <Filter>Source Files\libavfilter</Filter>
     </ClCompile>
@@ -942,9 +951,6 @@
     <ClCompile Include="..\libavfilter\vf_xbr.c">
       <Filter>Source Files\libavfilter</Filter>
     </ClCompile>
-    <ClCompile Include="..\libavfilter\yadif_common.c">
-      <Filter>Source Files\libavfilter</Filter>
-    </ClCompile>
     <ClCompile Include="..\libavfilter\vf_zoompan.c">
       <Filter>Source Files\libavfilter</Filter>
     </ClCompile>
@@ -1003,6 +1009,9 @@
       <Filter>Source Files\libavfilter\x86</Filter>
     </ClCompile>
     <ClCompile Include="..\libavfilter\x86\af_afir_init.c">
+      <Filter>Source Files\libavfilter\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libavfilter\x86\af_anlmdn_init.c">
       <Filter>Source Files\libavfilter\x86</Filter>
     </ClCompile>
     <ClCompile Include="..\libavfilter\x86\vf_blend_init.c">
@@ -1087,6 +1096,9 @@
       <Filter>Source Files\libavfilter</Filter>
     </ClCompile>
     <ClCompile Include="..\libavfilter\af_afir.c">
+      <Filter>Source Files\libavfilter</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libavfilter\af_anlmdn.c">
       <Filter>Source Files\libavfilter</Filter>
     </ClCompile>
     <ClCompile Include="..\libavfilter\af_volume.c">

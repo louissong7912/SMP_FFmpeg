@@ -71,6 +71,7 @@
   <ItemGroup>
     <NASM Include="..\libavfilter\x86\scene_sad.asm" />
     <NASM Include="..\libavfilter\x86\af_afir.asm" />
+    <NASM Include="..\libavfilter\x86\af_anlmdn.asm" />
     <NASM Include="..\libavfilter\x86\vf_blend.asm" />
     <NASM Include="..\libavfilter\x86\vf_bwdif.asm" />
     <NASM Include="..\libavfilter\x86\colorspacedsp.asm" />
@@ -222,6 +223,7 @@
     <ClCompile Include="..\libavfilter\vf_bm3d.c" />
     <ClCompile Include="..\libavfilter\vf_boxblur.c" />
     <ClCompile Include="..\libavfilter\boxblur.c" />
+    <ClCompile Include="..\libavfilter\yadif_common.c" />
     <ClCompile Include="..\libavfilter\vf_chromakey.c" />
     <ClCompile Include="..\libavfilter\vf_chromashift.c" />
     <ClCompile Include="..\libavfilter\vf_ciescope.c" />
@@ -302,6 +304,7 @@
     <ClCompile Include="..\libavfilter\vf_lut.c" />
     <ClCompile Include="..\libavfilter\vf_lut2.c" />
     <ClCompile Include="..\libavfilter\vf_maskedclamp.c" />
+    <ClCompile Include="..\libavfilter\vf_maskfun.c" />
     <ClCompile Include="..\libavfilter\vf_mcdeint.c" />
     <ClCompile Include="..\libavfilter\vf_mergeplanes.c" />
     <ClCompile Include="..\libavfilter\vf_mestimate.c" />
@@ -373,7 +376,6 @@
     <ClCompile Include="..\libavfilter\vf_vpp_qsv.c" />
     <ClCompile Include="..\libavfilter\vf_waveform.c" />
     <ClCompile Include="..\libavfilter\vf_xbr.c" />
-    <ClCompile Include="..\libavfilter\yadif_common.c" />
     <ClCompile Include="..\libavfilter\vf_zoompan.c" />
     <ClCompile Include="..\libavfilter\vsrc_testsrc.c" />
     <ClCompile Include="..\libavfilter\vsrc_cellauto.c" />
@@ -394,6 +396,7 @@
     <ClCompile Include="..\libavfilter\src_movie.c" />
     <ClCompile Include="..\libavfilter\x86\scene_sad_init.c" />
     <ClCompile Include="..\libavfilter\x86\af_afir_init.c" />
+    <ClCompile Include="..\libavfilter\x86\af_anlmdn_init.c" />
     <ClCompile Include="..\libavfilter\x86\vf_blend_init.c" />
     <ClCompile Include="..\libavfilter\x86\vf_bwdif_init.c" />
     <ClCompile Include="..\libavfilter\x86\colorspacedsp_init.c" />
@@ -425,6 +428,9 @@
     </ClCompile>
     <ClCompile Include="..\libavfilter\af_afir.c">
       <ObjectFileName>$(IntDir)\libavfilter_af_afir.obj</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\libavfilter\af_anlmdn.c">
+      <ObjectFileName>$(IntDir)\libavfilter_af_anlmdn.obj</ObjectFileName>
     </ClCompile>
     <ClCompile Include="..\libavfilter\af_volume.c">
       <ObjectFileName>$(IntDir)\libavfilter_af_volume.obj</ObjectFileName>

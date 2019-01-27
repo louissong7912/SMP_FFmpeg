@@ -263,6 +263,7 @@
     <ClCompile Include="..\libavformat\h261dec.c" />
     <ClCompile Include="..\libavformat\h263dec.c" />
     <ClCompile Include="..\libavformat\h264dec.c" />
+    <ClCompile Include="..\libavformat\hcom.c" />
     <ClCompile Include="..\libavformat\hdsenc.c" />
     <ClCompile Include="..\libavformat\hevcdec.c" />
     <ClCompile Include="..\libavformat\hls.c" />

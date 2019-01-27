@@ -114,6 +114,7 @@ static const AVInputFormat *demuxer_list[] = {
     &ff_h261_demuxer,
     &ff_h263_demuxer,
     &ff_h264_demuxer,
+    &ff_hcom_demuxer,
     &ff_hevc_demuxer,
     &ff_hls_demuxer,
     &ff_hnm_demuxer,

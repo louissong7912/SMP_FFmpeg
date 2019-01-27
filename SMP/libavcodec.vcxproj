@@ -531,6 +531,7 @@
     <ClCompile Include="..\libavcodec\qsvenc_h264.c" />
     <ClCompile Include="..\libavcodec\hapdec.c" />
     <ClCompile Include="..\libavcodec\hap.c" />
+    <ClCompile Include="..\libavcodec\hcom.c" />
     <ClCompile Include="..\libavcodec\hevcdec.c" />
     <ClCompile Include="..\libavcodec\hevc_mvs.c" />
     <ClCompile Include="..\libavcodec\hevc_cabac.c" />

@@ -1416,6 +1416,9 @@
     <ClCompile Include="..\libavcodec\hap.c">
       <Filter>Source Files\libavcodec</Filter>
     </ClCompile>
+    <ClCompile Include="..\libavcodec\hcom.c">
+      <Filter>Source Files\libavcodec</Filter>
+    </ClCompile>
     <ClCompile Include="..\libavcodec\hevcdec.c">
       <Filter>Source Files\libavcodec</Filter>
     </ClCompile>

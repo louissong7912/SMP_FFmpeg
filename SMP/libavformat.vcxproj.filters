@@ -613,6 +613,9 @@
     <ClCompile Include="..\libavformat\h264dec.c">
       <Filter>Source Files\libavformat</Filter>
     </ClCompile>
+    <ClCompile Include="..\libavformat\hcom.c">
+      <Filter>Source Files\libavformat</Filter>
+    </ClCompile>
     <ClCompile Include="..\libavformat\hdsenc.c">
       <Filter>Source Files\libavformat</Filter>
     </ClCompile>
