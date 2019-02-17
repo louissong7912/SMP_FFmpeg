@@ -218,6 +218,7 @@ External library support:
   --enable-jni             enable JNI support [no]
   --enable-ladspa          enable LADSPA audio filtering [no]
   --enable-libaom          enable AV1 video encoding/decoding via libaom [no]
+  --enable-libaribb24      enable ARIB text and caption decoding via libaribb24 [no]
   --enable-libass          enable libass subtitles rendering,
                            needed for subtitles and ass filter [no]
   --enable-libbluray       enable BluRay reading using libbluray [no]
@@ -648,12 +649,26 @@ request(){
     done
 }
 
+warn_if_gets_disabled(){
+    for var in $*; do
+        WARN_IF_GETS_DISABLED_LIST="$WARN_IF_GETS_DISABLED_LIST $var"
+    done
+}
+
 enable(){
     set_all yes $*
 }
 
 disable(){
     set_all no $*
+}
+
+disable_with_reason(){
+    disable $1
+    eval "${1}_disable_reason=\"$2\""
+    if requested $1; then
+        die "ERROR: $1 requested, but $2"
+    fi
 }
 
 enable_weak(){
@@ -784,10 +799,10 @@ check_deps(){
 
             [ -n "$dep_ifa" ] && { enabled_all $dep_ifa && enable_weak $cfg; }
             [ -n "$dep_ifn" ] && { enabled_any $dep_ifn && enable_weak $cfg; }
-            enabled_all  $dep_all || { disable $cfg && requested $cfg && die "ERROR: $cfg requested, but not all dependencies are satisfied: $dep_all"; }
-            enabled_any  $dep_any || { disable $cfg && requested $cfg && die "ERROR: $cfg requested, but not any dependency is satisfied: $dep_any"; }
-            disabled_all $dep_con || { disable $cfg && requested $cfg && die "ERROR: $cfg requested, but some conflicting dependencies are unsatisfied: $dep_con"; }
-            disabled_any $dep_sel && { disable $cfg && requested $cfg && die "ERROR: $cfg requested, but some selected dependency is unsatisfied: $dep_sel"; }
+            enabled_all  $dep_all || { disable_with_reason $cfg "not all dependencies are satisfied: $dep_all"; }
+            enabled_any  $dep_any || { disable_with_reason $cfg "not any dependency is satisfied: $dep_any"; }
+            disabled_all $dep_con || { disable_with_reason $cfg "some conflicting dependencies are unsatisfied: $dep_con"; }
+            disabled_any $dep_sel && { disable_with_reason $cfg "some selected dependency is unsatisfied: $dep_sel"; }
 
             enabled $cfg && enable_deep_weak $dep_sel $dep_sgs
 
@@ -1683,6 +1698,7 @@ EXTERNAL_LIBRARY_NONFREE_LIST="
 
 EXTERNAL_LIBRARY_VERSION3_LIST="
     gmp
+    libaribb24
     liblensfun
     libopencore_amrnb
     libopencore_amrwb
@@ -2683,7 +2699,7 @@ mjpeg_decoder_select="blockdsp hpeldsp exif idctdsp jpegtables"
 mjpeg_encoder_select="jpegtables mpegvideoenc"
 mjpegb_decoder_select="mjpeg_decoder"
 mlp_decoder_select="mlp_parser"
-mlp_encoder_select="lpc"
+mlp_encoder_select="lpc audio_frame_queue"
 motionpixels_decoder_select="bswapdsp"
 mp1_decoder_select="mpegaudio"
 mp1float_decoder_select="mpegaudio"
@@ -2765,7 +2781,7 @@ thp_decoder_select="mjpeg_decoder"
 tiff_decoder_suggest="zlib lzma"
 tiff_encoder_suggest="zlib"
 truehd_decoder_select="mlp_parser"
-truehd_encoder_select="lpc"
+truehd_encoder_select="lpc audio_frame_queue"
 truemotion2_decoder_select="bswapdsp"
 truespeech_decoder_select="bswapdsp"
 tscc_decoder_deps="zlib"
@@ -3094,6 +3110,7 @@ hevc_videotoolbox_encoder_select="videotoolbox_encoder"
 libaom_av1_decoder_deps="libaom"
 libaom_av1_encoder_deps="libaom"
 libaom_av1_encoder_select="extract_extradata_bsf"
+libaribb24_decoder_deps="libaribb24"
 libcelt_decoder_deps="libcelt"
 libcodec2_decoder_deps="libcodec2"
 libcodec2_encoder_deps="libcodec2"
@@ -3880,6 +3897,7 @@ for opt do
             name=$(echo "${optval}" | sed "s/,/_${thing}|/g")_${thing}
             list=$(filter "$name" $list)
             [ "$list" = "" ] && warn "Option $opt did not match anything"
+            test $action = enable && warn_if_gets_disabled $list
             $action $list
         ;;
         --enable-yasm|--disable-yasm)
@@ -6080,6 +6098,9 @@ enabled gnutls            && require_pkg_config gnutls gnutls gnutls/gnutls.h gn
 enabled jni               && { [ $target_os = "android" ] && check_headers jni.h && enabled pthreads || die "ERROR: jni not found"; }
 enabled ladspa            && require_headers "ladspa.h dlfcn.h"
 enabled libaom            && require_pkg_config libaom "aom >= 1.0.0" aom/aom_codec.h aom_codec_version
+enabled libaribb24        && { check_pkg_config libaribb24 "aribb24 > 1.0.3" "aribb24/aribb24.h" arib_instance_new ||
+                               { enabled gpl && require_pkg_config libaribb24 aribb24 "aribb24/aribb24.h" arib_instance_new; } ||
+                               die "ERROR: libaribb24 requires version higher than 1.0.3 or --enable-gpl."; }
 enabled lv2               && require_pkg_config lv2 lilv-0 "lilv/lilv.h" lilv_world_new
 enabled libiec61883       && require libiec61883 libiec61883/iec61883.h iec61883_cmp_connect -lraw1394 -lavc1394 -lrom1394 -liec61883
 enabled libass            && require_pkg_config libass libass ass/ass.h ass_library_init
@@ -7102,6 +7123,15 @@ fi
 echo "License: $license"
 
 fi # test "$quiet" != "yes"
+
+if test -n "$WARN_IF_GETS_DISABLED_LIST"; then
+    for cfg in $WARN_IF_GETS_DISABLED_LIST; do
+        if disabled $cfg; then
+            varname=${cfg}_disable_reason
+            eval "warn \"Disabled $cfg because \$$varname\""
+        fi
+    done
+fi
 
 if test -n "$WARNINGS"; then
     printf "\n%s%s$WARNINGS%s" "$warn_color" "$bold_color" "$reset_color"

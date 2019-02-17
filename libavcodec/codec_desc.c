@@ -1698,6 +1698,13 @@ static const AVCodecDescriptor codec_descriptors[] = {
         .long_name = NULL_IF_CONFIG_SMALL("HuffYUV MT"),
         .props     = AV_CODEC_PROP_INTRA_ONLY | AV_CODEC_PROP_LOSSLESS,
     },
+    {
+        .id        = AV_CODEC_ID_ARBC,
+        .type      = AVMEDIA_TYPE_VIDEO,
+        .name      = "arbc",
+        .long_name = NULL_IF_CONFIG_SMALL("Gryphon's Anim Compressor"),
+        .props     = AV_CODEC_PROP_LOSSY,
+    },
 
     /* various PCM "codecs" */
     {
@@ -3126,7 +3133,14 @@ static const AVCodecDescriptor codec_descriptors[] = {
         .long_name = NULL_IF_CONFIG_SMALL("Timed Text Markup Language"),
         .props     = AV_CODEC_PROP_TEXT_SUB,
     },
-
+    {
+        .id        = AV_CODEC_ID_ARIB_CAPTION,
+        .type      = AVMEDIA_TYPE_SUBTITLE,
+        .name      = "arib_caption",
+        .long_name = NULL_IF_CONFIG_SMALL("ARIB STD-B24 caption"),
+        .props     = AV_CODEC_PROP_TEXT_SUB,
+        .profiles  = NULL_IF_CONFIG_SMALL(ff_arib_caption_profiles),
+    },
 
     /* other kind of codecs and pseudo-codecs */
     {
