@@ -143,7 +143,6 @@
     <ClCompile Include="..\libavutil\xtea.c" />
     <ClCompile Include="..\libavutil\tea.c" />
     <ClCompile Include="..\libavutil\hwcontext_cuda.c" />
-    <ClCompile Include="..\libavutil\cuda_check.c" />
     <ClCompile Include="..\libavutil\hwcontext_dxva2.c" />
     <ClCompile Include="..\libavutil\lzo.c" />
     <ClCompile Include="..\libavutil\hwcontext_qsv.c" />

@@ -272,7 +272,6 @@
     <ClCompile Include="..\libavcodec\ratecontrol.c" />
     <ClCompile Include="..\libavcodec\mss34dsp.c" />
     <ClCompile Include="..\libavcodec\nvenc.c" />
-    <ClCompile Include="..\libavcodec\cuda_check.c" />
     <ClCompile Include="..\libavcodec\qsv.c" />
     <ClCompile Include="..\libavcodec\qsvdec.c" />
     <ClCompile Include="..\libavcodec\qsvenc.c" />
@@ -348,6 +347,7 @@
     <ClCompile Include="..\libavcodec\png.c" />
     <ClCompile Include="..\libavcodec\pngdec.c" />
     <ClCompile Include="..\libavcodec\pngenc.c" />
+    <ClCompile Include="..\libavcodec\arbc.c" />
     <ClCompile Include="..\libavcodec\assdec.c" />
     <ClCompile Include="..\libavcodec\ass.c" />
     <ClCompile Include="..\libavcodec\assenc.c" />

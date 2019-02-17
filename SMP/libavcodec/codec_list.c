@@ -203,6 +203,7 @@ static const AVCodec *codec_list[] = {
     &ff_anm_decoder,
     &ff_ansi_decoder,
     &ff_apng_decoder,
+    &ff_arbc_decoder,
     &ff_asv1_decoder,
     &ff_asv2_decoder,
     &ff_aura_decoder,

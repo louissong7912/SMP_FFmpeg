@@ -3578,8 +3578,10 @@ void ff_vp3dsp_init_arm(VP3DSPContext *c, int flags) {return;}
 void ff_vp3dsp_init_mips(VP3DSPContext *c, int flags) {return;}
 void ff_vp3dsp_init_ppc(VP3DSPContext *c, int flags) {return;}
 void ff_vp6dsp_init_arm(VP56DSPContext *s) {return;}
+void ff_vp78dsp_init_aarch64(VP8DSPContext *c) {return;}
 void ff_vp78dsp_init_arm(VP8DSPContext *c) {return;}
 void ff_vp78dsp_init_ppc(VP8DSPContext *c) {return;}
+void ff_vp8dsp_init_aarch64(VP8DSPContext *c) {return;}
 void ff_vp8dsp_init_arm(VP8DSPContext *c) {return;}
 void ff_vp8dsp_init_mips(VP8DSPContext *c) {return;}
 #if !(ARCH_X86_64)
