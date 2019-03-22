@@ -1773,6 +1773,23 @@ Default value is 2 milliseconds.
 @item r
 Set research radius duration. Allowed range is from 2 to 300 milliseconds.
 Default value is 6 milliseconds.
+
+@item o
+Set the output mode.
+
+It accepts the following values:
+@table @option
+@item i
+Pass input unchanged.
+
+@item o
+Pass noise filtered out.
+
+@item n
+Pass only noise.
+
+Default value is @var{o}.
+@end table
 @end table
 
 @section anull
@@ -2139,6 +2156,17 @@ For description what each key means read below.
 @item reset
 Set number of frame after which stats are going to be recalculated.
 Default is disabled.
+
+@item measure_perchannel
+Select the entries which need to be measured per channel. The metadata keys can
+be used as flags, default is @option{all} which measures everything.
+@option{none} disables all per channel measurement.
+
+@item measure_overall
+Select the entries which need to be measured overall. The metadata keys can
+be used as flags, default is @option{all} which measures everything.
+@option{none} disables all overall measurement.
+
 @end table
 
 A description of each shown parameter follows:
@@ -5650,6 +5678,11 @@ Set factor to amplify difference. Default is 2. Allowed range is from 0 to 65535
 @item threshold
 Set threshold for difference amplification. Any difference greater or equal to
 this value will not alter source pixel. Default is 10.
+Allowed range is from 0 to 65535.
+
+@item tolerance
+Set tolerance for difference amplification. Any difference lower to
+this value will not alter source pixel. Default is 0.
 Allowed range is from 0 to 65535.
 
 @item low
