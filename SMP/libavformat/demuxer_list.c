@@ -136,6 +136,7 @@ static const AVInputFormat *demuxer_list[] = {
     &ff_ivr_demuxer,
     &ff_jacosub_demuxer,
     &ff_jv_demuxer,
+    &ff_kux_demuxer,
     &ff_lmlm4_demuxer,
     &ff_loas_demuxer,
     &ff_lrc_demuxer,

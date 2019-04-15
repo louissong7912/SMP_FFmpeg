@@ -21,6 +21,10 @@
 
 #ifndef SMP_CONFIG_H
 #define SMP_CONFIG_H
+#ifdef _WIN32
+#   include <sdkddkver.h>
+#   include <winapifamily.h>
+#endif
 #define FFMPEG_CONFIGURATION "--enable-gpl --enable-version3 --enable-bzlib --enable-iconv --enable-lzma --enable-sdl2 --enable-zlib --enable-avisynth --enable-libmp3lame --enable-libvorbis --enable-libspeex --enable-libopus --enable-libilbc --enable-libtheora --enable-libx264 --enable-libx265 --enable-libxvid --enable-libvpx --enable-libgme --enable-libmodplug --enable-libsoxr --enable-libfreetype --enable-fontconfig --enable-libfribidi --enable-libass --enable-libxml2 --enable-gnutls --disable-schannel --enable-gcrypt --enable-libssh --enable-libcdio --enable-libbluray --enable-opengl --enable-libmfx --enable-ffnvcodec --enable-cuda --enable-amf --toolchain=msvc"
 #define FFMPEG_LICENSE "GPL version 3 or later"
 #define CONFIG_THIS_YEAR 2019
@@ -72,10 +76,10 @@
 #define ARCH_TILEPRO 0
 #define ARCH_TOMI 0
 #define ARCH_X86 1
-#if defined(__x86_64) || defined(_M_X64)
-#   define ARCH_X86_32 0
-#else
+#if !defined(__x86_64) && !defined(_M_X64)
 #   define ARCH_X86_32 1
+#else
+#   define ARCH_X86_32 0
 #endif
 #if defined(__x86_64) || defined(_M_X64)
 #   define ARCH_X86_64 1
@@ -340,7 +344,11 @@
 #define HAVE_GETADDRINFO 1
 #define HAVE_GETHRTIME 0
 #define HAVE_GETOPT 0
-#define HAVE_GETPROCESSAFFINITYMASK 1
+#if defined(NTDDI_WIN10_RS3)
+#   define HAVE_GETPROCESSAFFINITYMASK 1
+#else
+#   define HAVE_GETPROCESSAFFINITYMASK 0
+#endif
 #define HAVE_GETPROCESSMEMORYINFO 1
 #define HAVE_GETPROCESSTIMES 1
 #define HAVE_GETRUSAGE 0
@@ -590,9 +598,6 @@
 #define CONFIG_CRYSTALHD 0
 #define CONFIG_CUDA 1
 #define CONFIG_CUVID 1
-#ifdef _WIN32
-#include <sdkddkver.h>
-#endif
 #if defined(NTDDI_WIN8)
 #   define CONFIG_D3D11VA 1
 #else
@@ -619,10 +624,10 @@
 #   define CONFIG_SHARED 0
 #endif
 #define CONFIG_SMALL 0
-#if defined(_USRDLL) || defined(_WINDLL)
-#   define CONFIG_STATIC 0
-#else
+#if !defined(_USRDLL) && !defined(_WINDLL)
 #   define CONFIG_STATIC 1
+#else
+#   define CONFIG_STATIC 0
 #endif
 #define CONFIG_SWSCALE_ALPHA 1
 #define CONFIG_GPL 1
@@ -764,6 +769,7 @@
 #define CONFIG_WMA_FREQS 1
 #define CONFIG_WMV2DSP 1
 #define CONFIG_AAC_ADTSTOASC_BSF 1
+#define CONFIG_AV1_FRAME_SPLIT_BSF 1
 #define CONFIG_AV1_METADATA_BSF 1
 #define CONFIG_CHOMP_BSF 1
 #define CONFIG_DUMP_EXTRADATA_BSF 1
@@ -798,6 +804,7 @@
 #define CONFIG_AASC_DECODER 1
 #define CONFIG_AIC_DECODER 1
 #define CONFIG_ALIAS_PIX_DECODER 1
+#define CONFIG_AGM_DECODER 1
 #define CONFIG_AMV_DECODER 1
 #define CONFIG_ANM_DECODER 1
 #define CONFIG_ANSI_DECODER 1
@@ -906,6 +913,7 @@
 #define CONFIG_KMVC_DECODER 1
 #define CONFIG_LAGARITH_DECODER 1
 #define CONFIG_LOCO_DECODER 1
+#define CONFIG_LSCR_DECODER 1
 #define CONFIG_M101_DECODER 1
 #define CONFIG_MAGICYUV_DECODER 1
 #define CONFIG_MDEC_DECODER 1
@@ -1194,6 +1202,7 @@
 #define CONFIG_ADPCM_4XM_DECODER 1
 #define CONFIG_ADPCM_ADX_DECODER 1
 #define CONFIG_ADPCM_AFC_DECODER 1
+#define CONFIG_ADPCM_AGM_DECODER 1
 #define CONFIG_ADPCM_AICA_DECODER 1
 #define CONFIG_ADPCM_CT_DECODER 1
 #define CONFIG_ADPCM_DTK_DECODER 1
@@ -1596,24 +1605,15 @@
 #define CONFIG_VC1_VDPAU_HWACCEL 0
 #define CONFIG_VP8_NVDEC_HWACCEL 1
 #define CONFIG_VP8_VAAPI_HWACCEL 0
-#ifdef _WIN32
-#include <sdkddkver.h>
-#endif
 #if defined(NTDDI_WIN10_TH2)
 #   define CONFIG_VP9_D3D11VA_HWACCEL 1
 #else
 #   define CONFIG_VP9_D3D11VA_HWACCEL 0
 #endif
-#ifdef _WIN32
-#include <sdkddkver.h>
-#endif
 #if defined(NTDDI_WIN10_TH2)
 #   define CONFIG_VP9_D3D11VA2_HWACCEL 1
 #else
 #   define CONFIG_VP9_D3D11VA2_HWACCEL 0
-#endif
-#ifdef _WIN32
-#include <sdkddkver.h>
 #endif
 #if defined(NTDDI_WIN10_TH2)
 #   define CONFIG_VP9_DXVA2_HWACCEL 1
@@ -2246,6 +2246,7 @@
 #define CONFIG_IVR_DEMUXER 1
 #define CONFIG_JACOSUB_DEMUXER 1
 #define CONFIG_JV_DEMUXER 1
+#define CONFIG_KUX_DEMUXER 1
 #define CONFIG_LMLM4_DEMUXER 1
 #define CONFIG_LOAS_DEMUXER 1
 #define CONFIG_LRC_DEMUXER 1

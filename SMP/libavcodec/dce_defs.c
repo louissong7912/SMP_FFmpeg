@@ -47,6 +47,7 @@
 #include "libavcodec/qpeldsp.h"
 #include "libavcodec/aacpsdsp.h"
 #include "libavcodec/pixblockdsp.h"
+#include "libavcodec/opusdsp.h"
 #include "libavcodec/mpegvideo.h"
 #include "libavcodec/mpegvideoencdsp.h"
 #include "libavcodec/mpegvideodsp.h"
@@ -3489,6 +3490,7 @@ void ff_mpv_common_init_axp(MpegEncContext *s) {return;}
 void ff_mpv_common_init_mips(MpegEncContext *s) {return;}
 void ff_mpv_common_init_neon(MpegEncContext *s) {return;}
 void ff_mpv_common_init_ppc(MpegEncContext *s) {return;}
+void ff_opus_dsp_init_aarch64(OpusDSP *ctx) {return;}
 void ff_pixblockdsp_init_alpha(PixblockDSPContext *c, AVCodecContext *avctx,
                                unsigned high_bit_depth) {return;}
 void ff_pixblockdsp_init_arm(PixblockDSPContext *c, AVCodecContext *avctx,

@@ -136,7 +136,10 @@
     <NASM Include="..\libavcodec\x86\mpegvideoencdsp.asm">
       <Filter>Source Files\libavcodec\x86</Filter>
     </NASM>
-    <NASM Include="..\libavcodec\x86\opus_pvq_search.asm">
+    <NASM Include="..\libavcodec\x86\opusdsp.asm">
+      <Filter>Source Files\libavcodec\x86</Filter>
+    </NASM>
+    <NASM Include="..\libavcodec\x86\celt_pvq_search.asm">
       <Filter>Source Files\libavcodec\x86</Filter>
     </NASM>
     <NASM Include="..\libavcodec\x86\pixblockdsp.asm">
@@ -784,6 +787,9 @@
       <Filter>Source Files\libavcodec</Filter>
     </ClCompile>
     <ClCompile Include="..\libavcodec\ac3enc_fixed.c">
+      <Filter>Source Files\libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libavcodec\agm.c">
       <Filter>Source Files\libavcodec</Filter>
     </ClCompile>
     <ClCompile Include="..\libavcodec\aic.c">
@@ -2643,6 +2649,9 @@
     <ClCompile Include="..\libavcodec\av1_metadata_bsf.c">
       <Filter>Source Files\libavcodec</Filter>
     </ClCompile>
+    <ClCompile Include="..\libavcodec\av1_frame_split_bsf.c">
+      <Filter>Source Files\libavcodec</Filter>
+    </ClCompile>
     <ClCompile Include="..\libavcodec\chomp_bsf.c">
       <Filter>Source Files\libavcodec</Filter>
     </ClCompile>
@@ -2883,7 +2892,10 @@
     <ClCompile Include="..\libavcodec\x86\exrdsp_init.c">
       <Filter>Source Files\libavcodec\x86</Filter>
     </ClCompile>
-    <ClCompile Include="..\libavcodec\x86\opus_dsp_init.c">
+    <ClCompile Include="..\libavcodec\x86\opusdsp_init.c">
+      <Filter>Source Files\libavcodec\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libavcodec\x86\celt_pvq_init.c">
       <Filter>Source Files\libavcodec\x86</Filter>
     </ClCompile>
     <ClCompile Include="..\libavcodec\x86\hevcdsp_init.c">
@@ -3073,6 +3085,9 @@
       <Filter>Source Files\libavcodec</Filter>
     </ClCompile>
     <ClCompile Include="..\libavcodec\xvididct.c">
+      <Filter>Source Files\libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libavcodec\opusdsp.c">
       <Filter>Source Files\libavcodec</Filter>
     </ClCompile>
     <ClCompile Include="..\libavcodec\proresdsp.c">
