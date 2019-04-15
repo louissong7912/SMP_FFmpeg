@@ -1637,15 +1637,18 @@ static int FUNC(metadata_hdr_mdcv)(CodedBitstreamContext *ctx, RWContext *rw,
     int err, i;
 
     for (i = 0; i < 3; i++) {
-        fcs(16, primary_chromaticity_x[i], 0, 50000, 1, i);
-        fcs(16, primary_chromaticity_y[i], 0, 50000, 1, i);
+        fbs(16, primary_chromaticity_x[i], 1, i);
+        fbs(16, primary_chromaticity_y[i], 1, i);
     }
 
-    fc(16, white_point_chromaticity_x, 0, 50000);
-    fc(16, white_point_chromaticity_y, 0, 50000);
+    fb(16, white_point_chromaticity_x);
+    fb(16, white_point_chromaticity_y);
 
     fc(32, luminance_max, 1, MAX_UINT_BITS(32));
-    fc(32, luminance_min, 0, current->luminance_max >> 6);
+    // luminance_min must be lower than luminance_max. Convert luminance_max from
+    // 24.8 fixed point to 18.14 fixed point in order to compare them.
+    fc(32, luminance_min, 0, FFMIN(((uint64_t)current->luminance_max << 6) - 1,
+                                   MAX_UINT_BITS(32)));
 
     return 0;
 }
@@ -1671,15 +1674,7 @@ static int FUNC(metadata_itut_t35)(CodedBitstreamContext *ctx, RWContext *rw,
 #ifdef READ
     // The payload runs up to the start of the trailing bits, but there might
     // be arbitrarily many trailing zeroes so we need to read through twice.
-    {
-        GetBitContext tmp = *rw;
-        current->payload_size = 0;
-        for (i = 0; get_bits_left(rw) >= 8; i++) {
-            if (get_bits(rw, 8))
-                current->payload_size = i;
-        }
-        *rw = tmp;
-    }
+    current->payload_size = cbs_av1_get_payload_bytes_left(rw);
 
     current->payload_ref = av_buffer_alloc(current->payload_size);
     if (!current->payload_ref)
@@ -1757,6 +1752,30 @@ static int FUNC(metadata_obu)(CodedBitstreamContext *ctx, RWContext *rw,
         // Unknown metadata type.
         return AVERROR_PATCHWELCOME;
     }
+
+    return 0;
+}
+
+static int FUNC(padding_obu)(CodedBitstreamContext *ctx, RWContext *rw,
+                             AV1RawPadding *current)
+{
+    int i, err;
+
+    HEADER("Padding");
+
+#ifdef READ
+    // The payload runs up to the start of the trailing bits, but there might
+    // be arbitrarily many trailing zeroes so we need to read through twice.
+    current->payload_size = cbs_av1_get_payload_bytes_left(rw);
+
+    current->payload_ref = av_buffer_alloc(current->payload_size);
+    if (!current->payload_ref)
+        return AVERROR(ENOMEM);
+    current->payload = current->payload_ref->data;
+#endif
+
+    for (i = 0; i < current->payload_size; i++)
+        xf(8, obu_padding_byte[i], current->payload[i], 0x00, 0xff, 1, i);
 
     return 0;
 }

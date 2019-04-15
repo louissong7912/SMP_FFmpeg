@@ -574,6 +574,17 @@ static int cbs_av1_get_relative_dist(const AV1RawSequenceHeader *seq,
     return diff;
 }
 
+static size_t cbs_av1_get_payload_bytes_left(GetBitContext *gbc)
+{
+    GetBitContext tmp = *gbc;
+    size_t size = 0;
+    for (int i = 0; get_bits_left(&tmp) >= 8; i++) {
+        if (get_bits(&tmp, 8))
+            size = i;
+    }
+    return size;
+}
+
 
 #define HEADER(name) do { \
         ff_cbs_trace_header(ctx, name); \
@@ -857,6 +868,11 @@ static void cbs_av1_free_tile_data(AV1RawTileData *td)
     av_buffer_unref(&td->data_ref);
 }
 
+static void cbs_av1_free_padding(AV1RawPadding *pd)
+{
+    av_buffer_unref(&pd->payload_ref);
+}
+
 static void cbs_av1_free_metadata(AV1RawMetadata *md)
 {
     switch (md->metadata_type) {
@@ -882,6 +898,9 @@ static void cbs_av1_free_obu(void *unit, uint8_t *content)
         break;
     case AV1_OBU_METADATA:
         cbs_av1_free_metadata(&obu->obu.metadata);
+        break;
+    case AV1_OBU_PADDING:
+        cbs_av1_free_padding(&obu->obu.padding);
         break;
     }
 
@@ -956,7 +975,7 @@ static int cbs_av1_read_unit(CodedBitstreamContext *ctx,
 
     if (obu->header.obu_extension_flag) {
         priv->temporal_id = obu->header.temporal_id;
-        priv->spatial_id  = obu->header.temporal_id;
+        priv->spatial_id  = obu->header.spatial_id;
 
         if (obu->header.obu_type != AV1_OBU_SEQUENCE_HEADER &&
             obu->header.obu_type != AV1_OBU_TEMPORAL_DELIMITER &&
@@ -1057,6 +1076,12 @@ static int cbs_av1_read_unit(CodedBitstreamContext *ctx,
         }
         break;
     case AV1_OBU_PADDING:
+        {
+            err = cbs_av1_read_padding_obu(ctx, &gbc, &obu->obu.padding);
+            if (err < 0)
+                return err;
+        }
+        break;
     default:
         return AVERROR(ENOSYS);
     }
@@ -1182,6 +1207,12 @@ static int cbs_av1_write_obu(CodedBitstreamContext *ctx,
         }
         break;
     case AV1_OBU_PADDING:
+        {
+            err = cbs_av1_write_padding_obu(ctx, pbc, &obu->obu.padding);
+            if (err < 0)
+                return err;
+        }
+        break;
     default:
         return AVERROR(ENOSYS);
     }
