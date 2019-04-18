@@ -153,9 +153,9 @@ after_build:
 
 # Copy binary files to separate artifact folder
 - cmd: mkdir %APPVEYOR_BUILD_FOLDER%\build_bin\x86 >NUL 2>&1
-- cmd: copy /y %APPVEYOR_BUILD_FOLDER%\build_out\bin\x86\*.exe %APPVEYOR_BUILD_FOLDER%\build_bin\x86
+- cmd: move /y %APPVEYOR_BUILD_FOLDER%\build_out\bin\x86\*.exe %APPVEYOR_BUILD_FOLDER%\build_bin\x86
 - cmd: mkdir %APPVEYOR_BUILD_FOLDER%\build_bin\x64 >NUL 2>&1
-- cmd: copy /y %APPVEYOR_BUILD_FOLDER%\build_out\bin\x64\*.exe %APPVEYOR_BUILD_FOLDER%\build_bin\x64
+- cmd: move /y %APPVEYOR_BUILD_FOLDER%\build_out\bin\x64\*.exe %APPVEYOR_BUILD_FOLDER%\build_bin\x64
 - cmd: mkdir %APPVEYOR_BUILD_FOLDER%\build_bin\licenses >NUL 2>&1
 - cmd: copy /y %APPVEYOR_BUILD_FOLDER%\build_out\licenses\ %APPVEYOR_BUILD_FOLDER%\build_bin\licenses\
 
