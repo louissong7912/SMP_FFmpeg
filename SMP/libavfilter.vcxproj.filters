@@ -315,6 +315,9 @@
     <ClCompile Include="..\libavfilter\f_sidedata.c">
       <Filter>Source Files\libavfilter</Filter>
     </ClCompile>
+    <ClCompile Include="..\libavfilter\af_asoftclip.c">
+      <Filter>Source Files\libavfilter</Filter>
+    </ClCompile>
     <ClCompile Include="..\libavfilter\split.c">
       <Filter>Source Files\libavfilter</Filter>
     </ClCompile>
@@ -720,6 +723,9 @@
     <ClCompile Include="..\libavfilter\vf_kerndeint.c">
       <Filter>Source Files\libavfilter</Filter>
     </ClCompile>
+    <ClCompile Include="..\libavfilter\vf_lagfun.c">
+      <Filter>Source Files\libavfilter</Filter>
+    </ClCompile>
     <ClCompile Include="..\libavfilter\vf_lenscorrection.c">
       <Filter>Source Files\libavfilter</Filter>
     </ClCompile>
@@ -949,6 +955,9 @@
       <Filter>Source Files\libavfilter</Filter>
     </ClCompile>
     <ClCompile Include="..\libavfilter\vf_xbr.c">
+      <Filter>Source Files\libavfilter</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libavfilter\vf_xmedian.c">
       <Filter>Source Files\libavfilter</Filter>
     </ClCompile>
     <ClCompile Include="..\libavfilter\vf_zoompan.c">

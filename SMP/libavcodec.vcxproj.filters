@@ -2595,6 +2595,9 @@
     <ClCompile Include="..\libavcodec\mjpeg_parser.c">
       <Filter>Source Files\libavcodec</Filter>
     </ClCompile>
+    <ClCompile Include="..\libavcodec\mlp_parse.c">
+      <Filter>Source Files\libavcodec</Filter>
+    </ClCompile>
     <ClCompile Include="..\libavcodec\mlp_parser.c">
       <Filter>Source Files\libavcodec</Filter>
     </ClCompile>

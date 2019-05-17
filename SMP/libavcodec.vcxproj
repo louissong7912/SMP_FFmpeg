@@ -916,6 +916,7 @@
     <ClCompile Include="..\libavcodec\h264_parser.c" />
     <ClCompile Include="..\libavcodec\hevc_parser.c" />
     <ClCompile Include="..\libavcodec\mjpeg_parser.c" />
+    <ClCompile Include="..\libavcodec\mlp_parse.c" />
     <ClCompile Include="..\libavcodec\mlp_parser.c" />
     <ClCompile Include="..\libavcodec\mpeg4video_parser.c" />
     <ClCompile Include="..\libavcodec\png_parser.c" />

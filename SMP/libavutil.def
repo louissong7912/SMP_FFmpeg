@@ -488,6 +488,8 @@ EXPORTS
     av_twofish_alloc
     av_twofish_crypt
     av_twofish_init
+    av_tx_init
+    av_tx_uninit
     av_usleep
     av_utf8_decode
     av_vbprintf

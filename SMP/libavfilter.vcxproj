@@ -156,6 +156,7 @@
     <ClCompile Include="..\libavfilter\settb.c" />
     <ClCompile Include="..\libavfilter\af_ashowinfo.c" />
     <ClCompile Include="..\libavfilter\f_sidedata.c" />
+    <ClCompile Include="..\libavfilter\af_asoftclip.c" />
     <ClCompile Include="..\libavfilter\split.c" />
     <ClCompile Include="..\libavfilter\af_astats.c" />
     <ClCompile Include="..\libavfilter\f_streamselect.c" />
@@ -291,6 +292,7 @@
     <ClCompile Include="..\libavfilter\vf_il.c" />
     <ClCompile Include="..\libavfilter\vf_tinterlace.c" />
     <ClCompile Include="..\libavfilter\vf_kerndeint.c" />
+    <ClCompile Include="..\libavfilter\vf_lagfun.c" />
     <ClCompile Include="..\libavfilter\vf_lenscorrection.c" />
     <ClCompile Include="..\libavfilter\vf_lumakey.c" />
     <ClCompile Include="..\libavfilter\vf_lut.c" />
@@ -368,6 +370,7 @@
     <ClCompile Include="..\libavfilter\vf_vpp_qsv.c" />
     <ClCompile Include="..\libavfilter\vf_waveform.c" />
     <ClCompile Include="..\libavfilter\vf_xbr.c" />
+    <ClCompile Include="..\libavfilter\vf_xmedian.c" />
     <ClCompile Include="..\libavfilter\vf_zoompan.c" />
     <ClCompile Include="..\libavfilter\vsrc_testsrc.c" />
     <ClCompile Include="..\libavfilter\vsrc_cellauto.c" />
