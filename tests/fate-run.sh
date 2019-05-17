@@ -5,7 +5,7 @@ export LC_ALL=C
 base=$(dirname $0)
 . "${base}/md5.sh"
 
-base64=tests/base64
+base64=tests/base64${HOSTEXECSUF}
 
 test="${1#fate-}"
 target_samples=$2
@@ -45,7 +45,7 @@ compare(){
 }
 
 do_tiny_psnr(){
-    psnr=$(tests/tiny_psnr "$1" "$2" $cmp_unit $cmp_shift 0) || return 1
+    psnr=$(tests/tiny_psnr${HOSTEXECSUF} "$1" "$2" $cmp_unit $cmp_shift 0) || return 1
     val=$(expr "$psnr" : ".*$3: *\([0-9.]*\)")
     size1=$(expr "$psnr" : '.*bytes: *\([0-9]*\)')
     size2=$(expr "$psnr" : '.*bytes:[ 0-9]*/ *\([0-9]*\)')
@@ -86,11 +86,11 @@ runecho(){
 }
 
 probefmt(){
-    run ffprobe${PROGSUF} -show_entries format=format_name -print_format default=nw=1:nk=1 -v 0 "$@"
+    run ffprobe${PROGSUF}${EXECSUF} -show_entries format=format_name -print_format default=nw=1:nk=1 -v 0 "$@"
 }
 
 probetags(){
-    run ffprobe${PROGSUF} -show_entries format_tags -v 0 "$@"
+    run ffprobe${PROGSUF}${EXECSUF} -show_entries format_tags -v 0 "$@"
 }
 
 runlocal(){
@@ -99,24 +99,24 @@ runlocal(){
 }
 
 probeframes(){
-    run ffprobe${PROGSUF} -show_frames -v 0 "$@"
+    run ffprobe${PROGSUF}${EXECSUF} -show_frames -v 0 "$@"
 }
 
 probechapters(){
-    run ffprobe${PROGSUF} -show_chapters -v 0 "$@"
+    run ffprobe${PROGSUF}${EXECSUF} -show_chapters -v 0 "$@"
 }
 
 probegaplessinfo(){
     filename="$1"
     shift
-    run ffprobe${PROGSUF} -bitexact -select_streams a -show_entries format=start_time,duration:stream=index,start_pts,duration_ts -v 0 "$filename" "$@"
+    run ffprobe${PROGSUF}${EXECSUF} -bitexact -select_streams a -show_entries format=start_time,duration:stream=index,start_pts,duration_ts -v 0 "$filename" "$@"
     pktfile1="${outdir}/${test}.pkts"
     framefile1="${outdir}/${test}.frames"
     cleanfiles="$cleanfiles $pktfile1 $framefile1"
-    run ffprobe${PROGSUF} -bitexact -select_streams a -of compact -count_packets -show_entries packet=pts,dts,duration,flags:stream=nb_read_packets -v 0 "$filename" "$@" > "$pktfile1"
+    run ffprobe${PROGSUF}${EXECSUF} -bitexact -select_streams a -of compact -count_packets -show_entries packet=pts,dts,duration,flags:stream=nb_read_packets -v 0 "$filename" "$@" > "$pktfile1"
     head -n 8 "$pktfile1"
     tail -n 9 "$pktfile1"
-    run ffprobe${PROGSUF} -bitexact -select_streams a -of compact -count_frames -show_entries frame=pkt_pts,pkt_dts,best_effort_timestamp,pkt_duration,nb_samples:stream=nb_read_frames -v 0 "$filename" "$@" > "$framefile1"
+    run ffprobe${PROGSUF}${EXECSUF} -bitexact -select_streams a -of compact -count_frames -show_entries frame=pkt_pts,pkt_dts,best_effort_timestamp,pkt_duration,nb_samples:stream=nb_read_frames -v 0 "$filename" "$@" > "$framefile1"
     head -n 8 "$framefile1"
     tail -n 9 "$framefile1"
 }
@@ -206,7 +206,7 @@ enc_dec(){
     ffmpeg $8 $DEC_OPTS -i $tencfile $ENC_OPTS $dec_opt $FLAGS \
         -f $dec_fmt -y $tdecfile || return
     do_md5sum $decfile
-    tests/tiny_psnr $srcfile $decfile $cmp_unit $cmp_shift
+    tests/tiny_psnr${HOSTEXECSUF} $srcfile $decfile $cmp_unit $cmp_shift
 }
 
 transcode(){
@@ -386,7 +386,7 @@ pixfmts(){
     prefilter_chain=$2
     nframes=${3:-1}
 
-    showfiltfmts="$target_exec $target_path/libavfilter/tests/filtfmts"
+    showfiltfmts="$target_exec $target_path/libavfilter/tests/filtfmts${EXECSUF}"
     scale_exclude_fmts=${outfile}_scale_exclude_fmts
     scale_in_fmts=${outfile}_scale_in_fmts
     scale_out_fmts=${outfile}_scale_out_fmts
@@ -455,7 +455,7 @@ audio_match(){
     cleanfiles="$cleanfiles $decfile"
 
     ffmpeg -i "$sample" -bitexact $extra_args -y $decfile
-    tests/audiomatch $decfile $trefile
+    tests/audiomatch${HOSTEXECSUF} $decfile $trefile
 }
 
 concat(){
@@ -471,10 +471,10 @@ concat(){
     awk "{gsub(/%SRCFILE%/, \"$sample\"); print}" $template > $concatfile
 
     if [ "$mode" = "md5" ]; then
-        run ffprobe${PROGSUF} -bitexact -show_streams -show_packets -v 0 -fflags keepside -safe 0 $extra_args $concatfile | tr -d '\r' > $packetfile
+        run ffprobe${PROGSUF}${EXECSUF} -bitexact -show_streams -show_packets -v 0 -fflags keepside -safe 0 $extra_args $concatfile | tr -d '\r' > $packetfile
         do_md5sum $packetfile
     else
-        run ffprobe${PROGSUF} -bitexact -show_streams -show_packets -v 0 -of compact=p=0:nk=1 -fflags keepside -safe 0 $extra_args $concatfile
+        run ffprobe${PROGSUF}${EXECSUF} -bitexact -show_streams -show_packets -v 0 -of compact=p=0:nk=1 -fflags keepside -safe 0 $extra_args $concatfile
     fi
 }
 

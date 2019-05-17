@@ -24,8 +24,9 @@
  */
 
 #include "dnn_backend_native.h"
+#include "libavutil/avassert.h"
 
-static DNNReturnType set_input_output_native(void *model, DNNData *input, DNNData *output)
+static DNNReturnType set_input_output_native(void *model, DNNInputData *input, const char *input_name, const char **output_names, uint32_t nb_output)
 {
     ConvolutionalNetwork *network = (ConvolutionalNetwork *)model;
     InputParams *input_params;
@@ -45,6 +46,7 @@ static DNNReturnType set_input_output_native(void *model, DNNData *input, DNNDat
         if (input->data){
             av_freep(&input->data);
         }
+        av_assert0(input->dt == DNN_FLOAT);
         network->layers[0].output = input->data = av_malloc(cur_height * cur_width * cur_channels * sizeof(float));
         if (!network->layers[0].output){
             return DNN_ERROR;
@@ -80,11 +82,6 @@ static DNNReturnType set_input_output_native(void *model, DNNData *input, DNNDat
             return DNN_ERROR;
         }
     }
-
-    output->data = network->layers[network->layers_num - 1].output;
-    output->height = cur_height;
-    output->width = cur_width;
-    output->channels = cur_channels;
 
     return DNN_SUCCESS;
 }
@@ -280,7 +277,7 @@ static void depth_to_space(const float *input, float *output, int block_size, in
     }
 }
 
-DNNReturnType ff_dnn_execute_model_native(const DNNModel *model)
+DNNReturnType ff_dnn_execute_model_native(const DNNModel *model, DNNData *outputs, uint32_t nb_output)
 {
     ConvolutionalNetwork *network = (ConvolutionalNetwork *)model->model;
     int cur_width, cur_height, cur_channels;
@@ -321,6 +318,14 @@ DNNReturnType ff_dnn_execute_model_native(const DNNModel *model)
             return DNN_ERROR;
         }
     }
+
+    // native mode does not support multiple outputs yet
+    if (nb_output > 1)
+        return DNN_ERROR;
+    outputs[0].data = network->layers[network->layers_num - 1].output;
+    outputs[0].height = cur_height;
+    outputs[0].width = cur_width;
+    outputs[0].channels = cur_channels;
 
     return DNN_SUCCESS;
 }

@@ -24,6 +24,12 @@ version <next>:
 - KUX demuxer
 - AV1 frame split bitstream filter
 - lscr decoder
+- lagfun filter
+- asoftclip filter
+- Support decoding of HEVC 4:4:4 content in vdpau
+- colorhold filter
+- xmedian filter
+- asr filter
 
 
 version 4.1:

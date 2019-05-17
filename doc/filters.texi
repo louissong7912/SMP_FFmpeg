@@ -390,6 +390,10 @@ The filter accepts the following options:
 @item level_in
 Set input gain. Default is 1. Range is between 0.015625 and 64.
 
+@item mode
+Set mode of compressor operation. Can be @code{upward} or @code{downward}.
+Default is @code{downward}.
+
 @item threshold
 If a signal of stream rises above this level it will affect the gain
 reduction.
@@ -1304,9 +1308,16 @@ Shorter signals than the chosen attack time will be left untouched.
 Set input level before filtering.
 Default is 1. Allowed range is from 0.015625 to 64.
 
+@item mode
+Set the mode of operation. Can be @code{upward} or @code{downward}.
+Default is @code{downward}. If set to @code{upward} mode, higher parts of signal
+will be amplified, expanding dynamic range in upward direction.
+Otherwise, in case of @code{downward} lower parts of signal will be reduced.
+
 @item range
 Set the level of gain reduction when the signal is below the threshold.
 Default is 0.06125. Allowed range is from 0 to 1.
+Setting this to 0 disables reduction and then filter behaves like expander.
 
 @item threshold
 If a signal rises above this level the gain reduction is released.
@@ -2093,6 +2104,68 @@ audio, the data is treated as if all the planes were concatenated.
 A list of Adler-32 checksums for each data plane.
 @end table
 
+@section asoftclip
+Apply audio soft clipping.
+
+Soft clipping is a type of distortion effect where the amplitude of a signal is saturated
+along a smooth curve, rather than the abrupt shape of hard-clipping.
+
+This filter accepts the following options:
+
+@table @option
+@item type
+Set type of soft-clipping.
+
+It accepts the following values:
+@table @option
+@item tanh
+@item atan
+@item cubic
+@item exp
+@item alg
+@item quintic
+@item sin
+@end table
+
+@item param
+Set additional parameter which controls sigmoid function.
+@end table
+
+@section asr
+Automatic Speech Recognition
+
+This filter uses PocketSphinx for speech recognition. To enable
+compilation of this filter, you need to configure FFmpeg with
+@code{--enable-pocketsphinx}.
+
+It accepts the following options:
+
+@table @option
+@item rate
+Set sampling rate of input audio. Defaults is @code{16000}.
+This need to match speech models, otherwise one will get poor results.
+
+@item hmm
+Set dictionary containing acoustic model files.
+
+@item dict
+Set pronunciation dictionary.
+
+@item lm
+Set language model file.
+
+@item lmctl
+Set language model set.
+
+@item lmname
+Set which language model to use.
+
+@item logfn
+Set output for log messages.
+@end table
+
+The filter exports recognized speech as the frame metadata @code{lavfi.asr.text}.
+
 @anchor{astats}
 @section astats
 
@@ -2130,6 +2203,9 @@ Bit_depth
 Dynamic_range
 Zero_crossings
 Zero_crossings_rate
+Number_of_NaNs
+Number_of_Infs
+Number_of_denormals
 
 and for Overall:
 DC_offset
@@ -2147,6 +2223,9 @@ Flat_factor
 Peak_count
 Bit_depth
 Number_of_samples
+Number_of_NaNs
+Number_of_Infs
+Number_of_denormals
 
 For example full key look like this @code{lavfi.astats.1.DC_offset} or
 this @code{lavfi.astats.Overall.Peak_count}.
@@ -4247,6 +4326,10 @@ The filter accepts the following options:
 @item level_in
 Set input gain. Default is 1. Range is between 0.015625 and 64.
 
+@item mode
+Set mode of compressor operation. Can be @code{upward} or @code{downward}.
+Default is @code{downward}.
+
 @item threshold
 If a signal of second stream raises above this level it will affect the gain
 reduction of first stream.
@@ -4323,9 +4406,16 @@ The filter accepts the following options:
 Set input level before filtering.
 Default is 1. Allowed range is from 0.015625 to 64.
 
+@item mode
+Set the mode of operation. Can be @code{upward} or @code{downward}.
+Default is @code{downward}. If set to @code{upward} mode, higher parts of signal
+will be amplified, expanding dynamic range in upward direction.
+Otherwise, in case of @code{downward} lower parts of signal will be reduced.
+
 @item range
 Set the level of gain reduction when the signal is below the threshold.
 Default is 0.06125. Allowed range is from 0 to 1.
+Setting this to 0 disables reduction and then filter behaves like expander.
 
 @item threshold
 If a signal rises above this level the gain reduction is released.
@@ -4849,17 +4939,116 @@ Set LFE low cut off frequency. By default, this is @var{128} Hz.
 @item lfe_high
 Set LFE high cut off frequency. By default, this is @var{256} Hz.
 
+@item lfe_mode
+Set LFE mode, can be @var{add} or @var{sub}. Default is @var{add}.
+In @var{add} mode, LFE channel is created from input audio and added to output.
+In @var{sub} mode, LFE channel is created from input audio and added to output but
+also all non-LFE output channels are subtracted with output LFE channel.
+
+@item angle
+Set angle of stereo surround transform, Allowed range is from @var{0} to @var{360}.
+Default is @var{90}.
+
 @item fc_in
 Set front center input volume. By default, this is @var{1}.
 
 @item fc_out
 Set front center output volume. By default, this is @var{1}.
 
+@item fl_in
+Set front left input volume. By default, this is @var{1}.
+
+@item fl_out
+Set front left output volume. By default, this is @var{1}.
+
+@item fr_in
+Set front right input volume. By default, this is @var{1}.
+
+@item fr_out
+Set front right output volume. By default, this is @var{1}.
+
+@item sl_in
+Set side left input volume. By default, this is @var{1}.
+
+@item sl_out
+Set side left output volume. By default, this is @var{1}.
+
+@item sr_in
+Set side right input volume. By default, this is @var{1}.
+
+@item sr_out
+Set side right output volume. By default, this is @var{1}.
+
+@item bl_in
+Set back left input volume. By default, this is @var{1}.
+
+@item bl_out
+Set back left output volume. By default, this is @var{1}.
+
+@item br_in
+Set back right input volume. By default, this is @var{1}.
+
+@item br_out
+Set back right output volume. By default, this is @var{1}.
+
+@item bc_in
+Set back center input volume. By default, this is @var{1}.
+
+@item bc_out
+Set back center output volume. By default, this is @var{1}.
+
 @item lfe_in
 Set LFE input volume. By default, this is @var{1}.
 
 @item lfe_out
 Set LFE output volume. By default, this is @var{1}.
+
+@item allx
+Set spread usage of stereo image across X axis for all channels.
+
+@item ally
+Set spread usage of stereo image across Y axis for all channels.
+
+@item fcx, flx, frx, blx, brx, slx, srx, bcx
+Set spread usage of stereo image across X axis for each channel.
+
+@item fcy, fly, fry, bly, bry, sly, sry, bcy
+Set spread usage of stereo image across Y axis for each channel.
+
+@item win_size
+Set window size. Allowed range is from @var{1024} to @var{65536}. Default size is @var{4096}.
+
+@item win_func
+Set window function.
+
+It accepts the following values:
+@table @samp
+@item rect
+@item bartlett
+@item hann, hanning
+@item hamming
+@item blackman
+@item welch
+@item flattop
+@item bharris
+@item bnuttall
+@item bhann
+@item sine
+@item nuttall
+@item lanczos
+@item gauss
+@item tukey
+@item dolph
+@item cauchy
+@item parzen
+@item poisson
+@item bohman
+@end table
+Default is @code{hann}.
+
+@item overlap
+Set window overlap. If set to 1, the recommended overlap for selected
+window function will be picked. Default is @code{0.5}.
 @end table
 
 @section treble, highshelf
@@ -6295,6 +6484,11 @@ The color which will not be replaced with neutral chroma.
 Similarity percentage with the above color.
 0.01 matches only the exact key color, while 1.0 matches everything.
 
+@item blend
+Blend percentage.
+0.0 makes pixels either fully gray, or not gray at all.
+Higher values result in more preserved color.
+
 @item yuv
 Signals that the color passed is already in YUV instead of RGB.
 
@@ -6568,6 +6762,24 @@ Overlay a greenscreen-video on top of a static background image.
 ffmpeg -i background.png -i video.mp4 -filter_complex "[1:v]colorkey=0x3BBD1E:0.3:0.2[ckout];[0:v][ckout]overlay[out]" -map "[out]" output.flv
 @end example
 @end itemize
+
+@section colorhold
+Remove all color information for all RGB colors except for certain one.
+
+The filter accepts the following options:
+
+@table @option
+@item color
+The color which will not be replaced with neutral gray.
+
+@item similarity
+Similarity percentage with the above color.
+0.01 matches only the exact key color, while 1.0 matches everything.
+
+@item blend
+Blend percentage. 0.0 makes pixels fully gray.
+Higher values result in more preserved color.
+@end table
 
 @section colorlevels
 
@@ -8797,6 +9009,29 @@ If the format is set to @code{localtime} or @code{gmtime},
 a third argument may be supplied: a strftime() format string.
 By default, @var{YYYY-MM-DD HH:MM:SS} format will be used.
 @end table
+
+@subsection Commands
+
+This filter supports altering parameters via commands:
+@table @option
+@item reinit
+Alter existing filter parameters.
+
+Syntax for the argument is the same as for filter invocation, e.g.
+
+@example
+fontsize=56:fontcolor=green:text='Hello World'
+@end example
+
+Full filter invocation with sendcmd would look like this:
+
+@example
+sendcmd=c='56.0 drawtext reinit fontsize=56\:fontcolor=green\:text=Hello\\ World'
+@end example
+@end table
+
+If the entire argument can't be parsed or applied as valid values then the filter will
+continue with its existing parameters.
 
 @subsection Examples
 
@@ -11302,6 +11537,21 @@ kerndeint=map=1
 @end example
 @end itemize
 
+@section lagfun
+
+Slowly update darker pixels.
+
+This filter makes short flashes of light appear longer.
+This filter accepts the following options:
+
+@table @option
+@item decay
+Set factor for decaying. Default is .95. Allowed range is from 0 to 1.
+
+@item planes
+Set which planes to filter. Default is all. Allowed range is from 0 to 15.
+@end table
+
 @section lenscorrection
 
 Correct radial lens distortion
@@ -11617,6 +11867,8 @@ Currently supported formats:
 @table @samp
 @item cube
 Iridas
+@item csp
+cineSpace
 @end table
 
 @item interp
@@ -11659,6 +11911,8 @@ Iridas
 DaVinci
 @item m3d
 Pandora
+@item csp
+cineSpace
 @end table
 @item interp
 Select interpolation mode.
@@ -15097,6 +15351,12 @@ Scale a subtitle stream (b) to match the main video (a) in size before overlayin
 @example
 'scale2ref[b][a];[a][b]overlay'
 @end example
+
+@item
+Scale a logo to 1/10th the height of a video, while preserving its display aspect ratio.
+@example
+[logo-in][video-in]scale2ref=w=oh*mdar:h=ih/10[logo-out][video-out]
+@end example
 @end itemize
 
 @anchor{selectivecolor}
@@ -16277,8 +16537,9 @@ Efficient Sub-Pixel Convolutional Neural Network model (ESPCN).
 See @url{https://arxiv.org/abs/1609.05158}.
 @end itemize
 
-Training scripts as well as scripts for model generation are provided in
-the repository at @url{https://github.com/HighVoltageRocknRoll/sr.git}.
+Training scripts as well as scripts for model generation can be found at
+@url{https://github.com/XueweiMeng/sr/tree/sr_dnn_native}. Original repository
+is at @url{https://github.com/HighVoltageRocknRoll/sr.git}.
 
 The filter accepts the following options:
 
@@ -17811,6 +18072,10 @@ Set the green luma coefficient.
 
 @item blum
 Set the blue luma coefficient.
+
+@item alternate
+If @code{intensity} is negative and this is set to 1, colors will change,
+otherwise colors will be less saturated, more towards gray.
 @end table
 
 @anchor{vignette}
@@ -17966,6 +18231,10 @@ Based on the process described by Martin Weston for BBC R&D, and
 implemented based on the de-interlace algorithm written by Jim
 Easterbrook for BBC R&D, the Weston 3 field deinterlacing filter
 uses filter coefficients calculated by BBC R&D.
+
+This filter use field-dominance information in frame to decide which
+of each pair of fields to place first in the output.
+If it gets it wrong use @ref{setfield} filter before @code{w3fdif} filter.
 
 There are two sets of filter coefficients, so called "simple":
 and "complex". Which set of filter coefficients is used can
@@ -18189,6 +18458,20 @@ Set the scaling dimension: @code{2} for @code{2xBR}, @code{3} for
 Default is @code{3}.
 @end table
 
+@section xmedian
+Pick median pixels from several input videos.
+
+The filter accept the following options:
+
+@table @option
+@item nb_inputs
+Set number of inputs. This must be odd number.
+Default is 3. Allowed range is from 3 to 255.
+
+@item planes
+Set which planes to filter. Default value is @code{15}, by which all planes are processed.
+@end table
+
 @section xstack
 Stack video inputs into custom layout.
 
@@ -18210,6 +18493,9 @@ Numbers start at 0 and are separated by '_'. Optionally one can use wX and hX,
 where X is video input from which to take width or height.
 Multiple values can be used when separated by '+'. In such
 case values are summed together.
+
+For 2 inputs, a default layout of @code{0_0|w0_0} is set. In all other cases,
+a layout must be set by the user.
 
 @item shortest
 If set to 1, force the output to terminate when the shortest input
@@ -19027,6 +19313,39 @@ Flags to local 3x3 coordinates region centered on @code{x}:
 Apply erosion filter with threshold0 set to 30, threshold1 set 40, threshold2 set to 50 and coordinates set to 231, setting each pixel of the output to the local minimum between pixels: 1, 2, 3, 6, 7, 8 of the 3x3 region centered on it in the input. If the difference between input pixel and local minimum is more then threshold of the corresponding plane, output pixel will be set to input pixel - threshold of corresponding plane.
 @example
 -i INPUT -vf "hwupload, erosion_opencl=30:40:50:coordinates=231, hwdownload" OUTPUT
+@end example
+@end itemize
+
+@section colorkey_opencl
+RGB colorspace color keying.
+
+The filter accepts the following options:
+
+@table @option
+@item color
+The color which will be replaced with transparency.
+
+@item similarity
+Similarity percentage with the key color.
+
+0.01 matches only the exact key color, while 1.0 matches everything.
+
+@item blend
+Blend percentage.
+
+0.0 makes pixels either fully transparent, or not transparent at all.
+
+Higher values result in semi-transparent pixels, with a higher transparency
+the more similar the pixels color is to the key color.
+@end table
+
+@subsection Examples
+
+@itemize
+@item
+Make every semi-green pixel in the input transparent with some slight blending:
+@example
+-i INPUT -vf "hwupload, colorkey_opencl=green:0.3:0.1, hwdownload" OUTPUT
 @end example
 @end itemize
 
@@ -20930,6 +21249,14 @@ They accept the following options:
 @item limit
 Time limit for the pauses. Any pause longer than that will be considered
 a timestamp discontinuity and reset the timer. Default is 2 seconds.
+@item speed
+Speed factor for processing. The value must be a float larger than zero.
+Values larger than 1.0 will result in faster than realtime processing,
+smaller will slow processing down. The @var{limit} is automatically adapted
+accordingly. Default is 1.0.
+
+A processing speed faster than what is possible without these filters cannot
+be achieved.
 @end table
 
 @anchor{select}
@@ -22020,6 +22347,19 @@ logarithmic
 
 Default value is @samp{sqrt}.
 
+@item fscale
+Specify frequency scale.
+
+It accepts the following values:
+@table @samp
+@item lin
+linear
+@item log
+logarithmic
+@end table
+
+Default value is @samp{lin}.
+
 @item saturation
 Set saturation modifier for displayed colors. Negative values provide
 alternative color scheme. @code{0} is no saturation at all.
@@ -22191,6 +22531,19 @@ logarithmic
 5th root
 @end table
 Default value is @samp{log}.
+
+@item fscale
+Specify frequency scale.
+
+It accepts the following values:
+@table @samp
+@item lin
+linear
+@item log
+logarithmic
+@end table
+
+Default value is @samp{lin}.
 
 @item saturation
 Set saturation modifier for displayed colors. Negative values provide
@@ -22472,6 +22825,20 @@ Cubic root.
 @end table
 
 Default is linear.
+
+@item draw
+Set the draw mode.
+
+Available values are:
+@table @samp
+@item scale
+Scale pixel values for each drawn sample.
+
+@item full
+Draw every sample directly.
+@end table
+
+Default value is @code{scale}.
 @end table
 
 @subsection Examples

@@ -1161,6 +1161,34 @@ static int parse_manifest_adaptationset(AVFormatContext *s, const char *url,
     return 0;
 }
 
+static int parse_programinformation(AVFormatContext *s, xmlNodePtr node)
+{
+    xmlChar *val = NULL;
+
+    node = xmlFirstElementChild(node);
+    while (node) {
+        if (!av_strcasecmp(node->name, "Title")) {
+            val = xmlNodeGetContent(node);
+            if (val) {
+                av_dict_set(&s->metadata, "Title", val, 0);
+            }
+        } else if (!av_strcasecmp(node->name, "Source")) {
+            val = xmlNodeGetContent(node);
+            if (val) {
+                av_dict_set(&s->metadata, "Source", val, 0);
+            }
+        } else if (!av_strcasecmp(node->name, "Copyright")) {
+            val = xmlNodeGetContent(node);
+            if (val) {
+                av_dict_set(&s->metadata, "Copyright", val, 0);
+            }
+        }
+        node = xmlNextElementSibling(node);
+        xmlFree(val);
+    }
+    return 0;
+}
+
 static int parse_manifest(AVFormatContext *s, const char *url, AVIOContext *in)
 {
     DASHContext *c = s->priv_data;
@@ -1310,6 +1338,8 @@ static int parse_manifest(AVFormatContext *s, const char *url, AVIOContext *in)
                     if (c->period_start > 0)
                         c->media_presentation_duration = c->period_duration;
                 }
+            } else if (!av_strcasecmp(node->name, "ProgramInformation")) {
+                parse_programinformation(s, node);
             }
             node = xmlNextElementSibling(node);
         }
@@ -1657,6 +1687,7 @@ static int open_input(DASHContext *c, struct representation *pls, struct fragmen
 
     url = av_mallocz(c->max_url_size);
     if (!url) {
+        ret = AVERROR(ENOMEM);
         goto cleanup;
     }
 
@@ -1671,9 +1702,6 @@ static int open_input(DASHContext *c, struct representation *pls, struct fragmen
     av_log(pls->parent, AV_LOG_VERBOSE, "DASH request for url '%s', offset %"PRId64", playlist %d\n",
            url, seg->url_offset, pls->rep_idx);
     ret = open_url(pls->parent, &pls->input, url, c->avio_opts, opts, NULL);
-    if (ret < 0) {
-        goto cleanup;
-    }
 
 cleanup:
     av_free(url);
@@ -1763,8 +1791,8 @@ restart:
         ret = open_input(c, v, v->cur_seg);
         if (ret < 0) {
             if (ff_check_interrupt(c->interrupt_callback)) {
-                goto end;
                 ret = AVERROR_EXIT;
+                goto end;
             }
             av_log(v->parent, AV_LOG_WARNING, "Failed to open fragment of playlist %d\n", v->rep_idx);
             v->cur_seq_no++;

@@ -1203,6 +1203,11 @@ static int dash_init(AVFormatContext *s)
                        "Override -init_seg_name and/or -media_seg_name and/or "
                        "-single_file_name to end with the extension .webm\n");
             }
+            if (c->streaming) {
+                // Streaming not supported as matroskaenc buffers internally before writing the output
+                av_log(s, AV_LOG_WARNING, "One or more streams in WebM output format. Streaming option will be ignored\n");
+                c->streaming = 0;
+            }
         }
 
         ctx->oformat = av_guess_format(os->format_name, NULL, NULL);
@@ -1606,11 +1611,11 @@ static int dash_flush(AVFormatContext *s, int final, int stream)
         for (i = 0; i < s->nb_streams; i++) {
             OutputStream *os = &c->streams[i];
             if (os->ctx && os->ctx_inited) {
-                int file_size = avio_tell(os->ctx->pb);
+                int64_t file_size = avio_tell(os->ctx->pb);
                 av_write_trailer(os->ctx);
                 if (c->global_sidx) {
                     int j, start_index, start_number;
-                    int sidx_size = avio_tell(os->ctx->pb) - file_size;
+                    int64_t sidx_size = avio_tell(os->ctx->pb) - file_size;
                     get_start_index_number(os, c, &start_index, &start_number);
                     if (start_index >= os->nb_segments ||
                         os->segment_type != SEGMENT_TYPE_MP4)
@@ -1626,7 +1631,7 @@ static int dash_flush(AVFormatContext *s, int final, int stream)
         }
     }
     if (ret >= 0) {
-        if (c->has_video) {
+        if (c->has_video && !final) {
             c->nr_of_streams_flushed++;
             if (c->nr_of_streams_flushed != c->nr_of_streams_to_flush)
                 return ret;
