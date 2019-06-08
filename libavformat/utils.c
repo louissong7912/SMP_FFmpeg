@@ -4730,7 +4730,7 @@ void av_url_split(char *proto, int proto_size,
                   char *hostname, int hostname_size,
                   int *port_ptr, char *path, int path_size, const char *url)
 {
-    const char *p, *ls, *ls2, *ls3, *at, *at2, *col, *brk;
+    const char *p, *ls, *ls2, *at, *at2, *col, *brk;
 
     if (port_ptr)
         *port_ptr = -1;
@@ -4760,9 +4760,6 @@ void av_url_split(char *proto, int proto_size,
     /* separate path from hostname */
     ls = strchr(p, '/');
     ls2 = strchr(p, '?');
-    ls3 = strchr(p, '@');
-    if (ls3 && ls3 > ls && (!ls2 || ls2 > ls3))
-        ls = strchr(ls3, '/');
     if (!ls)
         ls = ls2;
     else if (ls && ls2)
@@ -5110,7 +5107,7 @@ AVRational av_guess_frame_rate(AVFormatContext *format, AVStream *st, AVFrame *f
  *         >0 if st is a matching stream
  */
 static int match_stream_specifier(AVFormatContext *s, AVStream *st,
-                                  const char *spec, const char **indexptr)
+                                  const char *spec, const char **indexptr, AVProgram **p)
 {
     int match = 1;                      /* Stores if the specifier matches so far. */
     while (*spec) {
@@ -5165,6 +5162,8 @@ FF_DISABLE_DEPRECATION_WARNINGS
                     for (j = 0; j < s->programs[i]->nb_stream_indexes; j++) {
                         if (st->index == s->programs[i]->stream_index[j]) {
                             found = 1;
+                            if (p)
+                                *p = s->programs[i];
                             i = s->nb_programs;
                             break;
                         }
@@ -5267,8 +5266,10 @@ int avformat_match_stream_specifier(AVFormatContext *s, AVStream *st,
     int ret, index;
     char *endptr;
     const char *indexptr = NULL;
+    AVProgram *p = NULL;
+    int nb_streams;
 
-    ret = match_stream_specifier(s, st, spec, &indexptr);
+    ret = match_stream_specifier(s, st, spec, &indexptr, &p);
     if (ret < 0)
         goto error;
 
@@ -5286,11 +5287,13 @@ int avformat_match_stream_specifier(AVFormatContext *s, AVStream *st,
         return (index == st->index);
 
     /* If we requested a matching stream index, we have to ensure st is that. */
-    for (int i = 0; i < s->nb_streams && index >= 0; i++) {
-        ret = match_stream_specifier(s, s->streams[i], spec, NULL);
+    nb_streams = p ? p->nb_stream_indexes : s->nb_streams;
+    for (int i = 0; i < nb_streams && index >= 0; i++) {
+        AVStream *candidate = p ? s->streams[p->stream_index[i]] : s->streams[i];
+        ret = match_stream_specifier(s, candidate, spec, NULL, NULL);
         if (ret < 0)
             goto error;
-        if (ret > 0 && index-- == 0 && st == s->streams[i])
+        if (ret > 0 && index-- == 0 && st == candidate)
             return 1;
     }
     return 0;

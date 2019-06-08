@@ -29,6 +29,7 @@
 #include "formats.h"
 #include "internal.h"
 #include "libavutil/opt.h"
+#include "libavutil/pixdesc.h"
 #include "libavformat/avio.h"
 #include "libswscale/swscale.h"
 #include "dnn_interface.h"
@@ -50,7 +51,7 @@ typedef struct SRContext {
 #define OFFSET(x) offsetof(SRContext, x)
 #define FLAGS AV_OPT_FLAG_FILTERING_PARAM | AV_OPT_FLAG_VIDEO_PARAM
 static const AVOption sr_options[] = {
-    { "dnn_backend", "DNN backend used for model execution", OFFSET(backend_type), AV_OPT_TYPE_FLAGS, { .i64 = 0 }, 0, 1, FLAGS, "backend" },
+    { "dnn_backend", "DNN backend used for model execution", OFFSET(backend_type), AV_OPT_TYPE_INT, { .i64 = 0 }, 0, 1, FLAGS, "backend" },
     { "native", "native backend flag", 0, AV_OPT_TYPE_CONST, { .i64 = 0 }, 0, 0, FLAGS, "backend" },
 #if (CONFIG_LIBTENSORFLOW == 1)
     { "tensorflow", "tensorflow backend flag", 0, AV_OPT_TYPE_CONST, { .i64 = 1 }, 0, 0, FLAGS, "backend" },
@@ -71,17 +72,16 @@ static av_cold int init(AVFilterContext *context)
         av_log(context, AV_LOG_ERROR, "could not create DNN module for requested backend\n");
         return AVERROR(ENOMEM);
     }
+
     if (!sr_context->model_filename){
         av_log(context, AV_LOG_ERROR, "model file for network was not specified\n");
         return AVERROR(EIO);
-    } else {
-        if (!sr_context->dnn_module->load_model) {
-            av_log(context, AV_LOG_ERROR, "load_model for network was not specified\n");
-            return AVERROR(EIO);
-        } else {
-            sr_context->model = (sr_context->dnn_module->load_model)(sr_context->model_filename);
-        }
     }
+    if (!sr_context->dnn_module->load_model) {
+        av_log(context, AV_LOG_ERROR, "load_model for network was not specified\n");
+        return AVERROR(EIO);
+    }
+    sr_context->model = (sr_context->dnn_module->load_model)(sr_context->model_filename);
     if (!sr_context->model){
         av_log(context, AV_LOG_ERROR, "could not load DNN model\n");
         return AVERROR(EIO);
@@ -205,7 +205,9 @@ static int config_props(AVFilterLink *inlink)
                 sws_dst_w = AV_CEIL_RSHIFT(sws_dst_w, 2);
                 break;
             default:
-                av_log(context, AV_LOG_ERROR, "could not create SwsContext for scaling for given input pixel format");
+                av_log(context, AV_LOG_ERROR,
+                       "could not create SwsContext for scaling for given input pixel format: %s\n",
+                       av_get_pix_fmt_name(inlink->format));
                 return AVERROR(EIO);
             }
             sr_context->sws_contexts[0] = sws_getContext(sws_src_w, sws_src_h, AV_PIX_FMT_GRAY8,
@@ -283,9 +285,7 @@ static av_cold void uninit(AVFilterContext *context)
     }
 
     for (i = 0; i < 3; ++i){
-        if (sr_context->sws_contexts[i]){
-            sws_freeContext(sr_context->sws_contexts[i]);
-        }
+        sws_freeContext(sr_context->sws_contexts[i]);
     }
 }
 
@@ -317,6 +317,5 @@ AVFilter ff_vf_sr = {
     .inputs        = sr_inputs,
     .outputs       = sr_outputs,
     .priv_class    = &sr_class,
-    .flags         = AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC | AVFILTER_FLAG_SLICE_THREADS,
+    .flags         = AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC,
 };
-
