@@ -570,6 +570,9 @@
     <ClCompile Include="..\libavfilter\vf_decimate.c">
       <Filter>Source Files\libavfilter</Filter>
     </ClCompile>
+    <ClCompile Include="..\libavfilter\vf_derain.c">
+      <Filter>Source Files\libavfilter</Filter>
+    </ClCompile>
     <ClCompile Include="..\libavfilter\vf_dedot.c">
       <Filter>Source Files\libavfilter</Filter>
     </ClCompile>
@@ -997,6 +1000,9 @@
       <Filter>Source Files\libavfilter</Filter>
     </ClCompile>
     <ClCompile Include="..\libavfilter\avf_showfreqs.c">
+      <Filter>Source Files\libavfilter</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libavfilter\avf_showspatial.c">
       <Filter>Source Files\libavfilter</Filter>
     </ClCompile>
     <ClCompile Include="..\libavfilter\avf_showspectrum.c">

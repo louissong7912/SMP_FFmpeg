@@ -56,7 +56,6 @@
   <ItemGroup>
     <ResourceCompile Include="..\libswscale\swscaleres.rc">
       <ExcludedFromBuild Condition="'$(Configuration)'=='Release'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)'=='ReleaseLTO'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)'=='Debug'">true</ExcludedFromBuild>
     </ResourceCompile>
   </ItemGroup>

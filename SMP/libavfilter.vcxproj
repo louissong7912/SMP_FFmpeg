@@ -56,7 +56,6 @@
   <ItemGroup>
     <ResourceCompile Include="..\libavfilter\avfilterres.rc">
       <ExcludedFromBuild Condition="'$(Configuration)'=='Release'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)'=='ReleaseLTO'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)'=='Debug'">true</ExcludedFromBuild>
     </ResourceCompile>
   </ItemGroup>
@@ -241,6 +240,7 @@
     <ClCompile Include="..\libavfilter\vf_deband.c" />
     <ClCompile Include="..\libavfilter\vf_deblock.c" />
     <ClCompile Include="..\libavfilter\vf_decimate.c" />
+    <ClCompile Include="..\libavfilter\vf_derain.c" />
     <ClCompile Include="..\libavfilter\vf_dedot.c" />
     <ClCompile Include="..\libavfilter\vf_neighbor.c" />
     <ClCompile Include="..\libavfilter\vf_deflicker.c" />
@@ -384,6 +384,7 @@
     <ClCompile Include="..\libavfilter\avf_avectorscope.c" />
     <ClCompile Include="..\libavfilter\avf_concat.c" />
     <ClCompile Include="..\libavfilter\avf_showfreqs.c" />
+    <ClCompile Include="..\libavfilter\avf_showspatial.c" />
     <ClCompile Include="..\libavfilter\avf_showspectrum.c" />
     <ClCompile Include="..\libavfilter\avf_showvolume.c" />
     <ClCompile Include="..\libavfilter\avf_showwaves.c" />
