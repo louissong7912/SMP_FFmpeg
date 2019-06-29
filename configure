@@ -2825,6 +2825,7 @@ vc1image_decoder_select="vc1_decoder"
 vorbis_decoder_select="mdct"
 vorbis_encoder_select="audio_frame_queue mdct"
 vp3_decoder_select="hpeldsp vp3dsp videodsp"
+vp4_decoder_select="vp3_decoder"
 vp5_decoder_select="h264chroma hpeldsp videodsp vp3dsp vp56dsp"
 vp6_decoder_select="h264chroma hpeldsp huffman videodsp vp3dsp vp56dsp"
 vp6a_decoder_select="vp6_decoder"
@@ -3435,6 +3436,7 @@ deinterlace_qsv_filter_deps="libmfx"
 deinterlace_vaapi_filter_deps="vaapi"
 delogo_filter_deps="gpl"
 denoise_vaapi_filter_deps="vaapi"
+derain_filter_select="dnn"
 deshake_filter_select="pixelutils"
 dilation_opencl_filter_deps="opencl"
 drawtext_filter_deps="libfreetype"
@@ -3841,8 +3843,22 @@ die_unknown(){
 }
 
 print_in_columns() {
-    cols=$(expr $ncols / 24)
-    cat | tr ' ' '\n' | sort | pr -r "-$cols" -w $ncols -t
+    tr ' ' '\n' | sort | tr '\r\n' '  ' | awk -v col_width=24 -v width="$ncols" '
+    {
+        num_cols = width > col_width ? int(width / col_width) : 1;
+        num_rows = int((NF + num_cols-1) / num_cols);
+        y = x = 1;
+        for (y = 1; y <= num_rows; y++) {
+            i = y;
+            for (x = 1; x <= num_cols; x++) {
+                if (i <= NF) {
+                  line = sprintf("%s%-" col_width "s", line, $i);
+                }
+                i = i + num_rows;
+            }
+            print line; line = "";
+        }
+    }' | sed 's/ *$//'
 }
 
 show_list() {

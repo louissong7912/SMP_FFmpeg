@@ -8962,7 +8962,10 @@ the width of the rendered text
 the x and y offset coordinates where the text is drawn.
 
 These parameters allow the @var{x} and @var{y} expressions to refer
-each other, so you can for example specify @code{y=x/dar}.
+to each other, so you can for example specify @code{y=x/dar}.
+
+@item pict_type
+A one character description of the current frame's picture type.
 @end table
 
 @anchor{drawtext_expansion}
@@ -9032,11 +9035,18 @@ The first argument is mandatory and specifies the metadata key.
 The second argument is optional and specifies a default value, used when the
 metadata key is not found or empty.
 
+Available metadata can be identified by inspecting entries
+starting with TAG included within each frame section
+printed by running @code{ffprobe -show_frames}.
+
+String metadata generated in filters leading to
+the drawtext filter are also available.
+
 @item n, frame_num
 The frame number, starting from 0.
 
 @item pict_type
-A 1 character description of the current picture type.
+A one character description of the current picture type.
 
 @item pts
 The timestamp of the current frame.
@@ -10166,7 +10176,7 @@ Specifies the rectangle in which to search.
 
 @itemize
 @item
-Generate a representative palette of a given video using @command{ffmpeg}:
+Cover a rectangular object by the supplied image of a given video using @command{ffmpeg}:
 @example
 ffmpeg -i file.ts -vf find_rect=newref.pgm,cover_rect=cover.jpg:mode=cover new.mkv
 @end example
@@ -10200,7 +10210,7 @@ Default value is @var{blur}.
 
 @itemize
 @item
-Generate a representative palette of a given video using @command{ffmpeg}:
+Cover a rectangular object by the supplied image of a given video using @command{ffmpeg}:
 @example
 ffmpeg -i file.ts -vf find_rect=newref.pgm,cover_rect=cover.jpg:mode=cover new.mkv
 @end example
@@ -17166,14 +17176,14 @@ Specify flags influencing the filter process.
 Available value for @var{flags} is:
 
 @table @option
-@item low_pass_filter, vlfp
+@item low_pass_filter, vlpf
 Enable linear vertical low-pass filtering in the filter.
 Vertical low-pass filtering is required when creating an interlaced
 destination from a progressive source which contains high-frequency
 vertical detail. Filtering will reduce interlace 'twitter' and Moire
 patterning.
 
-@item complex_filter, cvlfp
+@item complex_filter, cvlpf
 Enable complex vertical low-pass filtering.
 This will slightly less reduce interlace 'twitter' and Moire
 patterning but better retain detail and subjective sharpness impression.
