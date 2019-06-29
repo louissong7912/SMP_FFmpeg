@@ -264,6 +264,7 @@
     <ClCompile Include="..\libavformat\icoenc.c" />
     <ClCompile Include="..\libavformat\idcin.c" />
     <ClCompile Include="..\libavformat\iff.c" />
+    <ClCompile Include="..\libavformat\ifv.c" />
     <ClCompile Include="..\libavformat\ilbc.c" />
     <ClCompile Include="..\libavformat\img2dec.c" />
     <ClCompile Include="..\libavformat\img2enc.c" />

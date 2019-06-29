@@ -643,6 +643,9 @@
     <ClCompile Include="..\libavformat\iff.c">
       <Filter>Source Files\libavformat</Filter>
     </ClCompile>
+    <ClCompile Include="..\libavformat\ifv.c">
+      <Filter>Source Files\libavformat</Filter>
+    </ClCompile>
     <ClCompile Include="..\libavformat\ilbc.c">
       <Filter>Source Files\libavformat</Filter>
     </ClCompile>

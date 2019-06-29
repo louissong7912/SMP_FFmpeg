@@ -68,6 +68,7 @@
     <NASM Include="..\libavfilter\x86\colorspacedsp.asm" />
     <NASM Include="..\libavfilter\x86\vf_framerate.asm" />
     <NASM Include="..\libavfilter\x86\vf_fspp.asm" />
+    <NASM Include="..\libavfilter\x86\vf_gblur.asm" />
     <NASM Include="..\libavfilter\x86\vf_gradfun.asm" />
     <NASM Include="..\libavfilter\x86\vf_hflip.asm" />
     <NASM Include="..\libavfilter\x86\vf_hqdn3d.asm" />
@@ -274,7 +275,6 @@
     <ClCompile Include="..\libavfilter\vf_framepack.c" />
     <ClCompile Include="..\libavfilter\vf_framestep.c" />
     <ClCompile Include="..\libavfilter\vf_freezedetect.c" />
-    <ClCompile Include="..\libavfilter\vf_gblur.c" />
     <ClCompile Include="..\libavfilter\vf_geq.c" />
     <ClCompile Include="..\libavfilter\f_graphmonitor.c" />
     <ClCompile Include="..\libavfilter\vf_colorconstancy.c" />
@@ -397,6 +397,7 @@
     <ClCompile Include="..\libavfilter\x86\vf_bwdif_init.c" />
     <ClCompile Include="..\libavfilter\x86\colorspacedsp_init.c" />
     <ClCompile Include="..\libavfilter\x86\vf_fspp_init.c" />
+    <ClCompile Include="..\libavfilter\x86\vf_gblur_init.c" />
     <ClCompile Include="..\libavfilter\x86\vf_gradfun_init.c" />
     <ClCompile Include="..\libavfilter\x86\vf_framerate_init.c" />
     <ClCompile Include="..\libavfilter\x86\vf_hflip_init.c" />
@@ -445,6 +446,9 @@
     </ClCompile>
     <ClCompile Include="..\libavfilter\vf_fspp.c">
       <ObjectFileName>$(IntDir)\libavfilter_vf_fspp.obj</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\libavfilter\vf_gblur.c">
+      <ObjectFileName>$(IntDir)\libavfilter_vf_gblur.obj</ObjectFileName>
     </ClCompile>
     <ClCompile Include="..\libavfilter\vf_gradfun.c">
       <ObjectFileName>$(IntDir)\libavfilter_vf_gradfun.obj</ObjectFileName>

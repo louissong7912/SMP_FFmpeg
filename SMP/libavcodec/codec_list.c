@@ -407,6 +407,7 @@ static const AVCodec *codec_list[] = {
     &ff_vmdvideo_decoder,
     &ff_vmnc_decoder,
     &ff_vp3_decoder,
+    &ff_vp4_decoder,
     &ff_vp5_decoder,
     &ff_vp6_decoder,
     &ff_vp6a_decoder,
